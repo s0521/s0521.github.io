@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>PhoenixModel的输入选项（Input Options） - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="PhoenixModel的输入选项（Input Options） - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="学习群体药代动力学时，刚开始看到数据集中的“MDV”、“SS”、“ADDL”、“Date”、“II”
+和“REST”时感觉莫名其妙，脑海里蹦出他是谁？他来自哪？他要干什么！这样的三连问，今天我们就来探索下！
+[&amp;hellip;] 在Phoenix的“输入选项（Input Options）”选项卡我们可以看到一下这几个复选框：
+[&amp;hellip;] [&amp;hellip;] 这几个复选框的主要作用是，允 &amp;hellip;">
+      <meta property="og:description" content="学习群体药代动力学时，刚开始看到数据集中的“MDV”、“SS”、“ADDL”、“Date”、“II”
+和“REST”时感觉莫名其妙，脑海里蹦出他是谁？他来自哪？他要干什么！这样的三连问，今天我们就来探索下！
+[&amp;hellip;] 在Phoenix的“输入选项（Input Options）”选项卡我们可以看到一下这几个复选框：
+[&amp;hellip;] [&amp;hellip;] 这几个复选框的主要作用是，允 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/07/PhoenixModel%e7%9a%84%e8%be%93%e5%85%a5%e9%80%89%e9%a1%b9%ef%bc%88Input%20Options%ef%bc%89.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>PhoenixModel的输入选项（Input Options）</h1>
+
+
+<h3>付永超 / 
+2019-07-26</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="引言">引言</h1>
+
+<p>学习群体药代动力学时，刚开始看到数据集中的“MDV”、“SS”、“ADDL”、“Date”、“II”</p>
+
+<p>和“REST”时感觉莫名其妙，脑海里蹦出他是谁？他来自哪？他要干什么！这样的三连问，今天我们就来探索下！</p>
+
+<h1 id="一-他是谁">一、他是谁：</h1>
+
+<p>在Phoenix的“输入选项（Input Options）”选项卡我们可以看到一下这几个复选框：</p>
+
+<ul>
+<li>“重置？(Reset?)”</li>
+<li>“错过此因变量的观测(MDV？，Missing Dependent Variable)”</li>
+<li>“稳态(SS，Steady State)”</li>
+<li>“额外附加剂量(ADDL，AdditionaDose labels)”</li>
+<li>“日期?(Date?)”</li>
+</ul>
+
+<p><img src="/images/PhoenixModel的输入选项（Input Options）/1564108790876.png" alt="1564108790876" /></p>
+
+<h2 id="作用">作用：</h2>
+
+<p>这几个复选框的主要作用是，允许用户额外的为原始数据表格增加些逻辑条件列，以便于用户更灵活的构建数据集，缩减数据集的体积；所以这些需选框不是必须勾选的，不使用这些复选框同样可以构建出等价的满足用户自身需要的数据集，但额外的掌握这几个复选框的使用将使用户可以更灵活便利的构建出需要的数据集。</p>
+
+<h1 id="二-他来自哪">二、他来自哪：</h1>
+
+<p>这几个复选框的功能来源于对NONME子程序PREDPP的“数据预处理器”对数据进行准备所需的几个数据列的名称，Phoenix兼容了这种以往的数据排布格式。</p>
+
+<h1 id="三-他要干什么">三、他要干什么！</h1>
+
+<p>Phoenix中每一个复选框的功能概览：</p>
+
+<ul>
+<li>“重置？(Reset?)”：当“重置(Reset)”列中的数值为1时，将重置当前个体，将该个体的微分方程的状态变量设置为零，并重新启动模型中的任何“序列(Sequence)”语句。</li>
+<li>“错过此观测(MDV？)”：当“错过此观测(MDV？)”列中数值为1时，将忽略当前这一行中因变量的观测值。</li>
+<li>“稳态(Steady State)”：新增“稳态(Steady State)”子选项卡，允许用户在此假定当前个体，已经经过无数给个药周期的循环，到达了稳态。</li>
+<li>“额外附加剂量(ADDL)”：新增“额外附加剂量(ADDL)”子选项卡，允许用户在此指定额外的给药循环周期内的给药方案，和循环次数。</li>
+<li>“日期?(Date?)”：新增“日期(Date)”数列，允许用户输入现实世界的日期。</li>
+</ul>
+
+<h1 id="四-小结">四、小结：</h1>
+
+<p>将在后续的案例中逐个的说明每个复选框的具体功能与示例。</p>
+
+<p>后续介绍的顺序：</p>
+
+<p>５.“重置？(Reset?)”</p>
+
+<p>２.“错过此观测(MDV？)”</p>
+
+<p>４.“稳态(Steady State)”</p>
+
+<p>３.“额外附加剂量(ADDL)”</p>
+
+<p>１.“日期?(Date?)”</p>
+
+<h1 id="参考">参考：</h1>
+
+<p>NONMEM用户手册第6本，第7章PREDPP</p>
+
+<p>NONMEM Users Guide Part VI - PREDPP - Chapter VII</p>
+
+<p>Phoenix NLME用户指南，第2章Phoenix Model对象，第一节用户界面</p>
+
+<p>Phoenix NLME User’s Guide - Chapter 2 The Phoenix ModeObject - Object user interface</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/07/%E8%8D%AF%E5%AD%A6%E5%B7%A5%E7%A8%8B/">药学工程</a></span>
+  <span class="nav-next"><a href="/cn/2019/07/%E8%BE%93%E5%85%A5%E9%80%89%E9%A1%B91-%E6%97%A5%E6%9C%9F-date/">输入选项1 日期 Date</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/07\/%E8%8D%AF%E5%AD%A6%E5%B7%A5%E7%A8%8B\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2019\/07\/%E8%BE%93%E5%85%A5%E9%80%89%E9%A1%B91-%E6%97%A5%E6%9C%9F-date\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

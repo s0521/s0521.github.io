@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>Some calculation methods for AUC in PML - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="Some calculation methods for AUC in PML - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="One of the operations that is often required to create a model using the Phoenix Modeling Language (PML) is to calculate the AUC. There are two main methods for calculating the AUC in PML, &amp;hellip;">
+      <meta property="og:description" content="One of the operations that is often required to create a model using the Phoenix Modeling Language (PML) is to calculate the AUC. There are two main methods for calculating the AUC in PML, &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="en">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/en/about/">About</a></li>
+  
+  <li><a href="/en/">Blog</a></li>
+  
+  <li><a href="/en/vitae/">Vitae</a></li>
+  
+  <li><a href="/cn/">中文</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/en/2019/11/Some%20calculation%20methods%20for%20AUC%20in%20PML.md" target="_blank">Edit this page</a></li>
+
+
+<li><a href="/en/index.xml" type="application/rss+xml" title="RSS feed">Subscribe</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">License</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Some calculation methods for AUC in PML</h1>
+
+
+<h3>Yongchao Fu / 
+2019-11-19</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="scenarios">Scenarios:</h1>
+
+<p>One of the operations that is often required to create a model using the Phoenix Modeling Language (PML) is to calculate the AUC. There are two main methods for calculating the AUC in PML, formulas-based and based on integrals-based.</p>
+
+<p>Key words: Phoenix WinNonlin, Phoenix NLME, PML, Phoenix Modeling Language, AUC, AUClast, AUCinf, pAUC, Secondary parameter, Pharmacokinetic, PK/PD, Pharmacometrics</p>
+
+<h1 id="formula-based-auc-calculation">Formula-based AUC calculation</h1>
+
+<p>The AUC calculated based on the formula is equivalent to AUCinf because it is an analytical solution. It can be subdivided into two categories when calculating the AUC based on the formula.</p>
+
+<h2 id="implementation-1-methods-for-defining-secondary-parameters">Implementation 1: &ldquo;Methods for defining secondary parameters&rdquo;</h2>
+
+<p>Use the &ldquo;Secondary(二级参数)&rdquo; statement to define the AUC, such as secondary (AUC=A1Dose/Cl), and then view the value of this parameter in the &ldquo;Secondary&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
+
+<pre><code>test(){
+deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
+urinecpt(A0 = (Cl * C))
+deriv(A2 = (Cl2 * (C - C2)))
+C = A1 / V
+dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
+C2 = A2 / V2
+error(CEps = 0.136218)
+observe(CObs = C + CEps)
+stparm(V = tvV)
+stparm(Cl = tvCl)
+stparm(V2 = tvV2)
+stparm(Cl2 = tvCl2)
+fixef(tvV = c(, 55, ))
+fixef(tvCl = c(, 0.37, ))
+fixef(tvV2 = c(, 55, ))
+fixef(tvCl2 = c(, 1, ))
+secondary(AUC = A1Dose/Cl)
+}
+</code></pre>
+
+<p><img src="/images/PML中AUC的计算方法/1574156746005.png" alt="1574156746005" /></p>
+
+<h2 id="implementation-2-methods-for-directly-defining-formulas">Implementation 2: &ldquo;Methods for directly defining formulas&rdquo;</h2>
+
+<p>Define the calculation formula of the parameter directly in the model, such as AUC=A1Dose/Cl, and then add the table under the “Run Options(运行选项)” tab (if it is the simulation mode, you can specify the parameter directly in the model table). Specify &ldquo;AUC&rdquo; as the output &ldquo;Varirables(变量)&rdquo; in the table, and finally you can see the value of this parameter in the &ldquo;Table01&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
+
+<pre><code>test(){
+deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
+urinecpt(A0 = (Cl * C))
+deriv(A2 = (Cl2 * (C - C2)))
+C = A1 / V
+dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
+C2 = A2 / V2
+AUC = A1Dose/Cl
+error(CEps = 0.136218)
+observe(CObs = C + CEps)
+stparm(V = tvV)
+stparm(Cl = tvCl)
+stparm(V2 = tvV2)
+stparm(Cl2 = tvCl2)
+fixef(tvV = c(, 55, ))
+fixef(tvCl = c(, 0.37, ))
+fixef(tvV2 = c(, 55, ))
+fixef(tvCl2 = c(, 1, ))
+ 
+}
+</code></pre>
+
+<p><img src="/images/PML中AUC的计算方法/1574156816934.png" alt="1574156816934" /></p>
+
+<p>As you can see, both methods can output the value of AUC, and it looks no different.</p>
+
+<h2 id="differences-in-results-between-the-two-formulas-based-methods">Differences in results between the two formulas-based methods</h2>
+
+<p>What is the difference between the two methods?</p>
+
+<p>The main difference between the two methods is that:</p>
+
+<p>The former method, which can be used to calculate the AUC of an individual model, and it can also calculate the AUC of a typical population value in a population model after replacing &ldquo;Cl&rdquo; with &ldquo;tvCl&rdquo;, but it cannot calculate the AUC of each individual in the population model.</p>
+
+<p>The latter method, which can be used to calculate the AUC of an individual model，it can calculate the AUC of each individual in the population model.</p>
+
+<p>Obviously, what we need more when calculating the population model is the value of the individual&rsquo;s AUC in the population model.</p>
+
+<h1 id="integrals-based-auc-calculation">Integrals-based AUC calculation</h1>
+
+<p>In addition to the above formula-based method for calculating AUC, Phoenix also allows users to  integrals-based method for calculating AUC. This method is a way of definite integration. So the calculated AUC is equivalent to AUClast or part of the area under the specified time period &ldquo;Partial Areas AUC(部分曲线下面积)&rdquo; or AUCall.</p>
+
+<h2 id="implementation-methods-for-integrals-based">Implementation: “Methods for Integrals-based“</h2>
+
+<p>Write a differential equation for calculating AUC in the model, such as deriv (AUC = C), and then add the table under the “Run Options(运行选项)” tab (if it is the simulation mode, you can specify the parameter directly in the model table). Specify &ldquo;AUC&rdquo; as the output &ldquo;Varirables(变量)&rdquo; in the table, and the time required to report the AUC is specified in &ldquo;Times&rdquo;, and finally you can see the value of this parameter in the &ldquo;Table01&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
+
+<pre><code>test(){
+deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
+urinecpt(A0 = (Cl * C))
+deriv(A2 = (Cl2 * (C - C2)))
+C = A1 / V
+dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
+C2 = A2 / V2
+deriv(AUC = C)
+error(CEps = 0.136218)
+observe(CObs = C + CEps)
+stparm(V = tvV)
+stparm(Cl = tvCl)
+stparm(V2 = tvV2)
+stparm(Cl2 = tvCl2)
+fixef(tvV = c(, 55, ))
+fixef(tvCl = c(, 0.37, ))
+fixef(tvV2 = c(, 55, ))
+fixef(tvCl2 = c(, 1, ))
+}
+</code></pre>
+
+<p><img src="/images/PML中AUC的计算方法/clip_image003.png" alt="计算" /></p>
+
+<p>You can see that there are multiple different AUC values in the result. The value of these AUCs is the value of AUC from 0 to the corresponding time point, so this method is more similar to AUClast.</p>
+
+<p>The “Methods for Integrals-based“ can be combined with the &ldquo;Methods for defining secondary parameters&rdquo; or &ldquo;Methods for directly defining formulas&rdquo; above to satisfy the calculation of some complex AUCs, such as the AUC value of each individual&rsquo;s 0-6 hour is calculated in the population model, which can be based on the &ldquo;integration-based method&rdquo; + &ldquo;method of directly defining the formula&rdquo;, deriv (AUC = C), pAUC = AUC.</p>
+
+<h1 id="summary">summary:：</h1>
+
+<h2 id="individual-model">Individual model:</h2>
+
+<p>Calculate AUCinf, using &ldquo;Method for defining secondary parameters&rdquo;, secondary(AUC=A1Dose/Cl)</p>
+
+<p>Calculate AUClast, using “Methods for Integrals-based“, deriv(AUC = C)</p>
+
+<h2 id="population-model">Population model:</h2>
+
+<p>When calculating the AUCinf of each individual, using &ldquo;method of directly defining the formula&rdquo;，AUC=A1Dose/Cl</p>
+
+<p>When calculating the AUClast of each individual, using “Methods for Integrals-based“, deriv(AUC = C)</p>
+
+<p>Other complex situations may require flexible application.</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/en/2019/03/welcome/">Welcome</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/en\/2019\/03\/welcome\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

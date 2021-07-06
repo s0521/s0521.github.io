@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>Git的一些常用基本操作 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="Git的一些常用基本操作 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="本文是我整理的一些我个人认为的一些git常用基础操作
+[&amp;hellip;] 1.查看当前远程连接的仓库
+git remote -v
+[&amp;hellip;] 2.提交至本地缓存
+git add 文件名称
+[&amp;hellip;] 2.2 提交全部文件
+git add .
+[&amp;hellip;] 3.提交至本地待上传库
+git commit &amp;ndash;m &amp;ldquo;写上传的备注，必须&amp;rdquo; &amp;hellip;">
+      <meta property="og:description" content="本文是我整理的一些我个人认为的一些git常用基础操作
+[&amp;hellip;] 1.查看当前远程连接的仓库
+git remote -v
+[&amp;hellip;] 2.提交至本地缓存
+git add 文件名称
+[&amp;hellip;] 2.2 提交全部文件
+git add .
+[&amp;hellip;] 3.提交至本地待上传库
+git commit &amp;ndash;m &amp;ldquo;写上传的备注，必须&amp;rdquo; &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/03/2019-03-23%20git%e6%93%8d%e4%bd%9c.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Git的一些常用基本操作</h1>
+
+
+<h3>付永超 / 
+2019-03-23</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<p>本文是我整理的一些我个人认为的一些<strong>git常用基础操作</strong></p>
+
+<ul>
+<li><p>1.<strong>查看</strong>当前远程<strong>连接</strong>的仓库<br />
+git remote -v</p></li>
+
+<li><p>2.<strong>提交</strong>至本地<strong>缓存</strong><br />
+git add 文件名称</p></li>
+
+<li><p>2.2 提交全部文件<br />
+git add .</p></li>
+
+<li><p>3.<strong>提交</strong>至本地待上传<strong>库</strong><br />
+git commit &ndash;m &ldquo;写上传的备注，必须&rdquo;</p></li>
+
+<li><p>3.2 提交本地缓存和提交至本地待上传库步骤合并操作<br />
+git commit -am &ldquo;写上传的备注，必须&rdquo;</p></li>
+
+<li><p>4.<strong>推送</strong>本地带上传库至<strong>服务器库</strong><br />
+git push 本地连接的远程仓库所使用的本地的名字常用origin 推送至的目标库的目标分支常用master</p></li>
+
+<li><p>5.<strong>设置远程库</strong>地址与本地名称<br />
+git remote add 本地名称常用origin  git@github.com:用户名/远程的仓库库名.git<br />
+git remote add origin  git@github.com:s0521/远程的仓库库名.git</p></li>
+
+<li><p>5.2移除当前本地库与远程仓库的连接<br />
+git remote rm 本地库的库名常用origin<br />
+git remote rm origin</p></li>
+
+<li><p>6.本地库文件状态<strong>查看</strong><br />
+git status -s<br />
+返回标志解释：</p></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">??</td>
+<td align="center">未添加至 本地缓存</td>
+</tr>
+
+<tr>
+<td align="center">a</td>
+<td align="center">已添加至 本地缓存</td>
+</tr>
+
+<tr>
+<td align="center">am</td>
+<td align="center">已添加至 本地缓存，但添加后发生了修改</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>7.其他解释</li>
+</ul>
+
+<blockquote>
+<p>git commit、git push、git pull、 git fetch、git merge 的含义与区别<br />
+git commit：是将本地修改过的文件提交到本地库中；<br />
+git push：是将本地库中的最新信息发送给远程库；<br />
+git pull：是从远程获取最新版本到本地，并自动merge；<br />
+git fetch：是从远程获取最新版本到本地，不会自动merge；<br />
+git merge：是用于从指定的commit(s)合并到当前分支，用来合并两个分支。</p>
+</blockquote>
+
+<h1 id="测试下格式">测试下格式</h1>
+
+<pre><code class="language-r">git remote -v
+git add '文件名称'
+</code></pre>
+
+<p><a href="http://www.bing.com">超链接测试:<strong>必应</strong></a></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/03/2019%E5%B9%B43%E6%9C%8821%E6%97%A5%E6%97%A5%E8%AE%B0/">2019年3月21日日记</a></span>
+  <span class="nav-next"><a href="/cn/2019/03/%E6%94%B9%E8%89%AF%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95%E7%9A%84vba%E5%AE%9E%E7%8E%B0/">改良单纯形法的VBA实现</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/03\/2019%E5%B9%B43%E6%9C%8821%E6%97%A5%E6%97%A5%E8%AE%B0\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2019\/03\/%E6%94%B9%E8%89%AF%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95%E7%9A%84vba%E5%AE%9E%E7%8E%B0\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

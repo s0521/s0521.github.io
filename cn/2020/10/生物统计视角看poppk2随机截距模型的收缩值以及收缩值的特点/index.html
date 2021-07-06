@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="在上篇案例中，我们通过“线性混合效应（Linear Mixed Effect）”操作对象构建除了一个随机截距模型，来说明他与PopPK的一些联系，我们知道提到混合效应模型，总是绕不开“收缩”这一概念，那此模型的收缩值该如何计算呢？
+[&amp;hellip;] 我不打算自己推导，直接拿来主义。
+[&amp;hellip;] 参考文献指出，随机截距的模型的收缩可以这样计算：
+方差形式：
+标准差形式：
+引 &amp;hellip;">
+      <meta property="og:description" content="在上篇案例中，我们通过“线性混合效应（Linear Mixed Effect）”操作对象构建除了一个随机截距模型，来说明他与PopPK的一些联系，我们知道提到混合效应模型，总是绕不开“收缩”这一概念，那此模型的收缩值该如何计算呢？
+[&amp;hellip;] 我不打算自己推导，直接拿来主义。
+[&amp;hellip;] 参考文献指出，随机截距的模型的收缩可以这样计算：
+方差形式：
+标准差形式：
+引 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/10/%e7%94%9f%e7%89%a9%e7%bb%9f%e8%ae%a1%e8%a7%86%e8%a7%92%e7%9c%8bPopPK%ef%bc%882%ef%bc%89%ef%bc%9a%e9%9a%8f%e6%9c%ba%e6%88%aa%e8%b7%9d%e6%a8%a1%e5%9e%8b%e7%9a%84%e6%94%b6%e7%bc%a9%e5%80%bc%e4%bb%a5%e5%8f%8a%e6%94%b6%e7%bc%a9%e5%80%bc%e7%9a%84%e7%89%b9%e7%82%b9.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点</h1>
+
+
+<h3>付永超 / 
+2020-10-13</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="前言">前言：</h1>
+
+<p>在上篇案例中，我们通过“线性混合效应（Linear Mixed Effect）”操作对象构建除了一个随机截距模型，来说明他与PopPK的一些联系，我们知道提到混合效应模型，总是绕不开“收缩”这一概念，那此模型的收缩值该如何计算呢？</p>
+
+<h1 id="正文">正文：</h1>
+
+<p>我不打算自己推导，直接拿来主义。</p>
+
+<h2 id="收缩值的其他计算公式">收缩值的其他计算公式：</h2>
+
+<p>参考文献指出，随机截距的模型的收缩可以这样计算：</p>
+
+<p><strong>方差形式：</strong></p>
+
+<p><img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image002.png" alt="equation M18" /></p>
+
+<p><strong>标准差形式：</strong></p>
+
+<p><img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image004.png" alt="equation M19" /></p>
+
+<p>引自：Shrinkage in Nonlinear Mixed-Effects Population Models: Quantification, Influencing Factors, and Impact</p>
+
+<p>所以，通过公式可以很明显的看出，收缩值的大小与ω和σ的相对大小有关，ω比σ越大，收缩值越小，反之越大；他们相等的时候，收缩值是多少呢？</p>
+
+<p>容易计算出来，</p>
+
+<p><img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image006.png" alt="img" /></p>
+
+<p><strong>非常接近0.3，我想这就是所谓的经验性的要求收缩至小于0.3的要求的来源~！</strong></p>
+
+<p>通过类似的计算，可知，上篇文献中线性混合效应模型的收缩值为：21.4%</p>
+
+<h2 id="讨论">讨论：</h2>
+
+<p>我们来看看ω和σ在不同相对大小下标准差版收缩至的情况：</p>
+
+<ul>
+<li><p>假定<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image008.png" alt="img" />=1，</p></li>
+
+<li><p>然后指定不同的<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image010.png" alt="img" />值，并计算所对应的<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image012.png" alt="img" />值，</p></li>
+
+<li><p><em>然后计算方差的比值与收缩值。</em>
+<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image026.png" alt="img" /></p></li>
+</ul>
+
+<p><strong>可以看到：</strong></p>
+
+<p>当标准差版收缩≈30%，“个体间变异”的方差 约等于 “个体内变异”的方差。</p>
+
+<p>当标准差版收缩≈45%，“个体间变异”的方差 约是 “个体内变异”的方差的 一半。</p>
+
+<p>当标准差版收缩≈16%，“个体间变异”的方差 约是 “个体内变异”的方差的 一倍。</p>
+
+<p>当标准差版收缩≈68%，“个体间变异”的方差 约是 “个体内变异”的方差的 九分之一。</p>
+
+<p>当标准差版收缩≈ 5%，“个体间变异”的方差 约是 “个体内变异”的方差的 九倍。</p>
+
+<p>所以通篇说了这么多，有啥直观意义呢？</p>
+
+<h2 id="直观的意义就是">直观的意义就是，</h2>
+
+<ol>
+<li><p>我们所收集数据质量的好坏，会直接影响我们可以识别出来的最小的个体间变异，</p></li>
+
+<li><p>如果没有我们收集到的质量很烂，由于记录时间的偏差、分析方法的变差、服药时间记录的偏差等导致的个体内变异很高，这会导致我们很难识别出一些参数的个体间变异，导致我们模型建立过程很痛苦。</p></li>
+
+<li><p>一般认为，参数的个体间变异是大于个体内变异的。</p></li>
+
+<li><p>所以通常提到“收缩值&gt;30%表明个体层面的信息不足”，翻译为大白话就是，你的数据分析得到的个体内变异太大了，识别不了比个体内变异更小的个体间变异的参数；所以，要么重新做实验获取更高质量的数据，要么放弃对这个个体间变异参数的估计。</p></li>
+</ol>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/10/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84poppk/">生物统计视角的PopPK</a></span>
+  <span class="nav-next"><a href="/cn/2020/12/%E9%80%9F%E6%9F%A5%E8%A1%A8/">速查表</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/10\/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84poppk\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/12\/%E9%80%9F%E6%9F%A5%E8%A1%A8\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

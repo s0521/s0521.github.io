@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>使用PhoenixModel分析BE数据2_1 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="使用PhoenixModel分析BE数据2_1 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="协方差：
+固定效应：
+[&amp;hellip;] 协方差：
+固定效应：
+[&amp;hellip;] 协方差：
+固定效应：
+[&amp;hellip;] 协方差：
+即：
+[&amp;hellip;] 固定效应：
+[&amp;hellip;] 使用非线性混合效应模型做BE数据分析
+">
+      <meta property="og:description" content="协方差：
+固定效应：
+[&amp;hellip;] 协方差：
+固定效应：
+[&amp;hellip;] 协方差：
+固定效应：
+[&amp;hellip;] 协方差：
+即：
+[&amp;hellip;] 固定效应：
+[&amp;hellip;] 使用非线性混合效应模型做BE数据分析
+">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/02/%e4%bd%bf%e7%94%a8PhoenixModel%e5%88%86%e6%9e%90BE%e6%95%b0%e6%8d%ae2_1.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>使用PhoenixModel分析BE数据2_1</h1>
+
+
+<h3>付永超 / 
+2020-02-25</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<nav id="TableOfContents">
+<ul>
+<li><a href="#数据-rsabe示例中的2-4">数据：RSABE示例中的2×4，</a>
+<ul>
+<li><a href="#模型-2-2数据对应的默认模型">模型：2×2数据对应的默认模型</a>
+<ul>
+<li><a href="#算法-reml">算法：REML</a>
+<ul>
+<li><a href="#sas结果">SAS结果：</a></li>
+<li><a href="#winnonlin结果">WinNonlin结果:</a></li>
+</ul></li>
+<li><a href="#算法-ml">算法：ML</a>
+<ul>
+<li><a href="#sas结果-1">SAS结果：</a></li>
+<li><a href="#phoenix-model的ml结果">Phoenix Model的ML结果：</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#相关链接">相关链接：</a></li>
+</ul>
+</nav>
+
+<h1 id="数据-rsabe示例中的2-4">数据：RSABE示例中的2×4，</h1>
+
+<h2 id="模型-2-2数据对应的默认模型">模型：2×2数据对应的默认模型</h2>
+
+<h3 id="算法-reml">算法：REML</h3>
+
+<h4 id="sas结果">SAS结果：</h4>
+
+<p>协方差：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image001.png" alt="img" /></p>
+
+<p>固定效应：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image003.jpg" alt="img" /></p>
+
+<h4 id="winnonlin结果">WinNonlin结果:</h4>
+
+<p>协方差：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image004.png" alt="img" /></p>
+
+<p>固定效应：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image005.png" alt="img" /></p>
+
+<h3 id="算法-ml">算法：ML</h3>
+
+<h4 id="sas结果-1">SAS结果：</h4>
+
+<p>协方差：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image006.png" alt="img" /></p>
+
+<p>固定效应：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image008.jpg" alt="img" /></p>
+
+<h4 id="phoenix-model的ml结果">Phoenix Model的ML结果：</h4>
+
+<p>协方差：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image009.png" alt="img" /></p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image011.jpg" alt="img" /></p>
+
+<p>即：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SD</th>
+<th>Var</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Residual</td>
+<td>0.39862536</td>
+<td>0.158902178</td>
+</tr>
+
+<tr>
+<td>Subject(Seq)</td>
+<td></td>
+<td>0.6889767</td>
+</tr>
+</tbody>
+</table>
+
+<p>固定效应：</p>
+
+<p><img src="/images/使用PhoenixModel分析BE数据2_1/clip_image010.png" alt="img" /></p>
+
+<h1 id="相关链接">相关链接：</h1>
+
+<p><a href="/cn/2020/02/使用非线性混合效应模型做be数据分析/">使用非线性混合效应模型做BE数据分析</a></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/02/%E4%BD%BF%E7%94%A8phoenixmodel%E5%88%86%E6%9E%90be%E6%95%B0%E6%8D%AE1_1/">使用PhoenixModel分析BE数据1_1</a></span>
+  <span class="nav-next"><a href="/cn/2020/02/%E4%BD%BF%E7%94%A8phoenixmodel%E5%88%86%E6%9E%90be%E6%95%B0%E6%8D%AE2_2/">使用PhoenixModel分析BE数据2_2</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/02\/%E4%BD%BF%E7%94%A8phoenixmodel%E5%88%86%E6%9E%90be%E6%95%B0%E6%8D%AE1_1\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/02\/%E4%BD%BF%E7%94%A8phoenixmodel%E5%88%86%E6%9E%90be%E6%95%B0%E6%8D%AE2_2\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="瑞德西韦(Remdesivir, GS-5734)是近期热点，在临床试验结束并获得预期结果前，它对目前的疫情没有任何帮助，但这不妨碍我们来从多个角度了解它，本文是从其临床前非人灵长类药动学试验这一视角对该化合物进行一次观察。
+[&amp;hellip;] 通过文献报道信息，获取文中瑞德西韦(Remdesivir, GS-5734)的药代动力学特性。
+[&amp;hellip;] 文献在线阅读网址： &amp;hellip;">
+      <meta property="og:description" content="瑞德西韦(Remdesivir, GS-5734)是近期热点，在临床试验结束并获得预期结果前，它对目前的疫情没有任何帮助，但这不妨碍我们来从多个角度了解它，本文是从其临床前非人灵长类药动学试验这一视角对该化合物进行一次观察。
+[&amp;hellip;] 通过文献报道信息，获取文中瑞德西韦(Remdesivir, GS-5734)的药代动力学特性。
+[&amp;hellip;] 文献在线阅读网址： &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/02/%e7%91%9e%e5%be%b7%e8%a5%bf%e9%9f%a6Remdesivir_%e5%9c%a8%e6%81%92%e6%b2%b3%e7%8c%b4%e4%bd%93%e5%86%85%e7%9a%84%e8%8d%af%e5%8a%a8%e5%ad%a6%e8%af%95%e9%aa%8c%e4%b8%8e%e7%bb%93%e6%9e%9c.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果</h1>
+
+
+<h3>付永超 / 
+2020-02-19</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<nav id="TableOfContents">
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#本文实现目标">本文实现目标：</a></li>
+<li><a href="#文献来源">文献来源：</a></li>
+<li><a href="#试验材料">试验材料：</a>
+<ul>
+<li><a href="#试验化合物">试验化合物：</a></li>
+<li><a href="#试验药物制剂">试验药物制剂：</a></li>
+<li><a href="#试验动物与设施">试验动物与设施：</a></li>
+<li><a href="#给药与采样方案">给药与采样方案：</a></li>
+<li><a href="#试验样品分析">试验样品分析：</a></li>
+</ul></li>
+<li><a href="#试验结果">试验结果：</a>
+<ul>
+<li><a href="#药时曲线-平均">药时曲线（平均）：</a></li>
+<li><a href="#血药浓度表">血药浓度表：</a></li>
+<li><a href="#药动学参数">药动学参数：</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="前言">前言</h1>
+
+<p>瑞德西韦(Remdesivir, GS-5734)是近期热点，在临床试验结束并获得预期结果前，它对目前的疫情没有任何帮助，但这不妨碍我们来从多个角度了解它，本文是从其临床前非人灵长类药动学试验这一视角对该化合物进行一次观察。</p>
+
+<h1 id="本文实现目标">本文实现目标：</h1>
+
+<p>通过文献报道信息，获取文中瑞德西韦(Remdesivir, GS-5734)的药代动力学特性。</p>
+
+<h1 id="文献来源">文献来源：</h1>
+
+<p>文献在线阅读网址：</p>
+
+<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5551389/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5551389/</a></p>
+
+<p>标题：Therapeutic Efficacy of the Small Molecule GS-5734 against Ebola Virus in Rhesus Monkeys</p>
+
+<p>中文标题：小分子GS-5734对恒河猴埃博拉病毒的治疗作用</p>
+
+<h1 id="试验材料">试验材料：</h1>
+
+<h2 id="试验化合物">试验化合物：</h2>
+
+<p><strong>名字：</strong>瑞德西韦(Remdesivir, GS-5734)</p>
+
+<p><strong>分子量：</strong>602.576</p>
+
+<h2 id="试验药物制剂">试验药物制剂：</h2>
+
+<p>GS-5734与12％磺基丁基醚-β-环糊精（SBE-β-CD）在水中配制，使用HCl将pH调节至3.0。(GS-5734 was formulated in water with 12% sulfobutylether-β-cyclodextrin (SBE-β-CD), pH adjusted to 3.0 using HCl.)</p>
+
+<p>注射液的体积为2.0 mL / kg</p>
+
+<h2 id="试验动物与设施">试验动物与设施：</h2>
+
+<p>试验设施：科文斯，Covance, Inc. (Madison, WI)</p>
+
+<p>试验动物：恒河猴(Rhesus monkeys (Macaca maniculata))，3只，雄性</p>
+
+<h2 id="给药与采样方案">给药与采样方案：</h2>
+
+<p><strong>给药方案：</strong>10 mg /kg，静脉内推注(推注时长约1分钟)，大腿内测隐静脉（左/右）（right or left saphenous vein），动物麻醉状态下给予药物。</p>
+
+<p><strong>血液样品采集：</strong>从股静/动脉采集样品，</p>
+
+<p><strong>采样方案：</strong>给药前，给药后0.083, 0.25, 0.5, 1, 2, 4, 8, 24h。</p>
+
+<p><strong>额外在下列时间采集PBMC样品</strong>：2, 4, 8, 24h</p>
+
+<h2 id="试验样品分析">试验样品分析：</h2>
+
+<p><strong>分析方法：</strong>略，见原文。</p>
+
+<p><strong>样品来源：</strong>血液中的血浆和血中的单核细胞(peripheral blood mononuclear cells, PBMCs)</p>
+
+<p><strong>检测靶标：</strong>瑞德西韦和/或其代谢产物</p>
+
+<h1 id="试验结果">试验结果：</h1>
+
+<h2 id="药时曲线-平均">药时曲线（平均）：</h2>
+
+<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image002.jpg" alt="img" /></p>
+
+<p>健康恒河猴中，静脉内注射GS-5734（瑞德西韦）10 mg / kg ，给药后的药时曲线（平均值±SD，n = 3），其中：血浆GS-5734（黑色），Ala-Met（红色），Nuc（蓝色）; PBMC中的NTP（绿色）</p>
+
+<h2 id="血药浓度表">血药浓度表：</h2>
+
+<p>通过抠图获得浓度数据</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>瑞德西韦</th>
+<th>Nuc</th>
+<th>Ala-Met</th>
+<th>NTP</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Time</td>
+<td>黑色</td>
+<td>蓝色</td>
+<td>红色</td>
+<td>绿色</td>
+</tr>
+
+<tr>
+<td>0.083</td>
+<td>5.111</td>
+<td>0.2707</td>
+<td>1.361</td>
+<td>#N/A</td>
+</tr>
+
+<tr>
+<td>0.25</td>
+<td>1.8361</td>
+<td>0.6858</td>
+<td>1.5201</td>
+<td>#N/A</td>
+</tr>
+
+<tr>
+<td>0.5</td>
+<td>0.9507</td>
+<td>1.0053</td>
+<td>1.6452</td>
+<td>#N/A</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>0.3704</td>
+<td>1.0515</td>
+<td>0.9661</td>
+<td>#N/A</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>0.06402</td>
+<td>0.912</td>
+<td>0.2447</td>
+<td>33.23</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>#N/A</td>
+<td>0.5562</td>
+<td>0.0255</td>
+<td>32.48</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>#N/A</td>
+<td>0.3379</td>
+<td>0.0109</td>
+<td>25.401</td>
+</tr>
+
+<tr>
+<td>24</td>
+<td>#N/A</td>
+<td>0.101</td>
+<td>#N/A</td>
+<td>11.378</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image004.jpg" alt="img" /></p>
+
+<h2 id="药动学参数">药动学参数：</h2>
+
+<p><strong>文献报道参数:</strong></p>
+
+<p>t <sup>1</sup>&frasl;<sub>2</sub> = 0.39 h</p>
+
+<p><strong>采用抠图数据计算所得参数：</strong></p>
+
+<p><strong>使用软件：Phoenix WinNonlin</strong></p>
+
+<p>瑞德西韦</p>
+
+<table>
+<thead>
+<tr>
+<th>Compound</th>
+<th>Parameter</th>
+<th>Units</th>
+<th>Estimate</th>
+<th>中文参数名</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Remdesivir</td>
+<td>Dose</td>
+<td>umol/kg</td>
+<td>16.595417</td>
+<td>剂量</td>
+</tr>
+
+<tr>
+<td>Remdesivir</td>
+<td>HL_Lambda_z</td>
+<td>h</td>
+<td>0.38669607</td>
+<td>末端消除半衰期</td>
+</tr>
+
+<tr>
+<td>Remdesivir</td>
+<td>AUClast</td>
+<td>h*umol/L</td>
+<td>2.0408235</td>
+<td>曲线下面积(0到最后一个可定量点)</td>
+</tr>
+
+<tr>
+<td>Remdesivir</td>
+<td>AUCINF_obs</td>
+<td>h*umol/L</td>
+<td>2.0765393</td>
+<td>曲线下面积(0到无穷远)</td>
+</tr>
+
+<tr>
+<td>Remdesivir</td>
+<td>Cl_obs</td>
+<td>L/h/kg</td>
+<td>7.9918627</td>
+<td>清除率</td>
+</tr>
+
+<tr>
+<td>Remdesivir</td>
+<td>MRTlast</td>
+<td>h</td>
+<td>0.32771554</td>
+<td>平均滞留时间</td>
+</tr>
+
+<tr>
+<td>Remdesivir</td>
+<td>Vss_obs</td>
+<td>L/kg</td>
+<td>2.9256106</td>
+<td>分布容积</td>
+</tr>
+</tbody>
+</table>
+
+<p>其他：</p>
+
+<table>
+<thead>
+<tr>
+<th>Compound</th>
+<th>HL_Lambda_z  (h)</th>
+<th>Tmax  (h)</th>
+<th>Cmax  (umol/L)</th>
+<th>AUClast  (h*umol/L)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Ala-Met</td>
+<td>1.1351782</td>
+<td>0.5</td>
+<td>1.6452</td>
+<td>2.2940649</td>
+</tr>
+
+<tr>
+<td>NTP</td>
+<td>13.380331</td>
+<td>2</td>
+<td>33.23</td>
+<td>508.934</td>
+</tr>
+
+<tr>
+<td>Nuc</td>
+<td>8.4013504</td>
+<td>1</td>
+<td>1.0515</td>
+<td>8.5658731</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>数据分析软件截图：</strong></p>
+
+<p>瑞德西韦药动学参数：</p>
+
+<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image006.jpg" alt="img" /></p>
+
+<p>数据分析工作流程图：</p>
+
+<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image008.jpg" alt="img" /></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/02/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9Abe%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">使用非线性混合效应模型做BE数据分析</a></span>
+  <span class="nav-next"><a href="/cn/2020/02/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6remdesivir_%E5%9C%A8%E7%8B%A8%E7%8C%B4%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/">瑞德西韦Remdesivir_在狨猴体内的药动学试验与结果</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/02\/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9Abe%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/02\/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6remdesivir_%E5%9C%A8%E7%8B%A8%E7%8C%B4%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>Word批量查找替换VBA代码 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="Word批量查找替换VBA代码 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="最近没什么可写的，把之前的代码翻出来晒晒。
+[&amp;hellip;] 该代码最初用于我自己弄得一个用于批量化写word报告的东西，因为我原来需要写一堆格式化的报告，不同报告间除了数据发生了变化，其他几乎一模一样，我想偷懒（主要是我容易写错）,就使用VBA写了一段代码用于实现自动化，
+将已有的word文档报告改造成模板，
+在一个Excel表格中定义一些变量，包括变量名与变量的值（也有一些数组变量）
+使 &amp;hellip;">
+      <meta property="og:description" content="最近没什么可写的，把之前的代码翻出来晒晒。
+[&amp;hellip;] 该代码最初用于我自己弄得一个用于批量化写word报告的东西，因为我原来需要写一堆格式化的报告，不同报告间除了数据发生了变化，其他几乎一模一样，我想偷懒（主要是我容易写错）,就使用VBA写了一段代码用于实现自动化，
+将已有的word文档报告改造成模板，
+在一个Excel表格中定义一些变量，包括变量名与变量的值（也有一些数组变量）
+使 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/12/Word%e6%89%b9%e9%87%8f%e6%9f%a5%e6%89%be%e6%9b%bf%e6%8d%a2VBA%e4%bb%a3%e7%a0%81.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Word批量查找替换VBA代码</h1>
+
+
+<h3>付永超 / 
+2019-12-03</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<p>最近没什么可写的，把之前的代码翻出来晒晒。</p>
+
+<h1 id="编写该代码的目的">编写该代码的目的：</h1>
+
+<h2 id="初衷">初衷</h2>
+
+<p>该代码最初用于我自己弄得一个用于批量化写word报告的东西，因为我原来需要写一堆格式化的报告，不同报告间除了数据发生了变化，其他几乎一模一样，我想偷懒（<del>主要是我容易写错</del>）,就使用VBA写了一段代码用于实现自动化，</p>
+
+<p>将已有的word文档报告改造成模板，</p>
+
+<p>在一个Excel表格中定义一些变量，包括变量名与变量的值（也有一些数组变量）</p>
+
+<p>使用VBA代码批量的将word中的变量名替换为变量的值</p>
+
+<p>然后就可以开心的仅更新Excel表格，批量的生成报告了~</p>
+
+<p>这个理想很美丽，但实际执行过程中，只有简单点的报告可以这样弄，复杂点的报告因为需要可知化的地方很多，实现起来很痛苦，（特别是一些word中语句需要注意单复数的变换，有些参数缺失时需要完全移除语句），所以该工具旨在我这里用于部分报告的生成。</p>
+
+<h2 id="现在">现在</h2>
+
+<p>现在我已经不用写报告了 :)</p>
+
+<p>所以再次想到该代码是最近在翻译一些资料时，机翻总是将一些词汇翻译为一些特定的不合时宜的词，然后需要手动改，改多了我有懒了，再次想到了我之前的代码，修修改改一下又能接着使用了~</p>
+
+<h1 id="正文">正文</h1>
+
+<h2 id="代码">代码</h2>
+
+<pre><code class="language-vbnet">'替换word
+Public wdApp, WrdDoc '定义公共变量类，wdapp, WrdDoc代表文档
+
+Sub 批量查找替换()
+Application.ScreenUpdating = False
+
+'获取目标word文档
+Call getwd
+'wdapp.Visible = False
+
+'开始替换
+ Call StReplace
+
+'清空变量
+Set WrdDoc = Nothing
+Set wdApp = Nothing
+Application.ScreenUpdating = True
+MsgBox &quot;转换完成&quot;, vbOKOnly, &quot;&quot;
+'Application.ScreenUpdating = False
+End Sub
+
+
+Sub getwd()
+'获取当前打开的word文档
+    Set wdApp = GetObject(, &quot;Word.Application&quot;)
+    Set WrdDoc = wdApp.Documents(1)
+End Sub
+
+
+Sub StReplace()
+Application.ScreenUpdating = False
+Dim wt, urow1 As Long, lrow1 As Long
+Dim i1 As Long
+Dim chaz1 As String, tih1 As String, lsa
+
+Set wt = ThisWorkbook.ActiveSheet
+
+lrow1 = 2
+urow1 = wt.Cells(2000, 1).End(xlUp).Row
+For i1 = lrow1 To urow1
+    chaz1 = wt.Cells(i1, 1).Value
+    tih1 = wt.Cells(i1, 2).Value
+    If chaz1 = &quot;&quot; Then
+    Else
+        lsa = czth1(chaz1, tih1)
+    End If
+Next
+Application.ScreenUpdating = False
+
+'MsgBox &quot;转换完成&quot;, vbOKOnly, &quot;&quot;
+End Sub
+</code></pre>
+
+<h2 id="使用方法">使用方法</h2>
+
+<p>把上述代码放在Excel的宏模块中，然后在当前活动的工作表中，A列填须在word中查找的目标（从第二行开始），B列中填对应的替换的值，之后打开需要查找替换的word，然后运行“批量查找替换()”过程即可完成自动的查找替换。</p>
+
+<p><img src="/images/Word批量查找替换VBA代码/1575377494218.png" alt="1575377494218" /></p>
+
+<h1 id="小结">小结</h1>
+
+<p>希望这段代码也能帮到需要的人。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/11/phoenix%E4%B8%8Esas%E7%9A%84%E9%93%BE%E6%8E%A5/">Phoenix与SAS的链接</a></span>
+  <span class="nav-next"><a href="/cn/2019/12/facevalidity%E9%9D%A2%E9%83%A8%E6%9C%89%E6%95%88%E6%80%A7/">FaceValidity面部有效性</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/11\/phoenix%E4%B8%8Esas%E7%9A%84%E9%93%BE%E6%8E%A5\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2019\/12\/facevalidity%E9%9D%A2%E9%83%A8%E6%9C%89%E6%95%88%E6%80%A7\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

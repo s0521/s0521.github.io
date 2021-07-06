@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>群体药动学模型的组成部分 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="群体药动学模型的组成部分 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="群体药动学模型发包含一下这些组成部分
+[&amp;hellip;] 对与PK部分的报告，一般分为几种情况
+1.仅通过文字描述所使用的PK模型和参数化方式，仅适用于使用经典的PK模型的时候，
+2.使用微分方程描述完整的模型，最为常用的形式，使读者可以很好的理解模型
+3.使用宏观方程/多指数项描述的方程，少见
+4.直接使用特定的代码语言描述模型，一般作为辅助手段，并不单独使用
+5.使用模型结构示意图描述PK模 &amp;hellip;">
+      <meta property="og:description" content="群体药动学模型发包含一下这些组成部分
+[&amp;hellip;] 对与PK部分的报告，一般分为几种情况
+1.仅通过文字描述所使用的PK模型和参数化方式，仅适用于使用经典的PK模型的时候，
+2.使用微分方程描述完整的模型，最为常用的形式，使读者可以很好的理解模型
+3.使用宏观方程/多指数项描述的方程，少见
+4.直接使用特定的代码语言描述模型，一般作为辅助手段，并不单独使用
+5.使用模型结构示意图描述PK模 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/12/%e7%be%a4%e4%bd%93%e8%8d%af%e5%8a%a8%e5%ad%a6%e6%a8%a1%e5%9e%8b%e7%9a%84%e7%bb%84%e6%88%90%e9%83%a8%e5%88%86.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>群体药动学模型的组成部分</h1>
+
+
+<h3>付永超 / 
+2019-12-27</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<p>群体药动学模型发包含一下这些组成部分</p>
+
+<ul>
+<li>PK模型</li>
+<li>误差模型</li>
+<li>参数结构</li>
+<li>协变量关系</li>
+</ul>
+
+<h1 id="报告时应报告上述的每一部分">报告时应报告上述的每一部分</h1>
+
+<h2 id="pk模型">PK模型</h2>
+
+<p>对与PK部分的报告，一般分为几种情况</p>
+
+<p>1.仅通过文字描述所使用的PK模型和参数化方式，仅适用于使用经典的PK模型的时候，</p>
+
+<p>2.使用微分方程描述完整的模型，最为常用的形式，使读者可以很好的理解模型</p>
+
+<p>3.使用宏观方程/多指数项描述的方程，少见</p>
+
+<p>4.直接使用特定的代码语言描述模型，一般作为辅助手段，并不单独使用</p>
+
+<p>5.使用模型结构示意图描述PK模型，一般作为辅助手段被经常使用，并不单独使用</p>
+
+<h2 id="误差模型">误差模型</h2>
+
+<p>误差模型通常都比较简单，所以一般使用一下两种方式就可满足描述清楚的需求</p>
+
+<p>1.通过文字描述所使用的误差模型，</p>
+
+<p>2.通过方程描述所使用的误差模型，</p>
+
+<p>如果遇到复杂的误差模型，可能会结合代码一并报告。</p>
+
+<h2 id="参数结构">参数结构</h2>
+
+<p>参数结构描述一般是通过方程的形式展现辅以文字描述，因为一般常见的都是对数正态分布或者常数正态分布。</p>
+
+<h2 id="协变量关系">协变量关系</h2>
+
+<p>协变量的关系一般都使用方程的方式表示，因为文字描述太复杂，而且不仅要考虑协变量关系本身的公式还需要考虑它与参数结构的组合方式，所以一般在报告参数结构后，额外的再协变量关系报告部分把协变量关系写入参数结构方程中在报告一次出来。</p>
+
+<h1 id="具体应报告那些内容">具体应报告那些内容</h1>
+
+<h2 id="pk模型-1">PK模型</h2>
+
+<p>1.仅通过文字描述所使用的PK模型和参数化方式，仅适用于使用经典的PK模型的时候，</p>
+
+<p>分别说明吸收（0级、1级、混合、弥漫式方程、血管内静注）、分布（1房室、2房室、3房室）、消除（0级、1级、混合、弥漫式方程）部分的情况，以及参数化的方式（宏观、微观、清除率）。</p>
+
+<p>2.使用微分方程描述完整的模型，最为常用的形式，使读者可以很好的理解模型</p>
+
+<p>分别描述模型中每一个房室的微分方程，包括中央室/周边房室、消除室。</p>
+
+<p>3.使用宏观方程/多指数项描述的方程，少见</p>
+
+<p>一般仅描述中央室的浓度方程</p>
+
+<p>4.直接使用特定的代码语言描述模型，一般作为辅助手段，并不单独使用</p>
+
+<p>使用Phoenix建模语言、等建模语言描述模型</p>
+
+<p>5.使用模型结构示意图描述PK模型，一般作为辅助手段被经常使用，并不单独使用</p>
+
+<p>可以参考Phoenix中的结构示意图</p>
+
+<h2 id="误差模型-1">误差模型</h2>
+
+<p>通过文字描述误差模型类型（加和、比例、混合、其他等），然后辅以公式说明误差模型，描述误差模型的方程中使用ε(epsilon,伊普西隆)表示随机误差这个随机变量，ε属于一个正态分布，该正态分布的均值为0，方差为西格玛的平方，即ε~N(0, σ2)，报告结果时，报告伊普西隆的标准差西格玛的值，在Phoenix中该值包含在Theta报表中，名字为&rdquo;stdev0&rdquo;.</p>
+
+<h2 id="参数结构-1">参数结构</h2>
+
+<p>参数结构描述一般是通过方程的形式展现辅以文字描述，因为一般常见的都是对数正态分布或者常数正态分布。</p>
+
+<p>此部分应声明</p>
+
+<ul>
+<li>哪些参数仅估算群体典型值，而不估算个体间变异</li>
+<li>哪些参数固定了群体典型值，不估算个体间变异</li>
+<li>以及一些其他的固定参数的或不管算参数的情况</li>
+</ul>
+
+<p>这一部分一般报告参数的值，除非是基础模型，不包含协变量关系。</p>
+
+<p>如果报告，且个体间变异为对数正态分布则需报告</p>
+
+<p>群体典型值的&rdquo;估计值(Estimate)&rdquo;</p>
+
+<p>群体典型值的&rdquo;百分比化的相对标准误(%RSE,Phoenix中为CV%)&rdquo;</p>
+
+<p>个体间变异的&rdquo;变异系数(%CV,)&ldquo;<img src="/images/群体药动学模型的组成部分/clip_image001.png" alt="img" /></p>
+
+<p>个体间变异的&rdquo;百分比化的相对标准误(%RSE,Phoenix中为CV%)&rdquo;</p>
+
+<p>先写一半放在这里，之后慢慢的补全。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/12/%E9%9A%8F%E7%AC%94/">随笔</a></span>
+  <span class="nav-next"><a href="/cn/2020/02/%E8%AE%B0%E8%BF%87%E5%BE%80%E8%A2%AB%E4%BC%A0%E6%9F%93%E7%9A%84%E4%B8%80%E6%AC%A1%E7%BB%8F%E5%8E%86%E4%B8%8E%E6%9C%89%E5%85%B3%E4%BC%A0%E6%9F%93%E7%97%85%E7%9A%84%E8%AE%B0%E5%BF%86/">记过往被传染的一次经历与有关传染病的记忆</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/12\/%E9%9A%8F%E7%AC%94\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/02\/%E8%AE%B0%E8%BF%87%E5%BE%80%E8%A2%AB%E4%BC%A0%E6%9F%93%E7%9A%84%E4%B8%80%E6%AC%A1%E7%BB%8F%E5%8E%86%E4%B8%8E%E6%9C%89%E5%85%B3%E4%BC%A0%E6%9F%93%E7%97%85%E7%9A%84%E8%AE%B0%E5%BF%86\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

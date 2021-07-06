@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>Markdown博客文档撰写编辑 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="Markdown博客文档撰写编辑 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="我在使用hugo写博客的时候感觉十分不方便，因为我个人更新公司的文章时使用word写的，个人想法喜欢用Onenote写，这两个是可以非常方便的转换的，但是写博客却要用markdown！！！
+markdown与word之间的相互转换十分的不方便，极为困难，主要是由word转换为md文档时丢失很多信息，最严重的问题是标题级别和图片。
+[&amp;hellip;] 我尝试了一些转换用的工具，比 &amp;hellip;">
+      <meta property="og:description" content="我在使用hugo写博客的时候感觉十分不方便，因为我个人更新公司的文章时使用word写的，个人想法喜欢用Onenote写，这两个是可以非常方便的转换的，但是写博客却要用markdown！！！
+markdown与word之间的相互转换十分的不方便，极为困难，主要是由word转换为md文档时丢失很多信息，最严重的问题是标题级别和图片。
+[&amp;hellip;] 我尝试了一些转换用的工具，比 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/07/markdown%e5%8d%9a%e5%ae%a2%e6%96%87%e6%a1%a3%e6%92%b0%e5%86%99%e7%bc%96%e8%be%91.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Markdown博客文档撰写编辑</h1>
+
+
+<h3>付永超 / 
+2019-07-26</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<p>我在使用hugo写博客的时候感觉<strong>十分不方便</strong>，因为我个人更新公司的文章时使用word写的，个人想法喜欢用Onenote写，这两个是可以非常方便的转换的，但是写博客却要用markdown！！！</p>
+
+<p>markdown与word之间的相互转换<strong>十分的不方便</strong>，<strong>极为困难</strong>，主要是由word转换为md文档时丢失很多信息，最严重的问题是标题级别和图片。</p>
+
+<h1 id="尝试">尝试：</h1>
+
+<p>我尝试了一些转换用的工具，比如“<strong>Writage</strong>”，他可以将word文档转换为md文档，但是有些标题级别有问题，图片也需要一个一个的重新储存链接。</p>
+
+<p>也搜索了是否可以直接基于word的博客发布功能将文章直接推送至hugo，但是没有找到一个好用的工具，搜索过了一个叫做“<a href="https://github.com/elliotekj/orbit">orbit</a>”的工具，这是一个作者使用“ruby”开发的一个hugo的<strong>metaweblog</strong>的<strong>API</strong>接口，即实现hugo的metaweblog的接口，用以实现由文章直接推送至hugo博客，但是我没能成功的运行这个工具。。。。</p>
+
+<p>总之这都是由于word是一个灵活度更高的系统，而markdown是一个灵活度非常低的系统，这导致由word转换至markdown犹如从高维度降维至低维度一样，难免发生一些折叠，表现出来就是信息丢失，这完全是一种<strong>“降维打击”</strong>。</p>
+
+<p>最近我找到了一个目前可以接受的一个替代方案，使用“<strong>Typora</strong>”编辑器来完成hugo博文的撰写，虽然它以就不能很好的转换word，特别是对公式的转换还不如“Writage”，但它对图片的插入特别方便，进行一些设置后可以和hugo兼容，同时所见即所得，极大的减轻了工作量。</p>
+
+<h1 id="设置">设置</h1>
+
+<p>我的对“Typora”关于图片的设置设定如下：</p>
+
+<blockquote>
+<ul>
+<li>将插入文档中图片默认保存在hugo的“static\images\文章名称”文件夹下。</li>
+</ul>
+
+<p><img src="/images/markdown博客文档撰写编辑/1564132901520.png" alt="1564132901520" /></p>
+
+<ul>
+<li>在hugo的文档模板的参数中加入“Typora”的“设置图片根目录”的路径信息，比如我就根据我的当前文档的路径“hugo\content\cn\2019\07\Markdown博客文档撰写编辑.md”,设定了一个相对路径“../../../../static/”，此路径就对应“hugo\static\”</li>
+</ul>
+
+<p><img src="/images/markdown博客文档撰写编辑/1564133545084.png" alt="1564133545084" /></p>
+
+<p>注意：</p>
+
+<ul>
+<li>“设置图片根目录”既可以设定为绝对路径，也可以设置为相对路径，这里建议使用相对路径，便于跨系统的迁移后也能够重现结果；</li>
+<li>路径的链接不可以使用Windows的路径符号“/”，而必须使用反斜杠“\”，否则不能正确的识别这个参数，奇怪的是，如果自己通过菜单手动指定“设置图片根目录”，“Typora”会使用“/”表示，且系统能够识别，但是如果自己手动输入，则无效；</li>
+<li>修改完成默认的文档模板文件后注意文档的编码格式，编码格式不是hugo接受的格式，则不能识别参数。</li>
+</ul>
+</blockquote>
+
+<p>进行上述的设定后，任何新插入的图片默认都会保存在“static\images\文章名称”文件夹下，“Typora”会使用“static”作为根目录，在文章内使用相对于根目录的路径连接插入进来的图片。</p>
+
+<p><img src="/images/markdown博客文档撰写编辑/1564144745603.png" alt="1564144745603" /></p>
+
+<h1 id="结果">结果</h1>
+
+<p>这样设置之完成后，就可以在hugo的本地调试网站和“Typora”窗中就可<strong>同时</strong>正确的显示图片，所见即所得~！</p>
+
+<h1 id="待改进地方">待改进地方</h1>
+
+<p>这样做也不是十全十美的，有一个再在的缺点，当我直接通过“剪贴板”复制“word”中的文章到“Typora”中时，连同文章一起被复制过来的图片并没有被按照上述给则处理，“Typora”在它的帮助文档中也指出了这一点，一个替代的解决方案是，可以自己点击图片，先通过按“Ctrl”+“K”快捷键把图片的链接整个变为一个超链接，然后在此按“Ctrl”+“K”快捷键换出菜单将其复制到“static\images\文章名称”文件夹下，由此达成目的（操作起来还是有些费劲）。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/07/%E5%85%B3%E4%BA%8E%E4%B8%AA%E4%BD%93%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%8F%8D%E9%A6%88%E7%BE%A4%E4%BD%93%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88%E7%9A%84%E6%83%B3%E6%B3%95/">关于个体、贝叶斯反馈、群体模型拟合的想法</a></span>
+  <span class="nav-next"><a href="/cn/2019/07/%E9%87%8D%E5%A4%8D%E4%BA%A4%E5%8F%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E7%94%9F%E7%89%A9%E7%AD%89%E6%95%88%E6%80%A7%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%90%9C%E7%B4%A2/">重复交叉实验设计生物等效性实验数据分析方法实现的搜索</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/07\/%E5%85%B3%E4%BA%8E%E4%B8%AA%E4%BD%93%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%8F%8D%E9%A6%88%E7%BE%A4%E4%BD%93%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88%E7%9A%84%E6%83%B3%E6%B3%95\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2019\/07\/%E9%87%8D%E5%A4%8D%E4%BA%A4%E5%8F%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E7%94%9F%E7%89%A9%E7%AD%89%E6%95%88%E6%80%A7%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%90%9C%E7%B4%A2\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>我的第一个正式发布的软件作品guiplot - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="我的第一个正式发布的软件作品guiplot - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="我的第一个正式发布的软件作品诞生了~！
+昨天邮箱收到了CRAN审核员的邮件，我提交的“guiplot”包在通往CRAN的路上了，将被CRAN收录。
+我今天看到该邮件后，来到电脑前测试了一下
+install.packages(&amp;quot;guiplot&amp;quot;)` Installing package into &amp;hellip;">
+      <meta property="og:description" content="我的第一个正式发布的软件作品诞生了~！
+昨天邮箱收到了CRAN审核员的邮件，我提交的“guiplot”包在通往CRAN的路上了，将被CRAN收录。
+我今天看到该邮件后，来到电脑前测试了一下
+install.packages(&amp;quot;guiplot&amp;quot;)` Installing package into &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/05/%e6%88%91%e7%9a%84%e7%ac%ac%e4%b8%80%e4%b8%aa%e6%ad%a3%e5%bc%8f%e5%8f%91%e5%b8%83%e7%9a%84%e8%bd%af%e4%bb%b6%e4%bd%9c%e5%93%81guiplot.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>我的第一个正式发布的软件作品guiplot</h1>
+
+
+<h3>付永超 / 
+2020-05-12</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="开心">开心~！</h1>
+
+<p>我的第一个正式发布的软件作品诞生了~！</p>
+
+<p>昨天邮箱收到了CRAN审核员的邮件，我提交的“guiplot”包在通往CRAN的路上了，将被CRAN收录。</p>
+
+<p>我今天看到该邮件后，来到电脑前测试了一下</p>
+
+<pre><code class="language-R">install.packages(&quot;guiplot&quot;)`
+
+Installing package into ‘C:/Users/***********/Documents/R/win-library/3.6’
+(as ‘lib’ is unspecified)
+installing the source package ‘guiplot’
+
+试开URL’https://cran.rstudio.com/src/contrib/guiplot_0.1.0.tar.gz'
+Content type 'application/x-gzip' length 14361 bytes (14 KB)
+downloaded 14 KB
+</code></pre>
+
+<p>已经被正式收录了~</p>
+
+<p>开心~开心~开心~！</p>
+
+<p>我为guiplot包的写的介绍页面在<a href="/guiplot/about/">这里</a>，各位看官可以前往了解该包。</p>
+
+<p>​</p>
+
+<p><strong>这里概述下该包的作用和使用方式：</strong></p>
+
+<h1 id="guiplot包简介">guiplot包简介：</h1>
+
+<nav id="TableOfContents">
+<ul>
+<li><a href="#开心">开心~！</a></li>
+<li><a href="#guiplot包简介">guiplot包简介：</a></li>
+<li><a href="#灵感">灵感：</a>
+<ul>
+<li><a href="#用户操作逻辑">用户操作逻辑</a></li>
+<li><a href="#包的实现逻辑">包的实现逻辑</a></li>
+<li><a href="#未来的规划">未来的规划：</a></li>
+</ul></li>
+<li><a href="#guiplot包用法">guiplot包用法</a>
+<ul>
+<li><a href="#该函数典型的用法有四种">该函数典型的用法有四种：</a>
+<ul>
+<li><a href="#1-guiplot">1.guiplot()</a></li>
+<li><a href="#2-guiplot-out-dir-getwd">2.guiplot(out_dir=getwd)</a></li>
+<li><a href="#3-guiplot-pk-pk-pk">3.guiplot(PK,PK,PK)</a></li>
+<li><a href="#4-guiplot-pk-pk-pk-out-dir-any-directory-you-want-to-export">4.guiplot(PK,PK,PK,out_dir=Any_directory_you_want_to_export)</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="灵感">灵感：</h1>
+
+<p>该软件包是由Phoenix的XYplot操作对象、ggplot2包以及esquisse包所启发，撰写出来的，其主要作用是用于绘制图形。</p>
+
+<h2 id="用户操作逻辑">用户操作逻辑</h2>
+
+<p>绘制的方式为“映射列表：提供数据”+“选项：提供美学样式”的方式完成图表的绘制，使用户可以通过简单的几步操作即可完成图表的生成。</p>
+
+<h2 id="包的实现逻辑">包的实现逻辑</h2>
+
+<p>操作方式类似于“Phoenix的XYplot操作对象”，底层的绘图引擎是ggplot2，映射列表有DT包提供了类似的感受，我自己将他们进行了组合，并撰写了DT表格背后实现映射列表的逻辑引擎，以及有映射列表和选项卡实现ggplot2代码的引擎。</p>
+
+<h2 id="未来的规划">未来的规划：</h2>
+
+<p>目前该包提供了基本的图形绘制功能，我计划未来为其增加下列功能：</p>
+
+<ul>
+<li>辅助线功能</li>
+<li>ggplot2代码文本输出功能</li>
+<li>结果选项卡正确展示输出内容的功能</li>
+<li>同一组数据多次使用的功能</li>
+<li>图例问题的修复</li>
+<li>不同线条单独定制风格的功能</li>
+<li>Y2坐标轴功能</li>
+<li>不同数据源在同一画布上绘制不同图表的功能</li>
+<li>guiplot的模板功能（导入、导出、加载包内与包外模板）</li>
+<li>典型数据格式常用图表快速绘制实现功能</li>
+</ul>
+
+<h1 id="guiplot包用法">guiplot包用法</h1>
+
+<p>guiplot包开放的函数进行有个1，guiplot()，我开发此包的目的在于尽量较少代码的操作，做到傻瓜是的鼠标单击点点点，或者加一些快捷键。</p>
+
+<p>所以仅提供未来一个函数，未来也打算仍然仅提供这一个函数。</p>
+
+<h2 id="该函数典型的用法有四种">该函数典型的用法有四种：</h2>
+
+<h3 id="1-guiplot">1.guiplot()</h3>
+
+<p>即不填写任何参数的情况下使用该包，此时该函数将读入当前R语言内容环境中的所有数据，并使用其中的数据框和矩阵类型的数据做为输入数据。</p>
+
+<p>此场景适合纯R语言环境使用。</p>
+
+<h3 id="2-guiplot-out-dir-getwd">2.guiplot(out_dir=getwd)</h3>
+
+<p>今填写&rdquo;out_dir&rdquo;参数的情况下使用该包，并将该参数的值设定为当前的工作目录，此时该函数将读入当前R语言内容环境中的所有数据，并使用其中的数据框和矩阵类型的数据做为输入数据，然后将产生的结果输出值当前的R工作目录。</p>
+
+<p>此场景适合是完全为Phoenix所打造的，用户只需在Phoenix中的R对象总共写入一下两行代码，</p>
+
+<pre><code class="language-R">library(guiplot)
+
+guiplot(out_dir=getwd)
+</code></pre>
+
+<p>即可以愉快的使用该包了，（当然你好需要在Phoenix的R对象中通过“选择数据源()”按钮额外的为此R对象添加数据源以便加载到R的内存中，但这是属于Phoenix的操作，与R无关~），这极大的降低了使用该包的难度，并且非常方便的扩展了Phoenix用户使用R语言绘图的功能，并提供了以他们所熟悉的方式进行设置的体验~~</p>
+
+<p>其实我在设计该包时，连“out_dir=getwd”这点代码都不想添加，但CRAN政策不允许未经用户明确同意的情况下，将数据写入非临时目录中，所以只能添加了out_dir参数，用于满足政策要求。</p>
+
+<h3 id="3-guiplot-pk-pk-pk">3.guiplot(PK,PK,PK)</h3>
+
+<p>此时仅输入语言中可以调用的数据作为参数，同一数据可以填写多次，且可同时输入多个数据，数据输入是可以输入指代该数据的变量名，也可将入指代该数据的变量名作为文本输入，这种输入的好处是可以精确的控制输入的数据有哪些。</p>
+
+<p>此场景适合习惯R语言习惯的人使用。</p>
+
+<h3 id="4-guiplot-pk-pk-pk-out-dir-any-directory-you-want-to-export">4.guiplot(PK,PK,PK,out_dir=Any_directory_you_want_to_export)</h3>
+
+<p>这种使用方式没啥好说的，与第3种类似，只是额外指定了一下“out_dir”参数，用于将结果输出至用户想要的任何目录下，同样他也适合于习惯R语言操作习惯的用户。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/04/r%E5%8C%85%E5%BC%80%E5%8F%91_%E6%A3%80%E6%9F%A5%E6%8A%A5%E9%94%99/">R包开发_检查报错</a></span>
+  <span class="nav-next"><a href="/cn/2020/06/pml6%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88s%E5%9E%8B%E6%9B%B2%E7%BA%BF/">PML（6）轻松构建多种模型拟合S型曲线</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/04\/r%E5%8C%85%E5%BC%80%E5%8F%91_%E6%A3%80%E6%9F%A5%E6%8A%A5%E9%94%99\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/06\/pml6%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88s%E5%9E%8B%E6%9B%B2%E7%BA%BF\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guiplots on Yongchao Fu | 付永超</title>
+    <link>https://s0521.github.io/guiplot/</link>
+    <description>Recent content in Guiplots on Yongchao Fu | 付永超</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>utf-8</language>
+    <lastBuildDate>Tue, 07 Apr 2020 10:45:14 +0800</lastBuildDate>
+    
+	<atom:link href="https://s0521.github.io/guiplot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About &#39;guiplot&#39; R Language Package</title>
+      <link>https://s0521.github.io/guiplot/about/</link>
+      <pubDate>Tue, 07 Apr 2020 10:45:14 +0800</pubDate>
+      
+      <guid>https://s0521.github.io/guiplot/about/</guid>
+      <description>概述 “guiplot”是由付永超开发的一个帮助用户通过图形界面来完成图表绘制的工具，旨在实现无代码的方式实现绘图。
+“guiplot”包的Github链接：https://github.com/s0521/guiplot
+使用方式： 1加载数据  1.guiplot() 直接使用上述代码，guiplot包会读取当前R语言所加载的数据，并使用该数据来完成图表的绘制。 guiplot包仅支持矩阵或者数据框类型的数据来完成图表的绘制 2.guiplot(&amp;hellip;) &amp;hellip; 可以是一个已加载数据的名称，或者是多个已加载数据的名称。 guiplot包仅支持矩阵或者数据框类型的数据来完成图表的绘制 2.1guiplot(PK) guiplot包内置了一个名为PK的数据集，用户可以直接通过上述代码来调用该数据集绘制。 2.2guiplot(PK,PK) guiplot包可以同时加载多个数据集用于绘图。 2.2guiplot(&amp;ldquo;PK&amp;rdquo;) guiplot包内置了一个名为PK的数据集，用户可以直接通过上述代码来调用该数据集绘制。  2选择图表类型 打开用户界面后，用户需要首先选择绘制的图形的类型
+3进行数据映射 用户通过映射列表告诉“guiplot”该如何使用数据完成图表的绘制
+列表的第一列展示了所加载的数据集所包含的列的列名
+列表的第一行展示了当前所需要映射的一些字段
+4进行美学调整 用户可在该区域完成对绘制出的图形的一系列的基于美学的调整，包括：主题、画布的规格、最标轴的尺度、坐标轴的范围等内容的设置
+5执行图表绘制 单击工具栏中的“执行!(Execute!)”按钮，会在当前工作目录下生成所绘制出的图形，会输出三种格式“pdf”、“png”、“svg”。
+6退出 单击工具栏中的“完成并关闭(Finish and Close)”按钮，会停止当前的会话，结束GUI互动。
+已知问题： 无法对映射到Y字段的多个变量，使用颜色、线型、标志符等进行区分。
+Overview The author of &amp;ldquo;guiplot&amp;rdquo; is Fu Yongchao.
+The role of &amp;ldquo;guiplot&amp;rdquo; is to help users to complete the chart drawing tool through the graphical interface,
+The goal of &amp;ldquo;guiplot&amp;rdquo; is to implement drawing without code.</description>
+    </item>
+    
+  </channel>
+</rss>
