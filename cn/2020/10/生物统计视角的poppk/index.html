@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>生物统计视角的PopPK - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="生物统计视角的PopPK - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="群体药物代谢动力学是生物统计与药物代谢动力学的交叉学科，过往大家多从药物代谢动力学的视角介绍PopPK，今天我尝试通过生物统计学的统计模型视角介绍Pop PK，以便生物统计学家可以快速理解Pop PK，以及帮助大家更好的多视角立体的看待Pop PK。
+介绍流程
+1.使用Phoenix软件，基于一个群体模型模拟出一组数据。
+2.群体分析常用的三种方法，单纯积聚法，两步法，一步法
+3.尝试应 &amp;hellip;">
+      <meta property="og:description" content="群体药物代谢动力学是生物统计与药物代谢动力学的交叉学科，过往大家多从药物代谢动力学的视角介绍PopPK，今天我尝试通过生物统计学的统计模型视角介绍Pop PK，以便生物统计学家可以快速理解Pop PK，以及帮助大家更好的多视角立体的看待Pop PK。
+介绍流程
+1.使用Phoenix软件，基于一个群体模型模拟出一组数据。
+2.群体分析常用的三种方法，单纯积聚法，两步法，一步法
+3.尝试应 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/10/%e7%94%9f%e7%89%a9%e7%bb%9f%e8%ae%a1%e8%a7%86%e8%a7%92%e7%9a%84PopPK.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>生物统计视角的PopPK</h1>
+
+
+<h3>付永超 / 
+2020-10-12</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<p>群体药物代谢动力学是生物统计与药物代谢动力学的交叉学科，过往大家多从药物代谢动力学的视角介绍PopPK，今天我尝试通过生物统计学的统计模型视角介绍Pop PK，以便生物统计学家可以快速理解Pop PK，以及帮助大家更好的多视角立体的看待Pop PK。</p>
+
+<p><strong>介绍流程</strong></p>
+
+<p>1.使用Phoenix软件，基于一个群体模型模拟出一组数据。</p>
+
+<p>2.群体分析常用的三种方法，单纯积聚法，两步法，一步法</p>
+
+<p>3.尝试应用Phoenix中的用于生物统计的“线性混合效应（Linear Mixed Effect）”操作对象，和用于PopPK建模的“最大似然模型（ML Model）”操作对象，实现这三种方法，并对比操作设置与计算结果。</p>
+
+<h1 id="1-使用phoenix软件-基于一个群体模型模拟出一组数据">1. 使用Phoenix软件，基于一个群体模型模拟出一组数据。</h1>
+
+<h2 id="1-1模拟所使用的模型">1.1模拟所使用的模型</h2>
+
+<p><strong>PK模型：</strong></p>
+
+<ul>
+<li><p>静脉注射，一房室，线性消除</p></li>
+
+<li><p>使用V、ke参数化模型</p></li>
+</ul>
+
+<p><strong>变异假设：</strong></p>
+
+<ul>
+<li><p>残差（个体内变异）变异：对数加和型误差</p></li>
+
+<li><p>个体内变异：仅考虑V的个体变异，V为对数正态分布</p></li>
+</ul>
+
+<p><strong>参数值：</strong></p>
+
+<ul>
+<li><p>表观分布容积的典型值，tvV=10，L</p></li>
+
+<li><p>消除速率的典型值，tvke=0.1，1/h</p></li>
+
+<li><p>残差(个体内变异)的方差，σ^2=0.09，</p></li>
+
+<li><p>表观分布容积的个体间变异方差，𝜔_𝑉^2=0.09</p></li>
+</ul>
+
+<h2 id="1-2使用该模型模拟的原因">1.2使用该模型模拟的原因</h2>
+
+<p>该模型浓度数据对数转换后，可以使用常见的线性模型拟合，来替代“PK模型”部分</p>
+
+<h2 id="1-3对数转换后可用的线性模型">1.3对数转换后可用的线性模型</h2>
+
+<p>Ln(Conc)=int+time* β+ε</p>
+
+<p>其中</p>
+
+<ul>
+<li><p>int，截距</p></li>
+
+<li><p>β，斜率</p></li>
+
+<li><p>ε，残差</p></li>
+
+<li><p>time，时间</p></li>
+</ul>
+
+<p>与PK参数的关系</p>
+
+<ul>
+<li><p>V=Dose/C0=Dose/int</p></li>
+
+<li><p>ke=- β</p></li>
+</ul>
+
+<h2 id="1-4模拟出的数据">1.4模拟出的数据</h2>
+
+<table>
+<thead>
+<tr>
+<th><strong>subject</strong></th>
+<th><strong>time</strong></th>
+<th><strong>C</strong></th>
+<th><strong>DV</strong></th>
+<th><strong>EXP_DV</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1.00</td>
+<td>1.00</td>
+<td>103.66</td>
+<td>5.20</td>
+<td>182.16</td>
+</tr>
+
+<tr>
+<td>1.00</td>
+<td>2.00</td>
+<td>93.79</td>
+<td>4.39</td>
+<td>80.49</td>
+</tr>
+
+<tr>
+<td>1.00</td>
+<td>4.00</td>
+<td>76.79</td>
+<td>3.68</td>
+<td>39.56</td>
+</tr>
+
+<tr>
+<td>1.00</td>
+<td>8.00</td>
+<td>51.47</td>
+<td>3.04</td>
+<td>20.92</td>
+</tr>
+
+<tr>
+<td>1.00</td>
+<td>24.00</td>
+<td>10.39</td>
+<td>2.08</td>
+<td>8.04</td>
+</tr>
+
+<tr>
+<td>2.00</td>
+<td>1.00</td>
+<td>155.09</td>
+<td>5.18</td>
+<td>177.11</td>
+</tr>
+
+<tr>
+<td>2.00</td>
+<td>2.00</td>
+<td>140.33</td>
+<td>4.91</td>
+<td>135.40</td>
+</tr>
+
+<tr>
+<td>2.00</td>
+<td>4.00</td>
+<td>114.89</td>
+<td>4.68</td>
+<td>107.46</td>
+</tr>
+
+<tr>
+<td>2.00</td>
+<td>8.00</td>
+<td>77.02</td>
+<td>4.58</td>
+<td>97.04</td>
+</tr>
+
+<tr>
+<td>2.00</td>
+<td>24.00</td>
+<td>15.55</td>
+<td>2.37</td>
+<td>10.70</td>
+</tr>
+
+<tr>
+<td>3.00</td>
+<td>1.00</td>
+<td>83.78</td>
+<td>4.68</td>
+<td>107.88</td>
+</tr>
+
+<tr>
+<td>3.00</td>
+<td>2.00</td>
+<td>75.81</td>
+<td>4.58</td>
+<td>97.68</td>
+</tr>
+
+<tr>
+<td>3.00</td>
+<td>4.00</td>
+<td>62.07</td>
+<td>4.16</td>
+<td>64.21</td>
+</tr>
+
+<tr>
+<td>3.00</td>
+<td>8.00</td>
+<td>41.60</td>
+<td>3.98</td>
+<td>53.65</td>
+</tr>
+
+<tr>
+<td>3.00</td>
+<td>24.00</td>
+<td>8.40</td>
+<td>1.95</td>
+<td>7.02</td>
+</tr>
+
+<tr>
+<td>4.00</td>
+<td>1.00</td>
+<td>49.08</td>
+<td>3.57</td>
+<td>35.53</td>
+</tr>
+
+<tr>
+<td>4.00</td>
+<td>2.00</td>
+<td>44.41</td>
+<td>3.29</td>
+<td>26.80</td>
+</tr>
+
+<tr>
+<td>4.00</td>
+<td>4.00</td>
+<td>36.36</td>
+<td>3.44</td>
+<td>31.09</td>
+</tr>
+
+<tr>
+<td>4.00</td>
+<td>8.00</td>
+<td>24.37</td>
+<td>3.06</td>
+<td>21.22</td>
+</tr>
+
+<tr>
+<td>4.00</td>
+<td>24.00</td>
+<td>4.92</td>
+<td>0.96</td>
+<td>2.60</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image002.png" alt="img" /></p>
+
+<p>其中：</p>
+
+<ul>
+<li><p>subject,个体编号</p></li>
+
+<li><p>time，时间</p></li>
+
+<li><p>C，个体浓度预测值</p></li>
+
+<li><p>DV，对数转换后的个体浓度观测值</p></li>
+
+<li><p>EXP_DV，未经对数转换的个体浓度观测值</p></li>
+</ul>
+
+<h1 id="2-群体药物代谢动力学分析常用的三种方法-单纯积聚法-两步法-一步法">2.群体药物代谢动力学分析常用的三种方法，单纯积聚法，两步法，一步法</h1>
+
+<h2 id="2-1单纯积聚法">2.1单纯积聚法</h2>
+
+<p>将同一时间浓度值之间的差异，都认为是残差变异，不考虑个体因素。</p>
+
+<p>或者表述为，将所有个体是为一个个体。</p>
+
+<h2 id="2-2两步法">2.2两步法</h2>
+
+<p>将个体是为一个分类变量，并将该变量认为是一个固定效应，估计个体因素的每个水平。</p>
+
+<p>或者表述为，为每个个体分别拟合出其所对应的参数。</p>
+
+<h2 id="2-3一步法">2.3一步法</h2>
+
+<p>将个体是为一个分类变量，并将该变量认为是一个随机效应，估计个体因素的均值与方差。</p>
+
+<p>或者表述为，将一组个体认为是从一个统计总体中随机抽取出的一个样本，通过通过该样本去估计整个统计总体的参数（均值，方差）。</p>
+
+<h1 id="3-尝试应用phoenix中的用于生物统计的-线性混合效应-linear-mixed-effect-操作对象-和用于poppk建模的-最大似然模型-ml-model-操作对象-实现这三种方法-并对比操作设置与计算结果">3.尝试应用Phoenix中的用于生物统计的“线性混合效应（Linear Mixed Effect）”操作对象，和用于PopPK建模的“最大似然模型（ML Model）”操作对象，实现这三种方法，并对比操作设置与计算结果。</h1>
+
+<h2 id="3-1不考虑个体因素">3.1不考虑个体因素</h2>
+
+<h3 id="3-1-1lme模型构建">3.1.1LME模型构建</h3>
+
+<p><strong>使用的统计学模型</strong></p>
+
+<p>Ln(Conc)=int+time* β+ε</p>
+
+<p><strong>Phoenix中的操作</strong></p>
+
+<ol>
+<li><p>将数据集发送至线性混合效应模型操作对象</p></li>
+
+<li><p>将DV映射值“因变量（Dependent）”字段</p></li>
+
+<li><p>将time映射至“回归字段（Regressor）”</p></li>
+
+<li><p>在“固定效应（Fixed Effect）”选项卡，将time指定为固定效应</p></li>
+</ol>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image004.png" alt="img" /></p>
+
+<h3 id="3-1-2nlme模型构建">3.1.2NLME模型构建</h3>
+
+<p><strong>所使用的PK模型</strong></p>
+
+<p>𝑑A/𝑑𝑡=-𝑘𝑒∗A</p>
+
+<p>𝐶=𝐴/𝑉</p>
+
+<p>log(C_obs)=log&copy;+ε</p>
+
+<p><strong>Phoenix中的操作</strong></p>
+
+<ol>
+<li><p>将数据集发送至“最大似然模型（Maximum Likelihood Models）”操作对象</p></li>
+
+<li><p>将EXP_DV映射值“浓度观测值（CObs）”字段</p></li>
+
+<li><p>将time映射至“时间（time）”</p></li>
+
+<li><p>在“结构（Strucure）”选项卡，将PK模型指定为“微观（Micro）”参数化，“血管内（Intravenous）”，1房室模型。</p></li>
+
+<li><p>误差模型设定为“对数加和型（Log-addtive）”</p></li>
+
+<li><p>将subject映射至“ID”字段</p></li>
+
+<li><p>将算法设定为“单纯积聚法（Naïve pooled）”</p></li>
+</ol>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image006.png" alt="img" /></p>
+
+<h3 id="3-1-3结果">3.1.3结果：</h3>
+
+<p><strong>LME结果：</strong></p>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image008.jpg" alt="img" /></p>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image010.jpg" alt="img" /></p>
+
+<p><strong>整理后：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>值</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>Ke</strong></td>
+<td>0.1154465</td>
+</tr>
+
+<tr>
+<td><strong>V</strong></td>
+<td>10.165929</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>Var(Residual)</strong></td>
+<td>0.3997978</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>NLME的结果：</strong></p>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image012.jpg" alt="img" /></p>
+
+<p><strong>整理后得：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>值</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>tvV</strong></td>
+<td>10.165918</td>
+</tr>
+
+<tr>
+<td><strong>tvKe</strong></td>
+<td>0.11544665</td>
+</tr>
+
+<tr>
+<td><strong>stdev0</strong></td>
+<td>0.59984834</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>Var(Residual)</strong></td>
+<td>0.35981803</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="3-2将个体层面的变异作为固定效应引入模型">3.2将个体层面的变异作为固定效应引入模型</h2>
+
+<h3 id="3-2-1-lme模型构建">3.2.1.LME模型构建</h3>
+
+<p><strong>统计学模型:</strong></p>
+
+<p>Ln(Conc)=int +time* β1+subject* β2+ε</p>
+
+<p>Phoenix中的操作</p>
+
+<ol>
+<li><p>将数据集发送至线性混合效应模型操作对象</p></li>
+
+<li><p>将DV映射值“因变量（Dependent）”字段</p></li>
+
+<li><p>将time映射至“回归字段（Regressor）”</p></li>
+
+<li><p>将subject映射至“分类变量（Classification）”字段下</p></li>
+
+<li><p>在“固定效应（Fixed Effect）”选项卡，将time，subject指定为固定效应</p></li>
+</ol>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image014.png" alt="img" /></p>
+
+<h3 id="3-2-2nlme模型构建">3.2.2NLME模型构建</h3>
+
+<p>以将个体作为固定效应引入模型中并不是Pop PK常用方法，也与两步法有差异，所以不在“ML Model”操作对象中实现了，但作为用于直观理解两步法，LME的模型足够了。</p>
+
+<h3 id="3-2-3结果">3.2.3结果</h3>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image016.png" alt="img" /></p>
+
+<p>整理后：</p>
+
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>值</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>V4</td>
+<td>23.244934</td>
+</tr>
+
+<tr>
+<td>V3</td>
+<td>8.4659761</td>
+</tr>
+
+<tr>
+<td>V2</td>
+<td>5.2897363</td>
+</tr>
+
+<tr>
+<td>V1</td>
+<td>10.260037</td>
+</tr>
+
+<tr>
+<td>Ke</td>
+<td>0.1154465</td>
+</tr>
+
+<tr>
+<td>Mean_V</td>
+<td>11.81517085</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>Var(Residual)</td>
+<td>0.098310976</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="3-3将个体层面的变异作为随机应引入模型">3.3将个体层面的变异作为随机应引入模型</h2>
+
+<h3 id="3-3-1lme模型构建">3.3.1LME模型构建</h3>
+
+<p><strong>统计学模型：</strong></p>
+
+<p>Ln&copy;=int+time*β+subject*γ+ε</p>
+
+<p><strong>Phoenix中的操作</strong></p>
+
+<ol>
+<li><p>将数据集发送至线性混合效应模型操作对象</p></li>
+
+<li><p>将DV映射值“因变量（Dependent）”字段</p></li>
+
+<li><p>将time映射至“回归字段（Regressor）”</p></li>
+
+<li><p>将subject映射至“分类变量（Classification）”字段下</p></li>
+
+<li><p>在“固定效应（Fixed Effect）”选项卡，将time指定为固定效应</p></li>
+
+<li><p>在“方差结构（Variance Structure）”选项卡下，将Subject指定为随机效应</p></li>
+</ol>
+
+<h3 id="3-3-2-nlme模型构建">3.3.2 NLME模型构建</h3>
+
+<p>dA/dt=-Ke*A</p>
+
+<p>C=A/V</p>
+
+<p>log(C_obs)=log&copy;+ε</p>
+
+<p>V=tvV+nV</p>
+
+<p>nv~N(0,ω^2)</p>
+
+<p><strong>Phoenix中的操作</strong></p>
+
+<ol>
+<li><p>将数据集发送至“最大似然模型（Maximum Likelihood Models）”操作对象</p></li>
+
+<li><p>将EXP_DV映射值“浓度观测值（CObs）”字段</p></li>
+
+<li><p>将time映射至“时间（time）”</p></li>
+
+<li><p>将subject映射至“ID”字段下</p></li>
+
+<li><p>在“结构（Strucure）”选项卡，将PK模型指定为“微观（Micro）”参数化，“血管内（Intravenous）”，1房室模型。</p></li>
+
+<li><p>误差模型设定为“对数加和型（Log-addtive）”</p></li>
+
+<li><p>在“参数（Parameter）”→“结构（Structural）”选项卡下，取消ke的随机效应复选狂。</p></li>
+
+<li><p>将算法设定为“FOCE”</p></li>
+</ol>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image018.png" alt="img" /></p>
+
+<h3 id="3-3-3结果">3.3.3结果</h3>
+
+<p><strong>LME的结果</strong></p>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image020.png" alt="img" /></p>
+
+<p><strong>整理后：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>值</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Ke</td>
+<td>0.115446497</td>
+</tr>
+
+<tr>
+<td>V</td>
+<td>10.16592915</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>Var(Subject)</td>
+<td>0.36178422</td>
+</tr>
+
+<tr>
+<td>Var(Residual)</td>
+<td>0.098310976</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>NLME的结果：</strong></p>
+
+<p><img src="/images/生物统计视角的PopPK/clip_image022.png" alt="img" /></p>
+
+<p><strong>整理后：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>值</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>tvV</td>
+<td>10.167932</td>
+</tr>
+
+<tr>
+<td>tvKe</td>
+<td>0.11542232</td>
+</tr>
+
+<tr>
+<td>stdev0</td>
+<td>0.30358454</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>Var(Residual)</td>
+<td>0.092163573</td>
+</tr>
+
+<tr>
+<td>VAR(nV)</td>
+<td>0.26738008</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="4-一些备注说明">4.一些备注说明</h1>
+
+<p>关于“Linear Mixed Effects”操作对象与“ML Model”操作对象间的一些差异说明：</p>
+
+<p>Phoenix的“Linear Mixed Effects”操作对象，使用限制性最大似然法构建目标函数；“ML Model”操作对象使用最大似然法构建目标函数。</p>
+
+<p>限制性最大似然与最大似然法之间存在着一些差异，一个明显的区别是结果中的估算出的方差值，一般限制性最大似然的比最大似然的大，这是由于自由度的差异导致的。</p>
+
+<p><strong>两步法的说明：</strong></p>
+
+<p>两步法在这里和Pop PK传统的两部法不同，因为按照传统的视角，是确确实实将每个个体分开拟合的，而将个体作为固定效应引入模型后，比如本模型，其确实会为每个个体估计了一个单独的V，但是所有个体共享一个Ke和残差，所以这与传统的不同，在ML Model中也能实现类似的方式描述模型，但这非本次重点，感性取得小伙伴可以自己尝试构建下。</p>
+
+<h1 id="5-随堂作业">5.随堂作业</h1>
+
+<p>大家可以尝试一下练习：</p>
+
+<p>使用LME构建一下模型：</p>
+
+<ul>
+<li><p>将斜率的个体间差异作为固定效应引入模型。</p></li>
+
+<li><p>将斜率的个体间差异作为随机效应引入模型。</p></li>
+
+<li><p>同时将截距与斜率的个体间差异作为随机效应引入模型。</p></li>
+</ul>
+
+<p>使用“ML Model”构建一下模型：</p>
+
+<ul>
+<li>2*2生物等效性的统计学模型</li>
+</ul>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/08/%E5%81%9Abe%E5%88%86%E6%9E%90%E6%97%B6%E9%AB%98%E6%A6%82%E7%8E%87%E9%81%87%E5%88%B0%E7%9A%84%E5%87%A0%E5%A4%A7%E7%96%91%E6%83%91%E7%8E%B0%E8%B1%A1/">做BE分析时高概率遇到的几大疑惑现象</a></span>
+  <span class="nav-next"><a href="/cn/2020/10/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8Bpoppk2%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/">生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/08\/%E5%81%9Abe%E5%88%86%E6%9E%90%E6%97%B6%E9%AB%98%E6%A6%82%E7%8E%87%E9%81%87%E5%88%B0%E7%9A%84%E5%87%A0%E5%A4%A7%E7%96%91%E6%83%91%E7%8E%B0%E8%B1%A1\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/10\/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8Bpoppk2%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

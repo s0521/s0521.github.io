@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>FaceValidity面部有效性 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="FaceValidity面部有效性 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="参考链接1：
+https://en.wikipedia.org/wiki/Face_validity
+面部有效性表示测试“看起来像”它将起作用，而不是“已被证明可以起作用”。
+参考链接2
+https://www.statisticshowto.datasciencecentral.com/face-validity/
+面部有效性（也称为逻辑有效性）是一种简单的有效性形式，您可以对研究或测验是否测量 &amp;hellip;">
+      <meta property="og:description" content="参考链接1：
+https://en.wikipedia.org/wiki/Face_validity
+面部有效性表示测试“看起来像”它将起作用，而不是“已被证明可以起作用”。
+参考链接2
+https://www.statisticshowto.datasciencecentral.com/face-validity/
+面部有效性（也称为逻辑有效性）是一种简单的有效性形式，您可以对研究或测验是否测量 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/12/FaceValidity%e9%9d%a2%e9%83%a8%e6%9c%89%e6%95%88%e6%80%a7.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>FaceValidity面部有效性</h1>
+
+
+<h3>付永超 / 
+2019-12-23</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="face-validity">face validity</h1>
+
+<h1 id="名词解释">名词解释：</h1>
+
+<p>参考链接1：</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Face_validity">https://en.wikipedia.org/wiki/Face_validity</a></p>
+
+<p>面部有效性表示测试“看起来像”它将起作用，而不是“已被证明可以起作用”。</p>
+
+<p>参考链接2</p>
+
+<p><a href="https://www.statisticshowto.datasciencecentral.com/face-validity/">https://www.statisticshowto.datasciencecentral.com/face-validity/</a></p>
+
+<p>面部有效性（也称为逻辑有效性）是一种简单的有效性形式，您可以对研究或测验是否测量了应该测量的内容进行表面和主观的评估。</p>
+
+<h1 id="点评">点评：</h1>
+
+<p>face validity或许翻译为“大体有效性”，与解剖学中的&rdquo;大体检查&rdquo;相一致，都是泛指总览整体，粗略的查看下“研究/尸体”是否存在“异常”，或者说是否“正常”，显然着这种检查并不严谨，是一种粗略的判断，旨在确认“研究/尸体”是否正确，比如明明要研究“狗”，解剖台上缺摆着“猴”这种错误，或者解剖着的过程中发现“胸腺重达25kg”这样的逻辑上讲不通的错误，可能检查后发现“胸腺重达25kg”是一处记录错误，应该是“25g”。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/12/word%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2vba%E4%BB%A3%E7%A0%81/">Word批量查找替换VBA代码</a></span>
+  <span class="nav-next"><a href="/cn/2019/12/%E9%9A%8F%E7%AC%94/">随笔</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/12\/word%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2vba%E4%BB%A3%E7%A0%81\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2019\/12\/%E9%9A%8F%E7%AC%94\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

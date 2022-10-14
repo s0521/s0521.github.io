@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>改良单纯形法的VBA实现 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="改良单纯形法的VBA实现 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="今年年初，我是使用VBA实现改良的单纯形法，该算法是参考《最优化计算方法》，“第八章无约束优化方法，8.3可变单纯形法的实现”章节实现的，该书的作者是蒋金山。 这本书步骤非常详细的说明了计算方法和步骤，非常适合学习与练习使用。
+实现的目的当然不是为了重新造一个轮子，主要是为了让自己对该算法有进一步的认识。 通过自己动手编程的练习，让自己了解了“单纯形”是什么怎么进行反射，怎么算质心，怎么迭代？等 &amp;hellip;">
+      <meta property="og:description" content="今年年初，我是使用VBA实现改良的单纯形法，该算法是参考《最优化计算方法》，“第八章无约束优化方法，8.3可变单纯形法的实现”章节实现的，该书的作者是蒋金山。 这本书步骤非常详细的说明了计算方法和步骤，非常适合学习与练习使用。
+实现的目的当然不是为了重新造一个轮子，主要是为了让自己对该算法有进一步的认识。 通过自己动手编程的练习，让自己了解了“单纯形”是什么怎么进行反射，怎么算质心，怎么迭代？等 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2019/03/2019-03-29%20%e6%94%b9%e8%89%af%e5%8d%95%e7%ba%af%e5%bd%a2%e6%b3%95%e7%9a%84VBA%e5%ae%9e%e7%8e%b0.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>改良单纯形法的VBA实现</h1>
+
+
+<h3>付永超 / 
+2019-03-30</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+<p>今年年初，我是使用VBA实现改良的单纯形法，该算法是参考《最优化计算方法》，“第八章无约束优化方法，8.3可变单纯形法的实现”章节实现的，该书的作者是蒋金山。
+这本书步骤非常详细的说明了计算方法和步骤，非常适合学习与练习使用。</p>
+
+<p>实现的目的当然不是为了重新造一个轮子，主要是为了让自己对该算法有进一步的认识。
+通过自己动手编程的练习，让自己了解了“单纯形”是什么怎么进行反射，怎么算质心，怎么迭代？等等。
+由此让自己真正的了解了该算法。</p>
+
+<p>代码如下：</p>
+
+<pre><code class="language-vbnet">Option Explicit
+
+Dim xa, xb, xr, xe, zongi '反射系数，压缩系数，扩展系数，允许误差，迭代总次数
+
+Dim fg As Range, fl As Range, fh As Range '三组参数中的最大、中间、最小
+
+Dim ps1 As Range, ps2 As Range, ps3 As Range '三组参数中的第一列、第二列、第三列
+Dim nx As Range, n3x As Range, n4x As Range '储存中间结果的下一步，下下一步的参数值
+Sub rukou()
+'入口程序，声明一些关键的变量，并串联起来求解过程
+'该算法是参考《最优化计算方法》，蒋金山，第八章无约束优化方法，8.3可变单纯形法的实现
+'可变单纯形法是一种直接搜索方法，1962年被提出，1964年给改进
+Dim pp
+Dim a, b, c
+Dim rowi, ls1
+zongi = 0 '迭代总次数
+xa = 1 '反射系数
+xb = 0.5 '压缩系数
+xr = 2 '扩展系数
+xe = 0.0000000002 '允许误差
+
+'清除上一次的迭代结果
+ls1 = ActiveSheet.Cells(9999, 16).End(xlUp).Row + 1
+ActiveSheet.Range(ActiveSheet.Cells(2, 15), ActiveSheet.Cells(ls1, 20)).Clear
+
+
+Do
+    Call duquhuanjing2 '读取表格中给如入的3组初始的参数值，存入ps1，ps2，ps3变量中去
+    Call d1_px(ps1, ps2, ps3) '为3组初始参数进行排序fh,fg,gl，以便接下来的计算，直接使用其中的最大值与最小值
+    Call d2_mean(fh, fg, fl) '应用3组参数，计算新的更好的点替代fh
+    pp = panju(fh, fg, fl) '第8步，收敛标准值的计算
+    
+    zongi = zongi + 1 '迭代总次数
+    a = fh(1) '当前fh的目标函数值
+    b = fg(1) '当前fg的目标函数值
+    c = fl(1) '当前fl的目标函数值
+    rowi = ActiveSheet.Cells(9999, 16).End(xlUp).Row + 1 '获取迭代结果显示的最后一行之后的一行行号
+    ActiveSheet.Cells(rowi, 20) = pp '收敛标准的值
+    Debug.Print zongi; &quot;::fh, fg, fl=&quot;; a; b; c
+    '将迭代结果输出到Excel表格中
+    ActiveSheet.Cells(rowi, 16) = zongi
+    ActiveSheet.Cells(rowi, 17) = fl(0)
+    ActiveSheet.Cells(rowi, 18) = fg(0)
+    ActiveSheet.Cells(rowi, 19) = fh(0)
+   
+    '清空操作对象的内容，便于重新开始迭代
+    Set fh = Nothing
+    Set fg = Nothing
+    Set fl = Nothing
+    Set ps1 = Nothing
+    Set ps2 = Nothing
+    Set ps3 = Nothing
+    Set nx = Nothing
+    Set n3x = Nothing
+    Set n4x = Nothing
+    '如果达到最大迭代次数，则退出迭代
+    If zongi &gt; 300 Then Exit Do
+    
+Loop Until pp &lt; xe '如果收敛标准的值小于允许误差，则退出迭代
+End Sub
+Sub duquhuanjing2()
+'读取环境中的参数
+'读取表格中给如入的3组初始的参数值，存入ps1，ps2，ps3变量中去
+Dim p, i, ri
+'p参数的个数
+p = ActiveSheet.Cells(1000, 9).End(xlUp).Row - 1
+ri = p - 1
+'遍历表格，索取所有的参数，这里虽然是遍历，但固定死了为3个
+For i = 1 To 5
+    Select Case i
+    Case Is = 1
+        Set ps1 = ActiveSheet.Range(ActiveSheet.Cells(2, 9 + i), ActiveSheet.Cells(2 + ri, 9 + i))
+    Case Is = 2
+        Set ps2 = ActiveSheet.Range(ActiveSheet.Cells(2, 9 + i), ActiveSheet.Cells(2 + ri, 9 + i))
+    Case Is = 3
+        Set ps3 = ActiveSheet.Range(ActiveSheet.Cells(2, 9 + i), ActiveSheet.Cells(2 + ri, 9 + i))
+    '下面两个，nx和n4x是中间结果，被安放在这里指定他俩的存储位置
+    Case Is = 4
+        Set nx = ActiveSheet.Range(ActiveSheet.Cells(2, 9 + i), ActiveSheet.Cells(2 + ri, 9 + i))
+    Case Is = 5
+        Set n3x = ActiveSheet.Range(ActiveSheet.Cells(2, 9 + i), ActiveSheet.Cells(2 + ri, 9 + i))
+        Set n4x = ActiveSheet.Range(ActiveSheet.Cells(2, 9 + i), ActiveSheet.Cells(2 + ri, 9 + i))
+    End Select
+Next
+'p0 = 目标函数 ，p1=参数1 ，p2=参数2
+
+End Sub
+
+Sub d1_px(ps1, ps2, ps3)
+'为3组初始参数进行排序，以便接下来的计算，直接使用其中的最大值与最小值
+'fh最大的哪一组,
+'fg中间的那一组,
+'fl最小的那一组
+
+'第一步，排序
+If ps1(1) &gt; ps2(1) Then
+    If ps1(1) &gt; ps3(1) Then
+    'ps1最大
+        Set fh = ps1
+        If ps2(1) &gt; ps3(1) Then '判断ps2和ps3
+            Set fg = ps2
+            Set fl = ps3
+        Else
+            Set fl = ps2
+            Set fg = ps3
+        End If
+        
+    Else
+        Set fg = ps1 'ps1是中间的
+        If ps2(1) &gt; ps3(1) Then
+            Set fh = ps2
+            Set fl = ps3
+        Else
+            Set fl = ps2
+            Set fh = ps3
+        End If
+                
+    End If
+Else
+    If ps1(1) &gt; ps3(1) Then
+    'ps1是中间的
+        Set fg = ps1
+        Set fh = ps2
+        Set fl = ps3
+    Else
+    'ps1是最小的
+        Set fl = ps1
+        If ps2(1) &gt; ps3(1) Then
+            Set fh = ps2
+            Set fg = ps3
+        Else
+            Set fg = ps2
+            Set fh = ps3
+        End If
+    End If
+     
+End If
+
+'这是无用的步骤用于debug
+Dim a, b, c
+a = zongi
+a = fl(0)
+b = fg(0)
+c = fh(0)
+
+End Sub
+
+Sub d2_mean(fh, fg, fl)
+'计算出fh之外，剩余机组参数中，每个参数的中心点
+Dim mx(3), i
+For i = 2 To 3
+    mx(i) = (fg(i) + fl(i)) / 2
+Next
+
+'利用fh和和剩余点的质心，求算反射点
+'Dim nx As Range
+'Set nx = ActiveSheet.Range(ActiveSheet.Cells(2, 13), ActiveSheet.Cells(4, 13))
+For i = 2 To 3
+    nx(i) = mx(i) + xa * (mx(i) - fh(i))
+Next
+
+'对反射点的大小进行判断，依据不同的情况，求算出新的点或使用质心，作为fh的替代参数
+If nx(1) &lt; fl(1) Then
+'第5.1步
+    'Dim n3x As Range
+    'Set n3x = ActiveSheet.Range(ActiveSheet.Cells(2, 14), ActiveSheet.Cells(4, 14))
+    For i = 2 To 3
+        n3x(i) = mx(i) + xr * (nx(i) - fg(i)) '扩展
+    Next
+    
+    '第6步
+    If n3x(1) &lt; nx(1) Then
+        For i = 2 To 3
+            fh(i) = n3x(i) '直通第8步
+        Next
+    Else
+        For i = 2 To 3
+            fh(i) = nx(i) '直通第8步
+        Next
+    End If
+    
+Else
+    If nx(1) &gt; fg(1) Then
+    '第5.3步
+        If nx(1) &lt; fh(1) Then
+            For i = 2 To 3
+                fh(i) = nx(i)
+            Next
+        End If
+        'Dim n4x As Range
+        'Set n4x = ActiveSheet.Range(ActiveSheet.Cells(2, 14), ActiveSheet.Cells(4, 14))
+        For i = 2 To 3
+            n4x(i) = mx(i) + xb * (fh(i) - mx(i))
+        Next
+        '第7步
+        If n4x(1) &lt; fh(1) Then
+            'Set fh = n4x '直通第8步，第8步是检验是否满足收敛标准
+            For i = 2 To 3
+                fh(i) = n4x(i) '直通第8步
+            Next
+        Else
+            For i = 2 To 3
+                fh(i) = fh(i) + 0.5 * (fl(i) - fh(i)) '直通第8步
+                fg(i) = fg(i) + 0.5 * (fl(i) - fg(i)) '直通第8步
+            Next
+        End If
+    Else
+    '第5.2步
+        'Set fh = nx '直通第8步
+        For i = 2 To 3
+            fh(i) = nx(i) '直通第8步
+        Next
+    End If
+End If
+
+End Sub
+
+Function panju(fh, fg, fl)
+'第8步，收敛标准值得计算
+Dim i, mx(3)
+For i = 2 To 3
+    mx(i) = (fg(i) + fl(i)) / 2
+Next
+panju = (( _
+(fh(1) - mx(1)) ^ 2 + _
+(fg(1) - mx(1)) ^ 2 + _
+(fl(1) - mx(1)) ^ 2 _
+) / 4) ^ 0.5
+End Function
+</code></pre>
+
+<p>对于方差的计算步骤，我把他放在了Excel表格里来实现，没有通过代码去实现。</p>
+
+<p>Excel表格结构如下图：
+<img src="/images/VBA改良的单纯形法.png" alt="VBA" /></p>
+
+<p>自己本地测试通过，可以分非常好的进行回归计。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2019/03/git%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">Git的一些常用基本操作</a></span>
+  <span class="nav-next"><a href="/cn/2019/04/%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E4%B8%8E%E5%BC%80%E6%BA%90/">知识产权与开源</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2019\/03\/git%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2019\/04\/%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E4%B8%8E%E5%BC%80%E6%BA%90\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

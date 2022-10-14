@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>Phoenix的异步执行JMS - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="Phoenix的异步执行JMS - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="Phoenix软件具有灵活的部署方式，除了最引人瞩目的NLME的远程集群执行之外，其还允许使用异步的方式执行Phoenix的操作对象。
+[&amp;hellip;] 我正在筛选基础模型，接下来打算使用同一组参数的初始值，同时考察下加和型、比例型、混合型误差模型，
+如果一个个的执行的化相当于串联方式，非常耗人，也无法充分发挥多核的好处。
+异步执行允许我们分别提交加和型、比例型、混合型误差模型，让他们同时进行 &amp;hellip;">
+      <meta property="og:description" content="Phoenix软件具有灵活的部署方式，除了最引人瞩目的NLME的远程集群执行之外，其还允许使用异步的方式执行Phoenix的操作对象。
+[&amp;hellip;] 我正在筛选基础模型，接下来打算使用同一组参数的初始值，同时考察下加和型、比例型、混合型误差模型，
+如果一个个的执行的化相当于串联方式，非常耗人，也无法充分发挥多核的好处。
+异步执行允许我们分别提交加和型、比例型、混合型误差模型，让他们同时进行 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/12/Phoenix%e7%9a%84%e5%bc%82%e6%ad%a5%e6%89%a7%e8%a1%8cJMS.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Phoenix的异步执行JMS</h1>
+
+
+<h3>付永超 / 
+2020-12-29</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<p>Phoenix软件具有灵活的部署方式，除了最引人瞩目的NLME的远程集群执行之外，其还允许使用异步的方式执行Phoenix的操作对象。</p>
+
+<h1 id="异步执行的方式的应用场景是">异步执行的方式的应用场景是：</h1>
+
+<p>我正在筛选基础模型，接下来打算使用同一组参数的初始值，同时考察下加和型、比例型、混合型误差模型，</p>
+
+<p>如果一个个的执行的化相当于串联方式，非常耗人，也无法充分发挥多核的好处。</p>
+
+<p>异步执行允许我们分别提交加和型、比例型、混合型误差模型，让他们同时进行计算，极大的节约时间。</p>
+
+<p>异步执行的关键：JMS，Job Managenment System，作业管理系统</p>
+
+<p>使用完全模式安装Phoenix后，即安装完成了完全版的JMS，但除了本地部署外，最好分开部署。</p>
+
+<h1 id="jms的组成部分">JMS的组成部分：</h1>
+
+<ol>
+<li><p>Phoenix提交端</p></li>
+
+<li><p>JQS，作业队列管理节点</p></li>
+
+<li><p>JPS，作业执行节点</p></li>
+</ol>
+
+<p>这三部分可以在一台电脑上，也可以分开部署在3个不同的电脑上。</p>
+
+<h1 id="部署场景1-全本地部署">部署场景1：全本地部署</h1>
+
+<p>1.使用“完全”的方式安装Phoenix</p>
+
+<p>2.启动Phoenix，“文件(file)”→“首选项(preferences)”→“远程执行(remote execution)”→“作业管理系统(JMS)”</p>
+
+<p>3.勾选“允许远程提交(Remote Submit Enabled)”，然后重启Phoenix</p>
+
+<p><img src="/images/Phoenix的异步执行JMS/clip_image001.jpg" alt="img" /></p>
+
+<p>4.导航至Phoenix安装目录下</p>
+
+<p>5.以管理员身份打开2个“命令行(cmd)”对话框，分别输入</p>
+
+<p>jqs.exe / console</p>
+
+<p>jps.exe / console</p>
+
+<p>启动对应的服务。</p>
+
+<p>6.启动Phoenix</p>
+
+<p>至此，就完成了系统的部署与服务的启动，可以使用远程提交的方式提交Phoenix的执行任务了。</p>
+
+<h2 id="额外的点评">额外的点评：</h2>
+
+<p>当前JMS系统使用似乎存在不少bug，所以你高概率可能跑不通上述步骤，但没关系了解一下即可。</p>
+
+<h1 id="部署场景2-分开部署">部署场景2：分开部署</h1>
+
+<p>1.首先准备3台拟使用的电脑，必须都是windows系统。</p>
+
+<p>2.确保三台电脑的联通性，打开对对应的防火墙端口。</p>
+
+<p>3.3台电脑上分别以完全版的方式安装Phoenix（也可以用自定义方式，但不在本文说明范围）。</p>
+
+<p>4.Phoenix端，</p>
+
+<ul>
+<li>启动Phoenix，导航至“文件(file)”→“首选项(preferences)”→“远程执行(remote     execution)”→“作业管理系统(JMS)”。</li>
+<li>允许远程提交，</li>
+<li>将JQS服务的IP地址填写入“JQS Queue Server”文本框。</li>
+</ul>
+
+<p>5.在JQS端，在安装目录下修改“jqs.exe.config”文件，填写License服务器的地址与类型。</p>
+
+<p>6.在JPS端，在安装目录下修改“jps.exe.config”文件，填写License服务器的地址与类型。在安装目录下修改“jobManagement.xml”中，修改“localhost”，替换为JQS服务对应的IP地址。</p>
+
+<p>至此，就完成了系统的部署与服务的启动，可以使用远程提交的方式提交Phoenix的执行任务了。</p>
+
+<h2 id="额外的点评-1">额外的点评：</h2>
+
+<p>同样，当前JMS系统使用似乎存在不少bug，所以你高概率可能跑不通上述步骤，但没关系了解一下即可。</p>
+
+<h1 id="此篇文章的目的">此篇文章的目的</h1>
+
+<p>目的是小结下最近对JMS的探索，我探索了好久，跑通的次数嘛。。。。。</p>
+
+<p>我只跑通了<strong>1</strong>次。</p>
+
+<p>Phoenix是一个非常优秀的软件，虽然你读我的文章可能会发现很多它的bug，但这并不影响它的优秀。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/12/%E9%80%9F%E6%9F%A5%E8%A1%A8/">速查表</a></span>
+  <span class="nav-next"><a href="/cn/2021/01/%E4%B8%AD%E5%9B%BDcde_2020%E5%B9%B4_%E7%BE%A4%E4%BD%93%E8%8D%AF%E4%BB%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E7%A0%94%E7%A9%B6%E6%8A%80%E6%9C%AF%E6%8C%87%E5%AF%BC%E5%8E%9F%E5%88%99/">中国CDE_2020年_群体药代动力学研究技术指导原则</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/12\/%E9%80%9F%E6%9F%A5%E8%A1%A8\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2021\/01\/%E4%B8%AD%E5%9B%BDcde_2020%E5%B9%B4_%E7%BE%A4%E4%BD%93%E8%8D%AF%E4%BB%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E7%A0%94%E7%A9%B6%E6%8A%80%E6%9C%AF%E6%8C%87%E5%AF%BC%E5%8E%9F%E5%88%99\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

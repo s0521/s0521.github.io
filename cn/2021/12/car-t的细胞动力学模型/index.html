@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>CAR T的细胞动力学模型 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="CAR T的细胞动力学模型 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="CAR-T细胞是最近的一个研发热点，但对该类产品所对应的细胞动力学模型并不多，但也有相关发表报道的模型，今天选取其中一篇，将其中提到的模型在Phoenix软件中通过“ML Model操作对象(Phoenix Model操作对象)”使用的“PML”语言实现一遍，以供各位同仁方便使用。
+[&amp;hellip;] Model-Based Cellular Kinetic Analysis of &amp;hellip;">
+      <meta property="og:description" content="CAR-T细胞是最近的一个研发热点，但对该类产品所对应的细胞动力学模型并不多，但也有相关发表报道的模型，今天选取其中一篇，将其中提到的模型在Phoenix软件中通过“ML Model操作对象(Phoenix Model操作对象)”使用的“PML”语言实现一遍，以供各位同仁方便使用。
+[&amp;hellip;] Model-Based Cellular Kinetic Analysis of &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2021/12/CAR-T%e7%9a%84%e7%bb%86%e8%83%9e%e5%8a%a8%e5%8a%9b%e5%ad%a6%e6%a8%a1%e5%9e%8b.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>CAR T的细胞动力学模型</h1>
+
+
+<h3>付永超 / 
+2021-12-15</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="car-t的细胞动力学模型">CAR-T的细胞动力学模型</h1>
+
+<h1 id="引言">引言</h1>
+
+<p>CAR-T细胞是最近的一个研发热点，但对该类产品所对应的细胞动力学模型并不多，但也有相关发表报道的模型，今天选取其中一篇，将其中提到的模型在Phoenix软件中通过“ML Model操作对象(Phoenix Model操作对象)”使用的“PML”语言实现一遍，以供各位同仁方便使用。</p>
+
+<h1 id="目录">目录</h1>
+
+<nav id="TableOfContents">
+<ul>
+<li><a href="#car-t的细胞动力学模型">CAR-T的细胞动力学模型</a></li>
+<li><a href="#引言">引言</a></li>
+<li><a href="#目录">目录</a></li>
+<li><a href="#文献来源">文献来源</a></li>
+<li><a href="#模型背景">模型背景</a>
+<ul>
+<li><a href="#car-t疗法">CAR-T疗法：</a></li>
+<li><a href="#描述car-t的难点">描述CAR-T的难点：</a></li>
+<li><a href="#与传统pk模型的区别">与传统PK模型的区别</a></li>
+</ul></li>
+<li><a href="#文献所提及的模型">文献所提及的模型</a></li>
+<li><a href="#几个模型之间的演化关系">几个模型之间的演化关系</a>
+<ul>
+<li><a href="#总体演化过程">总体演化过程</a></li>
+<li><a href="#模型1-基础模型">模型1：基础模型</a></li>
+<li><a href="#模型2a-一种半机制模型">模型2A：一种半机制模型</a></li>
+<li><a href="#模型3-重新参数化的基础模型">模型3：重新参数化的基础模型</a></li>
+<li><a href="#模型4-最终模型-模型3-协变量">模型4：最终模型（模型3+协变量）</a></li>
+</ul></li>
+<li><a href="#在phoenix中的实现">在Phoenix中的实现</a></li>
+<li><a href="#模型1">模型1</a>
+<ul>
+<li><a href="#模型的方程">模型的方程：</a></li>
+<li><a href="#对应的典型曲线">对应的典型曲线：</a></li>
+<li><a href="#pml代码">PML代码</a>
+<ul>
+<li><a href="#其中">其中：</a></li>
+</ul></li>
+<li><a href="#注意事项">注意事项</a></li>
+<li><a href="#典型曲线图">典型曲线图</a></li>
+<li><a href="#讨论">讨论，</a></li>
+</ul></li>
+<li><a href="#模型2b">模型2B</a>
+<ul>
+<li><a href="#模型方程">模型方程：</a></li>
+<li><a href="#模型对应的结构示意图">模型对应的结构示意图：</a>
+<ul>
+<li><a href="#其中-1">其中：</a></li>
+<li><a href="#fold-x-p-cmax-tmax间的关系">Fold_x、p、Cmax、Tmax间的关系：</a></li>
+<li><a href="#k的推导公式">k的推导公式：</a></li>
+<li><a href="#从而得到完整的方程">从而得到完整的方程：</a></li>
+</ul></li>
+<li><a href="#pml代码-1">PML代码</a></li>
+<li><a href="#注意事项-1">注意事项</a></li>
+</ul></li>
+<li><a href="#模型3">模型3</a>
+<ul>
+<li>
+<ul>
+<li><a href="#模型的方程-1">模型的方程</a></li>
+<li><a href="#pml代码-2">PML代码</a></li>
+</ul></li>
+<li><a href="#模型4-包含协变量的最终模型">模型4：包含协变量的最终模型</a>
+<ul>
+<li><a href="#模型的方程-2">模型的方程</a></li>
+<li><a href="#pml代码-3">PML代码</a></li>
+</ul></li>
+<li><a href="#注意事项-2">注意事项</a></li>
+<li><a href="#vpc图">VPC图</a></li>
+</ul></li>
+<li><a href="#文献所报道的参数值">文献所报道的参数值：</a></li>
+<li><a href="#讨论-1">讨论：</a></li>
+<li><a href="#小结">小结：</a></li>
+</ul>
+</nav>
+
+<h1 id="文献来源">文献来源</h1>
+
+<p>Model-Based Cellular Kinetic Analysis of Chimeric Antigen Receptor-T Cells in Humans（基于模型的人嵌合抗原受体-T细胞的细胞动力学分析）</p>
+
+<p><a href="https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2040">https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2040</a></p>
+
+<h1 id="模型背景">模型背景</h1>
+
+<p>CAR-T疗法，描述CAR-T的难点，与传统PK模型的区别</p>
+
+<h2 id="car-t疗法">CAR-T疗法：</h2>
+
+<p>“嵌合抗原受体(CAR)-T细胞”治疗包括过继转移转基因的自体T细胞，以通过内源性细胞毒性效应细胞机制促进抗原特异性细胞杀伤。与经典药代动力学(PK)可以描述的规范药物治疗不同，CAR-T细胞经历超过输注细胞剂量的几个对数的快速扩增，并表现出不遵循典型新陈代谢和清除模型的长期持久性。</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image002.jpg" alt="图表, 折线图  描述已自动生成" /></p>
+
+<h2 id="描述car-t的难点">描述CAR-T的难点：</h2>
+
+<p>经典的药理药剂，如小分子或单克隆抗体，可以用标准的隔室方法来描述以估计PK参数。小分子和单克隆抗体的分布、代谢和排泄在很大程度上是由分子的生物物理性质和吸收后产生的血浆浓度驱动的。然而，基于细胞的治疗的动力学更加复杂，并且受到靶细胞类型的生理功能和细胞外部因素的影响，例如体内CAR靶分子的丰度。</p>
+
+<h2 id="与传统pk模型的区别">与传统PK模型的区别</h2>
+
+<p>与传统药物不同，CAR-T细胞具有增殖能力。因此，传统的PK参数(清除率和分布容积积)不适用，也没有作为NCA的一部分进行计算。</p>
+
+<p>对于一种典型的药物，α和β斜率是由两个过程相互作用产生的，即药物从血液分布到周围组织和药物从体内排出。然而，T细胞从体内清除是由根本不同的机制控制的。α斜率对应于快速收缩，因为大多数激活的淋巴细胞在初始免疫反应后程序性凋亡，而β斜率对应于记忆细胞的逐渐下降，这些记忆细胞可以在体内持续数年甚至数十年。尽管”tisagenlecleucel(一种药品的名称)”的持续期具有与长期记忆细胞相似的动力学，但持续也可能是持续产生表达CD19B细胞前体的结果，替代抗原充当内源性疫苗。在这方面，CD19 CAR-T细胞的长期存续期可能类似于针对潜伏病毒(如巨细胞病毒)的T细胞。</p>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>小分子</th>
+<th>CAR-T细胞 17，24</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>增殖能力</td>
+<td>否</td>
+<td>是</td>
+</tr>
+
+<tr>
+<td>α和β阶段的原因</td>
+<td>分布和消除</td>
+<td>收缩与持久化</td>
+</tr>
+
+<tr>
+<td>终末半衰期时间尺度</td>
+<td>小时、天或周</td>
+<td>年</td>
+</tr>
+
+<tr>
+<td>传统NCA参数(清除率和分布容积积)的适用性</td>
+<td>适用</td>
+<td>不适用，因为CAR-T细胞具有增殖能力</td>
+</tr>
+
+<tr>
+<td>产品在不同患者间的变异</td>
+<td>无</td>
+<td>变异的存在是由于患者免疫系统的变异性</td>
+</tr>
+
+<tr>
+<td>明确剂量和暴露之间的关系</td>
+<td>是的，尽管它可能是非线性的</td>
+<td>检测到的剂量和暴露之间没有关系</td>
+</tr>
+
+<tr>
+<td>口服小分子或静脉注射CAR-T细胞剂量后的动力学方程</td>
+<td>A*EXP(-α*t)+B*EXP(-β*t)-(A+B) *EXP(-Ka*t)</td>
+<td><img src="/images/CAR-T的细胞动力学模型/clip_image004.jpg" alt="img" /></td>
+</tr>
+
+<tr>
+<td>给药后初始增加的指数符号</td>
+<td>负(-ka)</td>
+<td>正(+ρ)</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="文献所提及的模型">文献所提及的模型</h1>
+
+<ul>
+<li><p>模型1：基础模型（一种描述所观察到的曲线特征的经验模型）</p></li>
+
+<li><p>模型2：一种半机制的模型（能过够解释曲线特征的一种半机制模型，有多种学术都能够解释这种曲线特征，此处仅是举例）</p></li>
+
+<li><p>模型3：重新参数化的基础模型（文献并无直接展示，但其实隐含了这一模型，该模型在基础模型之上通过半机制模型对原有参数进行了重新参数化）</p></li>
+
+<li><p>模型4：最终模型（在重新参数化的基础模型之上引入协变量）</p></li>
+</ul>
+
+<h1 id="几个模型之间的演化关系">几个模型之间的演化关系</h1>
+
+<h2 id="总体演化过程">总体演化过程</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image006.png" alt="图片包含 图形用户界面  描述已自动生成" /></p>
+
+<h2 id="模型1-基础模型">模型1：基础模型</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image008.jpg" alt="image" /></p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image010.png" alt="文本  中度可信度描述已自动生成" /></p>
+
+<h2 id="模型2a-一种半机制模型">模型2A：一种半机制模型</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image012.jpg" alt="image" /></p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image014.png" alt="图形用户界面, 应用程序, Teams  描述已自动生成" /></p>
+
+<h2 id="模型3-重新参数化的基础模型">模型3：重新参数化的基础模型</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image016.png" alt="文本, 日程表  描述已自动生成" /></p>
+
+<p>模型3介绍</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image018.png" alt="图形用户界面  低可信度描述已自动生成" /></p>
+
+<h2 id="模型4-最终模型-模型3-协变量">模型4：最终模型（模型3+协变量）</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image020.png" alt="箭头  中度可信度描述已自动生成" /></p>
+
+<h1 id="在phoenix中的实现">在Phoenix中的实现</h1>
+
+<h1 id="模型1">模型1</h1>
+
+<h2 id="模型的方程">模型的方程：</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image022.jpg" alt="img" /></p>
+
+<h2 id="对应的典型曲线">对应的典型曲线：</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image023.jpg" alt="图表, 折线图  描述已自动生成" /></p>
+
+<h2 id="pml代码">PML代码</h2>
+
+<pre><code class="language-R">test(){
+     covariate(tt)
+
+     E=(
+          (tt&lt;Tmax)?
+              Ro*exp(p*tt)
+          :
+              A*exp(-Alpha*(tt-Tmax))+B*exp(-Beta*(tt-Tmax))
+     )
+
+     error(EEps = 2.66295001310029)
+     observe(EObs(tt) = E + EEps)
+ 
+stparm(Tmax=tvTmax)
+stparm(Ro=tvRo)
+stparm(p=tvp)
+stparm(A=tvA)
+stparm(Alpha=tvAlpha)
+stparm(B=tvB)
+stparm(Beta=tvBeta)
+
+fixef(tvTmax=c(,19.8649961319143,))
+fixef(tvRo=c(,6.43092405192262,))
+fixef(tvp=c(,0.0421269627420855,))
+fixef(tvA=c(,1.73947096587749,))
+fixef(tvAlpha=c(,0.109143920526125,))
+fixef(tvB=c(,9.05116731581526,))
+fixef(tvBeta=c(,0.002539845458873,))
+}
+</code></pre>
+
+<h3 id="其中">其中：</h3>
+
+<ul>
+<li><p>F(t)，随时间变化的细胞在体内的数量</p></li>
+
+<li><p>R0，0时刻体内可用于扩张/增值的细胞的数量</p></li>
+
+<li><p>p，从0时刻至Tmax时刻，细胞在体内的扩张的1级速率常数</p></li>
+</ul>
+
+<p>Tmax后曲线呈双指数函数特征，即类似于血管内给药二房室模型宏观参数化，由此易知：</p>
+
+<p>A+B=Cmax</p>
+
+<p>曲线末端对数尺度下的斜率约等于（-Beta）</p>
+
+<p>所以，</p>
+
+<ul>
+<li><p>A，快速下降过程的截距</p></li>
+
+<li><p>B，慢速下降过程的截距</p></li>
+
+<li><p>Alpha，快速下降过程的速率</p></li>
+
+<li><p>Beta，慢速下降过程的速率</p></li>
+
+<li><p>EEps，残差变异的方差</p></li>
+</ul>
+
+<h2 id="注意事项">注意事项</h2>
+
+<p>文献未报告参数的初始值与估计值。</p>
+
+<h2 id="典型曲线图">典型曲线图</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image025.jpg" alt="图表, 散点图  描述已自动生成" /></p>
+
+<h2 id="讨论">讨论，</h2>
+
+<p>可以观察到，此模型可以很好的描述出曲线的典型趋势。</p>
+
+<h1 id="模型2b">模型2B</h1>
+
+<h2 id="模型方程">模型方程：</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image027.png" alt="img" /></p>
+
+<h2 id="模型对应的结构示意图">模型对应的结构示意图：</h2>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image028.png" alt="图示  描述已自动生成" /></p>
+
+<h3 id="其中-1">其中：</h3>
+
+<ul>
+<li><p>E+M，随时间变化的细胞在体内的总数量</p></li>
+
+<li><p>E，细胞中发生效用的细胞的量</p></li>
+
+<li><p>M，细胞中用于记忆的细胞的量</p></li>
+
+<li><p>p，从0时刻至Tmax时刻，细胞在体内的扩张的1级速率常数</p></li>
+
+<li><p>Alpha，快速下降过程的速率</p></li>
+
+<li><p>Beta，慢速下降过程的速率</p></li>
+
+<li><p>k，效用细胞转化为记忆细胞的一级速率常数</p></li>
+
+<li><p>E0，0时刻体内可用于扩张/增值的细胞的数量（基础模型中称之为R0）</p></li>
+
+<li><p>Cmax，Tmax时刻细胞在体内的总量</p></li>
+
+<li><p>Fold_x，折叠系数</p></li>
+</ul>
+
+<h3 id="fold-x-p-cmax-tmax间的关系">Fold_x、p、Cmax、Tmax间的关系：</h3>
+
+<p>对于曲线的上升段可有以下公式：</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image030.png" alt="img" /></p>
+
+<p>进而可推导出：</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image032.png" alt="img" /></p>
+
+<p>令</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image034.png" alt="img" /></p>
+
+<p>则有</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image036.png" alt="img" /></p>
+
+<h3 id="k的推导公式">k的推导公式：</h3>
+
+<p>由上述联立的方程可求得</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image038.png" alt="img" /></p>
+
+<p>即</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image040.png" alt="img" /></p>
+
+<p>又知道</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image042.png" alt="img" /></p>
+
+<p>由此可得：</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image044.png" alt="img" /></p>
+
+<h3 id="从而得到完整的方程">从而得到完整的方程：</h3>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image046.png" alt="img" /></p>
+
+<h2 id="pml代码-1">PML代码</h2>
+
+<pre><code class="language-R">test(){
+deriv(E=t&lt;Tmax?p*1*E:-Alpha*E)
+deriv(M=t&lt;Tmax?0:k*E-Beta*M)
+ 
+p=log(fold_x)/Tmax
+k=F_b*(Alpha-Beta)
+
+sequence{
+     E=Cmax/fold_x;
+sleep(Tmax);
+     E=Cmax
+     M=0
+}
+
+error(EEps = 1)
+observe(EObs = E + EEps)
+
+stparm(Tmax=tvTmax*exp(nTmax))
+stparm(Cmax=tvCmax*exp(nCmax))
+stparm(fold_x=tvfold_x*exp(nfold_x))
+stparm(Alpha=tvAlpha*exp(nAlpha))
+stparm(Beta=tvBeta*exp(nBeta))
+stparm(F_b=tvF_b*exp(nF_b))
+
+fixef(tvTmax=c(,9.3,))
+fixef(tvCmax=c(,24000,))
+fixef(tvfold_x=c(,3900,))
+fixef(tvAlpha=c(,0.16,))
+fixef(tvBeta=c(,0.0032,))
+fixef(tvF_b=c(,0.0079,))
+
+ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(1,1,1,1,1,1))
+}
+</code></pre>
+
+<h2 id="注意事项-1">注意事项</h2>
+
+<p>文献未报告参数估计值</p>
+
+<h1 id="模型3">模型3</h1>
+
+<p>模型3是在模型1的基础上，利用模型2对原有的参数进行重新参数化后得到的。</p>
+
+<h3 id="模型的方程-1">模型的方程</h3>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image048.png" alt="img" /></p>
+
+<h3 id="pml代码-2">PML代码</h3>
+
+<pre><code class="language-R">test(){
+     covariate(tt)
+     
+     rho=log(fold_x)/Tmax
+
+     Ro=Cmax/exp(rho*Tmax)
+     AA=(1-FB)*Cmax
+
+     BB=FB*Cmax
+
+     E=
+     tt&lt;0?
+          Ro:
+     tt&lt;Tmax?
+          Ro*exp(rho*tt):
+     AA*exp(-Alpha*(tt-Tmax))+BB*exp(-Beta*(tt-Tmax))
+
+     logE=log(E)
+
+     error(EEps = 0.56)
+     observe(EObs(tt)=logE*(1+EEps))
+
+     stparm(Tmax=tvTmax*exp(nTmax))
+     stparm(Cmax=tvCmax*exp(nCmax))
+     stparm(fold_x=tvfold_x*exp(nfold_x))
+     stparm(Alpha=tvAlpha*exp(nAlpha))
+     stparm(Beta=tvBeta*exp(nBeta))
+     stparm(FB=tvFB*exp(nFB))
+
+     fixef(tvTmax=c(,9.3,))
+     fixef(tvCmax=c(,24000,))
+     fixef(tvfold_x=c(,3900,))
+     fixef(tvAlpha=c(,0.16,))
+     fixef(tvBeta=c(,0.0032,))
+     fixef(tvFB=c(,0.0079,))
+
+     ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nFB)=c(0.38,0.65,2.4,0.91,0.86,0.8))
+}
+</code></pre>
+
+<h2 id="模型4-包含协变量的最终模型">模型4：包含协变量的最终模型</h2>
+
+<h3 id="模型的方程-2">模型的方程</h3>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image050.png" alt="img" /></p>
+
+<h3 id="pml代码-3">PML代码</h3>
+
+<pre><code class="language-R">test(){
+
+covariate(tt)
+fcovariate(TOCI1T)
+fcovariate(STERSTT)
+
+t1_TOC_OR_Tmax=min(TOCI1T,Tmax)
+t1_STE_OR_Tmax=min(STERSTT,Tmax)
+t2_TOC_OR_Tmax=min(TOCI1T,Tmax)
+t2_STE_OR_Tmax=min(STERSTT,Tmax)
+t1=TOCI1T&lt;=STERSTT?t1_TOC_OR_Tmax:t1_STE_OR_Tmax
+t2=TOCI1T&lt;=STERSTT?t2_STE_OR_Tmax:t2_TOC_OR_Tmax
+
+F1=TOCI1T&lt;=STERSTT?Ftoci:Fster
+F2=TOCI1T&lt;=STERSTT?Fster:Ftoci
+
+rho=log(fold_x)/Tmax
+R0=Cmax/exp(rho*Tmax)
+R1=R0*exp(rho*t1)
+R2=R1*exp(F1*rho*(t2-t1))
+CmaxAdjust=R2*exp(F1*F2*rho*Tmax-t2)
+
+AA=(1-FB)*CmaxAdjust
+BB=FB*CmaxAdjust
+
+E=tt&lt;0?R0:tt&lt;t1?R0*exp(rho*tt):tt&lt;t2?R1*exp(F1*rho*(tt-t1)):tt&lt;Tmax?R2*exp(F1*F2*rho*(tt-t2)):AA*exp(-alpha*(tt-Tmax)) + BB*exp(-beta*(tt-Tmax))
+
+    \#observe(Eobs(tt)=log(E)+CEps)
+
+observe(Eobs(tt)=E*exp(CEps))
+
+error(CEps = 0.56)
+
+stparm(Tmax=tvTmax*exp(nTmax))
+stparm(Cmax=tvCmax*exp(nCmax))
+stparm(fold_x=tvfold_x*exp(nfold_x))
+stparm(alpha=tvAlpha*exp(nAlpha))
+stparm(beta=tvBeta*exp(nBeta))
+stparm(FB=tvF_b*exp(nF_b))
+stparm(Ftoci=tvFtoci)
+stparm(Fster=tvFster)
+
+fixef(tvTmax=c(,9.3,))
+fixef(tvCmax=c(,24000,))
+fixef(tvfold_x=c(,3900,))
+fixef(tvAlpha=c(,0.16,))
+fixef(tvBeta=c(,0.0032,))
+fixef(tvF_b=c(,0.0079,))
+fixef(tvFtoci=c(,1.2,))
+fixef(tvFster=c(,1,))
+
+ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8))
+}
+</code></pre>
+
+<h2 id="注意事项-2">注意事项</h2>
+
+<p>对文献报告参数之中个体间变异的假定</p>
+
+<h2 id="vpc图">VPC图</h2>
+
+<p>对文献所附带的一组示例数据集绘制VPC的结果</p>
+
+<p><img src="/images/CAR-T的细胞动力学模型/clip_image052.jpg" alt="图片包含 图表  描述已自动生成" /></p>
+
+<h1 id="文献所报道的参数值">文献所报道的参数值：</h1>
+
+<table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>参数</strong></th>
+<th><strong>单位</strong></th>
+<th><strong>估计值</strong></th>
+<th><strong>百分化的相对标准误</strong></th>
+<th><strong>个体间变异收缩值</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>固定效应参数</td>
+<td>fold<em>x</em></td>
+<td>—</td>
+<td>3,900</td>
+<td>30</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td><em>T</em> max</td>
+<td>Days</td>
+<td>9.3</td>
+<td>4.2</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td><em>C</em> max</td>
+<td>DNA copies/μg</td>
+<td>24,000</td>
+<td>20</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td><em>F</em> toci</td>
+<td>—</td>
+<td>1.2</td>
+<td>7.5</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td><em>F</em> ster</td>
+<td>—</td>
+<td>1</td>
+<td>9</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td>α</td>
+<td>1/day</td>
+<td>0.16</td>
+<td>11</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td><em>F</em> <em>B</em></td>
+<td>—</td>
+<td>0.0079</td>
+<td>15</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>固定效应参数</td>
+<td>β</td>
+<td>1/day</td>
+<td>0.0032</td>
+<td>23</td>
+<td>—</td>
+</tr>
+
+<tr>
+<td>随机效应参数</td>
+<td>fold<em>x</em></td>
+<td>—</td>
+<td>2.4</td>
+<td>9.5</td>
+<td>0.39</td>
+</tr>
+
+<tr>
+<td>随机效应参数</td>
+<td><em>T</em> max</td>
+<td>—</td>
+<td>0.38</td>
+<td>7.9</td>
+<td>0.14</td>
+</tr>
+
+<tr>
+<td>随机效应参数</td>
+<td><em>C</em> max</td>
+<td>—</td>
+<td>0.65</td>
+<td>10</td>
+<td>0.29</td>
+</tr>
+
+<tr>
+<td>随机效应参数</td>
+<td>α</td>
+<td>—</td>
+<td>0.91</td>
+<td>8.8</td>
+<td>0.27</td>
+</tr>
+
+<tr>
+<td>随机效应参数</td>
+<td><em>F</em> <em>B</em></td>
+<td>—</td>
+<td>0.8</td>
+<td>15</td>
+<td>0.53</td>
+</tr>
+
+<tr>
+<td>随机效应参数</td>
+<td>β</td>
+<td>—</td>
+<td>0.86</td>
+<td>23</td>
+<td>0.82</td>
+</tr>
+
+<tr>
+<td>残差</td>
+<td>a</td>
+<td>—</td>
+<td>0.56</td>
+<td>3.3</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="讨论-1">讨论：</h1>
+
+<p><strong>模型1：基础模型</strong></p>
+
+<ul>
+<li><p>优点：非常清晰的模型解析表达式，可以很好的描述曲线特征</p></li>
+
+<li><p>缺点：模型的参数是一些纯粹的数学参数，没有直观的生理意义，模型参数较多。</p></li>
+
+<li><p>参数数量：7</p></li>
+
+<li><p>参数：R0，ρ，Tmax， α，β，A，B，</p></li>
+</ul>
+
+<p><strong>模型2：一种半机制模型</strong></p>
+
+<ul>
+<li><p>优点：采用了一种假说，可以通过直观的结构示意图展示出模型，以及参数的含义，并且参数更少</p></li>
+
+<li><p>缺点：是微分方程形式，不是解析表达式</p></li>
+
+<li><p>参数数量：6</p></li>
+
+<li><p>参数：E0，ρ，Tmax， α，β，k</p></li>
+</ul>
+
+<p><strong>模型3：重新参数化的基础模型</strong></p>
+
+<ul>
+<li><p>优点：通过“模型2”重新对“模型1”参数化，使获得参数有生理意义，并且具有解析表达式</p></li>
+
+<li><p>缺点：</p></li>
+
+<li><p>参数数量：6</p></li>
+
+<li><p>参数：Cmax，flod_x，Tmax， α，β，FB</p></li>
+</ul>
+
+<p><strong>我对这个案例的耐心耗尽了，不想再投入更多的时间去组织素材、优化语言表达了，此案例看起来可能很痛苦，就这样吧。</strong></p>
+
+<h1 id="小结">小结：</h1>
+
+<p>其实可以发现，整篇文章绕来绕去，其实都是在使用的最初的经验模型，后面一些列的操作都是在为最初的经验模型赋予更多的主观认为的一些意义，这是由于，1该经验模型确实优秀良好，2CAR-T的机制及其对机制模型的抽象总结还不完善所致的。</p>
+
+<p>所以可以预见的短期未来，在良好简介的机制模型出现之前，对其细胞动力学的分析仍然后主要以最开始的经验模型为主，当然，不同的作者可能对该经验模型所对应的机制假说有不同的解读，从而产生一些如同本文一样的衍生的模型。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2021/09/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/">简单的异速缩放3基于单一物种的异速缩放</a></span>
+  <span class="nav-next"><a href="/cn/2022/09/%E5%88%B6%E8%8D%AF%E8%A1%8C%E4%B8%9A%E5%85%B3%E4%BA%8Er%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%92%8C%E5%8F%82%E4%B8%8E%E7%BB%84%E7%BB%87/">制药行业关于R的开源项目和参与组织</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2021\/09\/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2022\/09\/%E5%88%B6%E8%8D%AF%E8%A1%8C%E4%B8%9A%E5%85%B3%E4%BA%8Er%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%92%8C%E5%8F%82%E4%B8%8E%E7%BB%84%E7%BB%87\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

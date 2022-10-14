@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>速查表 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="速查表 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="最近看到了Rstudio的速查表系列，感觉不错，故以此为灵感制作了Phoenix的数据准备功能和绘图的速查表。
+[&amp;hellip;] 感觉“数据准备”的做的不错，Phoenix提供的数据准备相比R的更为易用。
+[&amp;hellip;] “图表绘制”的就没有按照Rstudio的风格制作了，额外进行了加工，应为要按照Rstudio的那样展开将，我可能仅散点图就要制作一整速查表了，这不符合将绘图功能放在一张 &amp;hellip;">
+      <meta property="og:description" content="最近看到了Rstudio的速查表系列，感觉不错，故以此为灵感制作了Phoenix的数据准备功能和绘图的速查表。
+[&amp;hellip;] 感觉“数据准备”的做的不错，Phoenix提供的数据准备相比R的更为易用。
+[&amp;hellip;] “图表绘制”的就没有按照Rstudio的风格制作了，额外进行了加工，应为要按照Rstudio的那样展开将，我可能仅散点图就要制作一整速查表了，这不符合将绘图功能放在一张 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/12/%e9%80%9f%e6%9f%a5%e8%a1%a8.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>速查表</h1>
+
+
+<h3>付永超 / 
+2020-12-22</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="速查表">速查表</h1>
+
+<p>最近看到了Rstudio的<a href="https://rstudio.com/resources/cheatsheets/">速查表</a>系列，感觉不错，故以此为灵感制作了Phoenix的数据准备功能和绘图的速查表。</p>
+
+<h2 id="数据准备">数据准备</h2>
+
+<p>感觉“数据准备”的做的不错，Phoenix提供的数据准备相比R的更为易用。</p>
+
+<h2 id="图表绘制">图表绘制</h2>
+
+<p>“图表绘制”的就没有按照Rstudio的风格制作了，额外进行了加工，应为要按照Rstudio的那样展开将，我可能仅散点图就要制作一整速查表了，这不符合将绘图功能放在一张表上的预期，所以将一些绘图设置的细节全部隐藏了，但即便如此，散点图也整整占据了一整面。</p>
+
+<h1 id="随文附上两个速查表的图和文件">随文附上两个速查表的图和文件：</h1>
+
+<h2 id="数据准备-1">数据准备</h2>
+
+<p><img src="/images/速查清单/rgb_1.jpg" alt="数据准备_1" /></p>
+
+<p><img src="/images/速查清单/rgb_2.jpg" alt="数据准备_2" /></p>
+
+<h2 id="图表绘制-1">图表绘制</h2>
+
+<p><img src="/images/速查清单/绘图-速查清单-横版-1正面.jpg" alt="绘图-速查清单-横版-1正面" /></p>
+
+<p><img src="/images/速查清单/绘图-速查清单-横版-2反面.jpg" alt="绘图-速查清单-横版-2反面" /></p>
+
+<h2 id="pdf文件下载链接">PDF文件下载链接：</h2>
+
+<p><a href="http://www.tri-ibiotech.com.cn/upload/202012/Phoneix-sjzb-20201203.pdf">Phoenix速查表_2020</a></p>
+
+<p><a href="http://www.tri-ibiotech.com.cn/upload/202012/phoenix2-ht.pdf">Phoenix_图表绘制_速查表_2020</a></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/10/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8Bpoppk2%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/">生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点</a></span>
+  <span class="nav-next"><a href="/cn/2020/12/phoenix%E7%9A%84%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8Cjms/">Phoenix的异步执行JMS</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/10\/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8Bpoppk2%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/12\/phoenix%E7%9A%84%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8Cjms\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

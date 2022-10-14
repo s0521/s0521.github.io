@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>Phoenix与NONMEM的链接 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="Phoenix与NONMEM的链接 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="Phoenix WinNonlin / Phoenix NLME / Phoenix IVIVC等Phoenix系列软件是专为参与药物研究与开发的科学家提供了强有力的分析工具，NONMEM是一个通过代码行使用的计算引擎，没有图形界面，那有没有什么办法把二者结合起来，使得NONMEM可以通过Phoenix友好的图形界面进行控制与操作呢？
+当然是有的，Phoenix作为一个完整的解决方案平台，拥有友好 &amp;hellip;">
+      <meta property="og:description" content="Phoenix WinNonlin / Phoenix NLME / Phoenix IVIVC等Phoenix系列软件是专为参与药物研究与开发的科学家提供了强有力的分析工具，NONMEM是一个通过代码行使用的计算引擎，没有图形界面，那有没有什么办法把二者结合起来，使得NONMEM可以通过Phoenix友好的图形界面进行控制与操作呢？
+当然是有的，Phoenix作为一个完整的解决方案平台，拥有友好 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2020/02/Phoenix%e4%b8%8eNONMEM%e7%9a%84%e9%93%be%e6%8e%a5.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Phoenix与NONMEM的链接</h1>
+
+
+<h3>付永超 / 
+2020-02-26</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="背景">背景：</h1>
+
+<p>Phoenix WinNonlin / Phoenix NLME / Phoenix IVIVC等Phoenix系列软件是专为参与药物研究与开发的科学家提供了强有力的分析工具，NONMEM是一个通过代码行使用的计算引擎，没有图形界面，那<strong>有没有什么办法把二者结合起来</strong>，使得NONMEM可以通过Phoenix友好的图形界面进行控制与操作呢？</p>
+
+<p><strong>当然是有的</strong>，Phoenix作为一个完整的解决方案平台，拥有友好的兼容性，可以把R、SAS、NONMEM、SigmaPlot等第三方分析工具无缝的集成至Phoenix平台，使我们可以像使用Phoenix本身的一些分析工具一样使用它们。</p>
+
+<p><strong>使用的软件</strong>：Phoenix8.2，NONMEM7.3</p>
+
+<p><strong>所需授权</strong>：Phoenix WinNonlin / Phoenix NLME / Phoenix IVIVC等任意一种授权皆可。</p>
+
+<h1 id="操作流程说明">操作流程说明：</h1>
+
+<nav id="TableOfContents">
+<ul>
+<li><a href="#背景">背景：</a></li>
+<li><a href="#操作流程说明">操作流程说明：</a></li>
+<li><a href="#1-链接设置">1.链接设置：</a>
+<ul>
+<li><a href="#1-1-查找当前电脑中-nonmem-安装的位置">1.1.查找当前电脑中“NONMEM”安装的位置，</a></li>
+<li><a href="#1-2-启动phoenix软件">1.2.启动Phoenix软件</a></li>
+<li><a href="#1-3-打开首选项对话框">1.3.打开首选项对话框</a></li>
+<li><a href="#1-4-指定nonmem7批处理文件位置">1.4.指定NONMEM7批处理文件位置</a></li>
+<li><a href="#1-5-测试">1.5.测试</a></li>
+</ul></li>
+<li><a href="#2-案例演示">2.案例演示：</a>
+<ul>
+<li><a href="#2-1-新建phoenix项目">2.1.新建Phoenix项目，</a></li>
+<li><a href="#2-2-导入文件">2.2.导入文件</a></li>
+<li><a href="#2-3-导入">2.3.导入</a></li>
+<li><a href="#2-4-导入后的截图">2.4.导入后的截图</a></li>
+<li><a href="#2-5-发送至nonmem-shell">2.5.发送至NONMEM Shell</a></li>
+<li><a href="#2-6-选择数据源">2.6.选择数据源</a></li>
+<li><a href="#2-7-执行">2.7.执行</a></li>
+<li><a href="#2-8-结果">2.8.结果，</a></li>
+</ul></li>
+<li><a href="#3-案例中-nonmem-代码的注释">3.案例中“NONMEM”代码的注释</a>
+<ul>
+<li><a href="#代码及注释-下图中绿色的部分为注释">代码及注释（下图中绿色的部分为注释）：</a></li>
+<li><a href="#nonmem代码文本">NONMEM代码文本：</a></li>
+</ul></li>
+<li><a href="#4-小结">4.小结</a></li>
+<li><a href="#相关链接">相关链接：</a></li>
+</ul>
+</nav>
+
+<h1 id="1-链接设置">1.链接设置：</h1>
+
+<h2 id="1-1-查找当前电脑中-nonmem-安装的位置">1.1.查找当前电脑中“NONMEM”安装的位置，</h2>
+
+<p>比如：“C:\nm73g\run\nmfe73.bat”</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115213992.png" alt="image-20200226115213992" /></p>
+
+<h2 id="1-2-启动phoenix软件">1.2.启动Phoenix软件</h2>
+
+<h2 id="1-3-打开首选项对话框">1.3.打开首选项对话框</h2>
+
+<p>点击“编辑（Edit）”菜单→“首选项（Preferences…）”，打开首选项对话框</p>
+
+<h2 id="1-4-指定nonmem7批处理文件位置">1.4.指定NONMEM7批处理文件位置</h2>
+
+<p>选择菜单中的“NONMEM”节点，指定“NONMEM7批处理文件位置(NONMEM7 Batch File Location)”。</p>
+
+<p>例如“C:\nm73g\run\nmfe73.bat”</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115226633.png" alt="image-20200226115226633" /></p>
+
+<h2 id="1-5-测试">1.5.测试</h2>
+
+<p>点击“测试(Test)”按钮，测试与NONMEM的链接，测试成功会出现如下图所示提示。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115323391.png" alt="image-20200226115323391" /></p>
+
+<h1 id="2-案例演示">2.案例演示：</h1>
+
+<h2 id="2-1-新建phoenix项目">2.1.新建Phoenix项目，</h2>
+
+<p>新建Phoenix项目，命名为“NONMEM01”</p>
+
+<h2 id="2-2-导入文件">2.2.导入文件</h2>
+
+<p>鼠标右击“数据（Data）”文件夹，选择“导入（Import）”。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115330236.png" alt="image-20200226115330236" /></p>
+
+<h2 id="2-3-导入">2.3.导入</h2>
+
+<p>通过导航窗导航至Phoenix安装目录中的“示例（Examples）”文件夹，例如“C:\Program Files (x86)\Certara\Phoenix\application\Examples\NONMEM\LocalRun”，选中所有文件，点击“打开”。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115337980.png" alt="image-20200226115337980" /></p>
+
+<h2 id="2-4-导入后的截图">2.4.导入后的截图</h2>
+
+<p>导入后可得到下图所示的结果。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115344218.png" alt="image-20200226115344218" /></p>
+
+<h2 id="2-5-发送至nonmem-shell">2.5.发送至NONMEM Shell</h2>
+
+<p>鼠标右击“代码（Code）”文件夹中的“CONTROL5”文件，选择“发送至（Send To）”→“NONMEM”→“NONMEM Shell”。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115349436.png" alt="image-20200226115349436" /></p>
+
+<h2 id="2-6-选择数据源">2.6.选择数据源</h2>
+
+<p>为“NONMEM”操作对象中的“Dataset”报表选择外部数据源，将原始数据中的“Residuals”表格作为他们的数据源，然后完成映射列表。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115354457.png" alt="image-20200226115354457" /></p>
+
+<h2 id="2-7-执行">2.7.执行</h2>
+
+<p>点击执行按钮，执行“NONMEM”操作对象，执行过程中可以看到一闪而过的调用“NONMEM”产生的日志窗口。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115358993.png" alt="image-20200226115358993" /></p>
+
+<h2 id="2-8-结果">2.8.结果，</h2>
+
+<p>在结果子标签中，我们可以看到一系列的结果：附加结果、数据结果、图表结果、文本结果。</p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115405012.png" alt="image-20200226115405012" /></p>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115420789.png" alt="image-20200226115420789" /></p>
+
+<h1 id="3-案例中-nonmem-代码的注释">3.案例中“NONMEM”代码的注释</h1>
+
+<h2 id="代码及注释-下图中绿色的部分为注释">代码及注释（下图中绿色的部分为注释）：</h2>
+
+<p><img src="/images/Phoenix与NONMEM的链接/image-20200226115436718.png" alt="image-20200226115436718" /></p>
+
+<h2 id="nonmem代码文本">NONMEM代码文本：</h2>
+
+<pre><code class="language-fortran">$PROB THEOPHYLLINE  POPULATION DATA
+
+$INPUT   ID DOSE=AMT TIME CP=DV WT
+
+$DATA    THEOPP2
+
+  
+
+$SUBROUTINES ADVAN2
+
+ 
+
+$PK
+
+;THETA(1)=MEAN ABSORPTION RATE CONSTANT (1/HR)
+
+;THETA(2)=MEAN ELIMINATION RATE CONSTANT (1/HR)
+
+;THETA(3)=SLOPE OF CLEARANCE VS WEIGHT RELATIONSHIP (LITERS/HR/KG)
+
+;SCALING PARAMETER=VOLUME/WT SINCE DOSE IS WEIGHT-ADJUSTED
+
+  CALLFL=1
+
+  KA=THETA(1)+ETA(1)
+
+  K=THETA(2)+ETA(2)
+
+  CL=THETA(3)*WT+ETA(3)
+
+  SC=CL/K/WT
+
+ 
+
+$THETA 
+
+(.1,3,5) ;KA
+
+(.008,.08,.5) ;K
+
+(.004,.04,.9) ;CL
+
+$OMEGA BLOCK(3) 6 .005 .0002 .3 .006 .4
+
+ 
+
+$ERROR
+
+  Y=F+EPS(1)
+
+ 
+
+$SIGMA .4
+
+ 
+
+$EST   MAXEVAL=450 PRINT=5
+
+$COV
+
+$TABLE     ID DOSE WT TIME PRED CP
+
+$SCAT      (RES WRES) VS TIME BY ID
+
+$SCAT      PRED VS CP
+</code></pre>
+
+<h1 id="4-小结">4.小结</h1>
+
+<p>4.1.在Phoenix中“NONMEM Shell”通过读取代码中的“$DATA”语句指定Phoenix需要提供的数据的报表，通过“$INPUT”语句来读取Phoenix中的表格中的列。</p>
+
+<p>4.2.代码执行完毕后，Phoenix会读取工作空间中的文件（图），把它们展示到结果列表中去，并额外的自动生成一些常用的常用的数据结果和图表结果，极大的降低了NONMEM的使用难度，提高了代码工具的易用性。</p>
+
+<p>到此本案例就结束了，通过该案例我们可以发现，在Phoenix中调用NONMEM非常的方便，可以提高NONMEM代码的可重用性，完善NONMEM的稽查轨迹，这是Phoenix强大且易用的一种体现。</p>
+
+<h1 id="相关链接">相关链接：</h1>
+
+<p><a href="http://www.tri-ibiotech.com.cn/Appofcase/n797.html">Phoenix友好的兼容性：Phoenix与R语言的链接</a></p>
+
+<p><a href="/cn/2019/11/phoenix%E4%B8%8Esas%E7%9A%84%E9%93%BE%E6%8E%A5/">Phoenix友好的兼容性：Phoenix与SAS的链接</a></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2020/02/%E4%BD%BF%E7%94%A8phoenixmodel%E5%88%86%E6%9E%90be%E6%95%B0%E6%8D%AE2_2/">使用PhoenixModel分析BE数据2_2</a></span>
+  <span class="nav-next"><a href="/cn/2020/03/%E5%BF%99%E7%A2%8C/">忙碌</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2020\/02\/%E4%BD%BF%E7%94%A8phoenixmodel%E5%88%86%E6%9E%90be%E6%95%B0%E6%8D%AE2_2\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2020\/03\/%E5%BF%99%E7%A2%8C\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/R.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vbnet.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/SAS.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sas.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>
