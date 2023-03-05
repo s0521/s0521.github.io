@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -53,11 +53,11 @@ code.has-jax {
       <meta property="description" content="学习群体药代动力学时，刚开始看到数据集中的“MDV”、“SS”、“ADDL”、“Date”、“II”
 和“REST”时感觉莫名其妙，脑海里蹦出他是谁？他来自哪？他要干什么！这样的三连问，今天我们就来探索下！
 [&amp;hellip;] 在Phoenix的“输入选项（Input Options）”选项卡我们可以看到一下这几个复选框：
-[&amp;hellip;] [&amp;hellip;] 这几个复选框的主要作用是，允 &amp;hellip;">
+[&amp;hellip;] &amp;hellip;">
       <meta property="og:description" content="学习群体药代动力学时，刚开始看到数据集中的“MDV”、“SS”、“ADDL”、“Date”、“II”
 和“REST”时感觉莫名其妙，脑海里蹦出他是谁？他来自哪？他要干什么！这样的三连问，今天我们就来探索下！
 [&amp;hellip;] 在Phoenix的“输入选项（Input Options）”选项卡我们可以看到一下这几个复选框：
-[&amp;hellip;] [&amp;hellip;] 这几个复选框的主要作用是，允 &amp;hellip;">
+[&amp;hellip;] &amp;hellip;">
       
     
 
@@ -139,18 +139,11 @@ code.has-jax {
 
 
 
-
-
 <h1 id="引言">引言</h1>
-
 <p>学习群体药代动力学时，刚开始看到数据集中的“MDV”、“SS”、“ADDL”、“Date”、“II”</p>
-
 <p>和“REST”时感觉莫名其妙，脑海里蹦出他是谁？他来自哪？他要干什么！这样的三连问，今天我们就来探索下！</p>
-
-<h1 id="一-他是谁">一、他是谁：</h1>
-
+<h1 id="一他是谁">一、他是谁：</h1>
 <p>在Phoenix的“输入选项（Input Options）”选项卡我们可以看到一下这几个复选框：</p>
-
 <ul>
 <li>“重置？(Reset?)”</li>
 <li>“错过此因变量的观测(MDV？，Missing Dependent Variable)”</li>
@@ -158,21 +151,13 @@ code.has-jax {
 <li>“额外附加剂量(ADDL，AdditionaDose labels)”</li>
 <li>“日期?(Date?)”</li>
 </ul>
-
-<p><img src="/images/PhoenixModel的输入选项（Input Options）/1564108790876.png" alt="1564108790876" /></p>
-
+<p>![1564108790876](/images/PhoenixModel的输入选项（Input Options）/1564108790876.png)</p>
 <h2 id="作用">作用：</h2>
-
 <p>这几个复选框的主要作用是，允许用户额外的为原始数据表格增加些逻辑条件列，以便于用户更灵活的构建数据集，缩减数据集的体积；所以这些需选框不是必须勾选的，不使用这些复选框同样可以构建出等价的满足用户自身需要的数据集，但额外的掌握这几个复选框的使用将使用户可以更灵活便利的构建出需要的数据集。</p>
-
-<h1 id="二-他来自哪">二、他来自哪：</h1>
-
+<h1 id="二他来自哪">二、他来自哪：</h1>
 <p>这几个复选框的功能来源于对NONME子程序PREDPP的“数据预处理器”对数据进行准备所需的几个数据列的名称，Phoenix兼容了这种以往的数据排布格式。</p>
-
-<h1 id="三-他要干什么">三、他要干什么！</h1>
-
+<h1 id="三他要干什么">三、他要干什么！</h1>
 <p>Phoenix中每一个复选框的功能概览：</p>
-
 <ul>
 <li>“重置？(Reset?)”：当“重置(Reset)”列中的数值为1时，将重置当前个体，将该个体的微分方程的状态变量设置为零，并重新启动模型中的任何“序列(Sequence)”语句。</li>
 <li>“错过此观测(MDV？)”：当“错过此观测(MDV？)”列中数值为1时，将忽略当前这一行中因变量的观测值。</li>
@@ -180,31 +165,18 @@ code.has-jax {
 <li>“额外附加剂量(ADDL)”：新增“额外附加剂量(ADDL)”子选项卡，允许用户在此指定额外的给药循环周期内的给药方案，和循环次数。</li>
 <li>“日期?(Date?)”：新增“日期(Date)”数列，允许用户输入现实世界的日期。</li>
 </ul>
-
-<h1 id="四-小结">四、小结：</h1>
-
+<h1 id="四小结">四、小结：</h1>
 <p>将在后续的案例中逐个的说明每个复选框的具体功能与示例。</p>
-
 <p>后续介绍的顺序：</p>
-
 <p>５.“重置？(Reset?)”</p>
-
 <p>２.“错过此观测(MDV？)”</p>
-
 <p>４.“稳态(Steady State)”</p>
-
 <p>３.“额外附加剂量(ADDL)”</p>
-
 <p>１.“日期?(Date?)”</p>
-
 <h1 id="参考">参考：</h1>
-
 <p>NONMEM用户手册第6本，第7章PREDPP</p>
-
 <p>NONMEM Users Guide Part VI - PREDPP - Chapter VII</p>
-
 <p>Phoenix NLME用户指南，第2章Phoenix Model对象，第一节用户界面</p>
-
 <p>Phoenix NLME User’s Guide - Chapter 2 The Phoenix ModeObject - Object user interface</p>
 
 
@@ -284,7 +256,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -134,48 +134,14 @@ code.has-jax {
 
 
 
-
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#使用方式">使用方式：</a>
-<ul>
-<li><a href="#1加载数据">1加载数据</a></li>
-<li><a href="#2选择图表类型">2选择图表类型</a></li>
-<li><a href="#3进行数据映射">3进行数据映射</a></li>
-<li><a href="#4进行美学调整">4进行美学调整</a></li>
-<li><a href="#5执行图表绘制">5执行图表绘制</a></li>
-<li><a href="#6退出">6退出</a></li>
-</ul></li>
-<li><a href="#已知问题">已知问题：</a></li>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#how-to-use-guiplot">How to use guiplot:</a>
-<ul>
-<li><a href="#1-load-data">1 Load data</a></li>
-<li><a href="#2-select-the-chart-type">2 Select the chart type</a></li>
-<li><a href="#3-perform-data-mapping">3 Perform data mapping</a></li>
-<li><a href="#4-make-aesthetic-adjustments">4 Make aesthetic adjustments</a></li>
-<li><a href="#5-perform-chart-drawing">5 Perform chart drawing</a></li>
-<li><a href="#6-exit">6 Exit</a></li>
-</ul></li>
-</ul>
-</nav>
-
+<!-- raw HTML omitted -->
 <h1 id="概述">概述</h1>
-
 <p>“guiplot”是由付永超开发的一个帮助用户通过图形界面来完成图表绘制的工具，旨在实现无代码的方式实现绘图。</p>
-
 <p>“guiplot”包的Github链接：<a href="https://github.com/s0521/guiplot">https://github.com/s0521/guiplot</a></p>
-
-<p><img src="/images/about/image-20200410162441176.png" alt="image-20200410162441176" /></p>
-
-<p><img src="/images/about/image-20200410162416706.png" alt="image-20200410162416706" /></p>
-
+<p><img src="/images/about/image-20200410162441176.png" alt="image-20200410162441176"></p>
+<p><img src="/images/about/image-20200410162416706.png" alt="image-20200410162416706"></p>
 <h1 id="使用方式">使用方式：</h1>
-
 <h2 id="1加载数据">1加载数据</h2>
-
 <ul>
 <li>1.guiplot()
 直接使用上述代码，guiplot包会读取当前R语言所加载的数据，并使用该数据来完成图表的绘制。
@@ -190,71 +156,43 @@ guiplot包可以同时加载多个数据集用于绘图。</li>
 <li>2.2guiplot(&ldquo;PK&rdquo;)
 guiplot包内置了一个名为PK的数据集，用户可以直接通过上述代码来调用该数据集绘制。</li>
 </ul>
-
 <h2 id="2选择图表类型">2选择图表类型</h2>
-
 <p>打开用户界面后，用户需要首先选择绘制的图形的类型</p>
-
-<p><img src="/images/about/image-20200410162757220.png" alt="image-20200410162757220" /></p>
-
+<p><img src="/images/about/image-20200410162757220.png" alt="image-20200410162757220"></p>
 <h2 id="3进行数据映射">3进行数据映射</h2>
-
 <p>用户通过映射列表告诉“guiplot”该如何使用数据完成图表的绘制</p>
-
 <p>列表的第一列展示了所加载的数据集所包含的列的列名</p>
-
 <p>列表的第一行展示了当前所需要映射的一些字段</p>
-
-<p><img src="/images/about/image-20200410163009627.png" alt="image-20200410163009627" /></p>
-
+<p><img src="/images/about/image-20200410163009627.png" alt="image-20200410163009627"></p>
 <h2 id="4进行美学调整">4进行美学调整</h2>
-
 <p>用户可在该区域完成对绘制出的图形的一系列的基于美学的调整，包括：主题、画布的规格、最标轴的尺度、坐标轴的范围等内容的设置</p>
-
-<p><img src="/images/about/image-20200410163206324.png" alt="image-20200410163206324" /></p>
-
-<p><img src="/images/about/image-20200410163220521.png" alt="image-20200410163220521" /></p>
-
-<p><img src="/images/about/image-20200410163240570.png" alt="image-20200410163240570" /></p>
-
+<p><img src="/images/about/image-20200410163206324.png" alt="image-20200410163206324"></p>
+<p><img src="/images/about/image-20200410163220521.png" alt="image-20200410163220521"></p>
+<p><img src="/images/about/image-20200410163240570.png" alt="image-20200410163240570"></p>
 <h2 id="5执行图表绘制">5执行图表绘制</h2>
-
 <p>单击工具栏中的“执行!(Execute!)”按钮，会在当前工作目录下生成所绘制出的图形，会输出三种格式“pdf”、“png”、“svg”。</p>
-
 <h2 id="6退出">6退出</h2>
-
 <p>单击工具栏中的“完成并关闭(Finish and Close)”按钮，会停止当前的会话，结束GUI互动。</p>
-
 <h1 id="已知问题">已知问题：</h1>
-
 <p>无法对映射到Y字段的多个变量，使用颜色、线型、标志符等进行区分。</p>
-
 <h1 id="overview">Overview</h1>
-
 <p>The author of &ldquo;guiplot&rdquo; is Fu Yongchao.</p>
-
 <p>The role of &ldquo;guiplot&rdquo; is to help users to complete the chart drawing tool through the graphical interface,</p>
-
 <p>The goal of &ldquo;guiplot&rdquo; is to implement drawing without code.</p>
-
 <p>The Github link of &ldquo;guiplot&rdquo; is <a href="https://github.com/s0521/guiplot">https://github.com/s0521/guiplot</a></p>
-
-<p><img src="/images/about/image-20200410162441176.png" alt="image-20200410162441176" /></p>
-
-<p><img src="/images/about/image-20200410162416706.png" alt="image-20200410162416706" /></p>
-
+<p><img src="/images/about/image-20200410162441176.png" alt="image-20200410162441176"></p>
+<p><img src="/images/about/image-20200410162416706.png" alt="image-20200410162416706"></p>
 <h1 id="how-to-use-guiplot">How to use guiplot:</h1>
-
 <h2 id="1-load-data">1 Load data</h2>
-
 <ul>
-<li><p>1.guiplot ()
-Using the above code directly, the guiplot package will read the data loaded in the current R language and use this data to complete the drawing of the chart.</p></li>
-
-<li><p>2.guiplot (&hellip;)
+<li>
+<p>1.guiplot ()
+Using the above code directly, the guiplot package will read the data loaded in the current R language and use this data to complete the drawing of the chart.</p>
+</li>
+<li>
+<p>2.guiplot (&hellip;)
 &hellip; can be the name of one loaded data, or the name of multiple loaded data.
 Guiplot package only supports matrix or data frame type data to complete chart drawing</p>
-
 <ul>
 <li>2.1guiplot (PK)
 The guiplot package has a built-in data set called PK, and users can call this data set replacement directly through the above code.</li>
@@ -262,41 +200,25 @@ The guiplot package has a built-in data set called PK, and users can call this d
 The guiplot package can load multiple data sets for plotting at the same time.</li>
 <li>2.2guiplot (&ldquo;PK&rdquo;)
 The guiplot package has a built-in data set called PK, and users can call this data set replacement directly through the above code.</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="2-select-the-chart-type">2 Select the chart type</h2>
-
 <p>After opening the user interface, the user needs to first select the type of graphics drawn.</p>
-
-<p><img src="/images/about/image-20200410162757220.png" alt="image-20200410162757220" /></p>
-
+<p><img src="/images/about/image-20200410162757220.png" alt="image-20200410162757220"></p>
 <h2 id="3-perform-data-mapping">3 Perform data mapping</h2>
-
 <p>The user tells &ldquo;guiplot&rdquo; how to use the data to complete the layout of the chart through the mapping list</p>
-
 <p>The first column of the list shows the column names of the columns contained in the loaded data set</p>
-
 <p>The first line of the list shows some subdivisions that need to be mapped currently</p>
-
-<p><img src="/images/about/image-20200410163009627.png" alt="image-20200410163009627" /></p>
-
+<p><img src="/images/about/image-20200410163009627.png" alt="image-20200410163009627"></p>
 <h2 id="4-make-aesthetic-adjustments">4 Make aesthetic adjustments</h2>
-
 <p>The user can complete a series of aesthetic-based adjustments to the placed graphics at this area, including: themes, specifications of the canvas, the scale of the most standard axis, the range of the coordinate axis, etc.</p>
-
-<p><img src="/images/about/image-20200410163206324.png" alt="image-20200410163206324" /></p>
-
-<p><img src="/images/about/image-20200410163220521.png" alt="image-20200410163220521" /></p>
-
-<p><img src="/images/about/image-20200410163240570.png" alt="image-20200410163240570" /></p>
-
+<p><img src="/images/about/image-20200410163206324.png" alt="image-20200410163206324"></p>
+<p><img src="/images/about/image-20200410163220521.png" alt="image-20200410163220521"></p>
+<p><img src="/images/about/image-20200410163240570.png" alt="image-20200410163240570"></p>
 <h2 id="5-perform-chart-drawing">5 Perform chart drawing</h2>
-
 <p>Click the &ldquo;Execute!(执行！)&rdquo; Button in the toolbar, the drawn graphics will be generated in the current working directory, and three formats &ldquo;pdf&rdquo;, &ldquo;png&rdquo;, and &ldquo;svg&rdquo; will be output.</p>
-
 <h2 id="6-exit">6 Exit</h2>
-
 <p>Clicking the &ldquo;Finish and Close(完成并关闭)&rdquo; button in the toolbar will stop the current session and end the GUI interaction.</p>
 
 
@@ -372,7 +294,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

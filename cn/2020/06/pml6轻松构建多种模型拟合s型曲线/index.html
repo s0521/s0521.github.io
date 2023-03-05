@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -141,84 +141,16 @@ code.has-jax {
 
 
 
-
-
 <h1 id="前言">前言：</h1>
-
 <p>本案例介绍如何使用PML（Phoenix建模语言）轻松构建出多种对S形曲线及进行拟合的模型。</p>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/Snipaste_2020-06-11_09-08-44.jpg" alt="Snipaste_2020-06-11_09-08-44" /></p>
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#前言">前言：</a></li>
-<li><a href="#使用的数据">使用的数据：</a></li>
-<li><a href="#目的">目的：</a></li>
-<li><a href="#具体模型的介绍与实现">具体模型的介绍与实现：</a>
-<ul>
-<li><a href="#1-logistic模型和方程">1.Logistic模型和方程</a>
-<ul>
-<li><a href="#特点">特点：</a></li>
-<li><a href="#方程">方程：</a></li>
-<li><a href="#3个参数">3个参数：</a></li>
-<li><a href="#对应的pml代码">对应的PML代码：</a></li>
-</ul></li>
-<li><a href="#2-gompertz模型和方程">2. Gompertz模型和方程</a>
-<ul>
-<li><a href="#特点-1">特点：</a></li>
-<li><a href="#方程-1">方程：</a></li>
-<li><a href="#3个参数-1">3个参数：</a></li>
-<li><a href="#对应的pml代码-1">对应的PML代码：</a></li>
-</ul></li>
-<li><a href="#3-weibull模型和方程">3. Weibull模型和方程</a>
-<ul>
-<li><a href="#特点-2">特点：</a></li>
-<li><a href="#方程-2">方程：</a></li>
-<li><a href="#4个参数">4个参数：</a></li>
-<li><a href="#对应的pml代码-2">对应的PML代码：</a></li>
-</ul></li>
-<li><a href="#4-richards模型和方程">4.Richards模型和方程</a>
-<ul>
-<li><a href="#特点-3">特点：</a></li>
-<li><a href="#方程-3">方程：</a></li>
-<li><a href="#4个参数-1">4个参数：</a></li>
-<li><a href="#对应的pml代码-3">对应的PML代码：</a></li>
-</ul></li>
-<li><a href="#5-morgan-mercer-flodin模型和方程">5.Morgan-Mercer Flodin模型和方程</a>
-<ul>
-<li><a href="#特点-4">特点：</a></li>
-<li><a href="#方程-4">方程：</a></li>
-<li><a href="#4个参数-2">4个参数：</a></li>
-<li><a href="#对应的pml代码-4">对应的PML代码：</a></li>
-</ul></li>
-<li><a href="#6-hill模型和方程">6.Hill模型和方程</a>
-<ul>
-<li><a href="#特点-5">特点：</a></li>
-<li><a href="#方程-5">方程：</a></li>
-<li><a href="#4个参数-3">4个参数：</a></li>
-<li><a href="#对应的pml代码-5">对应的PML代码：</a></li>
-<li><a href="#对应的phoenix-model中的内置模型">对应的Phoenix Model中的内置模型：</a></li>
-<li><a href="#对应的使用药效学参数命名的pml代码">对应的使用药效学参数命名的PML代码：</a></li>
-<li><a href="#使用药效学emax模型参数估算初值估算技巧估算当前hill方程参数初值">使用药效学Emax模型参数估算初值估算技巧估算当前Hill方程参数初值：</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#结果">结果：</a></li>
-<li><a href="#参考文献">参考文献：</a></li>
-</ul>
-</nav>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/Snipaste_2020-06-11_09-08-44.jpg" alt="Snipaste_2020-06-11_09-08-44"></p>
+<!-- raw HTML omitted -->
 <h1 id="使用的数据">使用的数据：</h1>
-
 <p>数据取自由Heyes和Brown的报告的叶子的生长数据（1956）。</p>
-
 <p>含水量对距离散点图如下，可以看到生成的图形是S形的:</p>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image002.jpg" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image002.jpg" alt="img"></p>
 <h1 id="目的">目的：</h1>
-
 <p>使用下述的一系列S形模型拟合数据：</p>
-
 <ul>
 <li>Logistic(逻辑分布累计分布曲线)</li>
 <li>Gompertz(戈珀兹曲线)</li>
@@ -227,211 +159,138 @@ code.has-jax {
 <li>Morgan-Mercer-Flodin</li>
 <li>Hill(希尔方程)</li>
 </ul>
-
 <p>通过该案例展示Phoenix Model操作对象在参数名称和方程方面的灵活性。</p>
-
 <ul>
 <li>为方便起见, 所有模型都参数化α, β, γ, δ。</li>
 </ul>
-
 <h1 id="具体模型的介绍与实现">具体模型的介绍与实现：</h1>
-
-<h2 id="1-logistic模型和方程">1.Logistic模型和方程</h2>
-
+<h2 id="1logistic模型和方程">1.Logistic模型和方程</h2>
 <h3 id="特点">特点：</h3>
-
 <ul>
 <li>Logistic模型是最简单的S形模型。</li>
 <li>下渐近线为0，上渐近线为Y的最大值.</li>
 <li>该模型关于拐点是对称的。</li>
 <li>应该用于模拟拐点大约是最大Y的1/2的过程。</li>
 </ul>
-
 <h3 id="方程">方程：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image004.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image004.png" alt="img"></p>
 <h3 id="3个参数">3个参数：</h3>
-
 <ul>
 <li>α=曲线中Y的最大值</li>
 <li>β=曲线的中点</li>
 <li>γ=曲线的陡度</li>
 </ul>
-
 <h3 id="对应的pml代码">对应的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image006.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image006.png" alt="img"></p>
 <h2 id="2-gompertz模型和方程">2. Gompertz模型和方程</h2>
-
 <h3 id="特点-1">特点：</h3>
-
 <ul>
 <li>Gompertz模型最初用于模拟人类死亡率，先验假设一个人的死亡抵抗力随着年龄的增长而降低。今天的应用实例包括精算科学和细菌生长曲线建模。</li>
 <li>下渐近线为0，上渐近线为Y的最大值.</li>
 <li>是广义Logistic函数的特例。其与Logistic函数的不同是S型两边不对称，拐点偏前。</li>
 </ul>
-
 <h3 id="方程-1">方程：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image007.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image007.png" alt="img"></p>
 <h3 id="3个参数-1">3个参数：</h3>
-
 <ul>
 <li>α=曲线中Y的最大值</li>
 <li>β=生长速度b</li>
 <li>γ=生长速率c</li>
 </ul>
-
 <h3 id="对应的pml代码-1">对应的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image009.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image009.png" alt="img"></p>
 <h2 id="3-weibull模型和方程">3. Weibull模型和方程</h2>
-
 <h3 id="特点-2">特点：</h3>
-
 <ul>
 <li>累积Weibull模型也称为“拉伸指数”函数。 它添加了一个参数delta，允许修改拐点。</li>
 <li>上渐近线是Y的最大值，下渐近线可以是非零。</li>
 <li>应用：通常用于在固体剂型溶解期间模拟粒度。</li>
 </ul>
-
 <h3 id="方程-2">方程：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/pkpd20201015.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/pkpd20201015.png" alt="img"></p>
 <h3 id="4个参数">4个参数：</h3>
-
 <ul>
 <li>α = 曲线中Y的最大值 (上部渐近线)</li>
 <li>β = 下渐近线</li>
 <li>γ = 控制拐点的 x 值</li>
 <li>δ = 曲线的陡峭度</li>
 </ul>
-
 <h3 id="对应的pml代码-2">对应的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image012.png" alt="img" /></p>
-
-<h2 id="4-richards模型和方程">4.Richards模型和方程</h2>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image012.png" alt="img"></p>
+<h2 id="4richards模型和方程">4.Richards模型和方程</h2>
 <h3 id="特点-3">特点：</h3>
-
 <ul>
 <li>Richards模型对非对称S型曲线建模具有很强的灵活性。它还使用增量参数修改拐点。</li>
 <li>上渐近线是最大 Y, 下渐近线可以是非零。</li>
 <li>应用: 增长率曲线</li>
 </ul>
-
 <h3 id="方程-3">方程：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image013.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image013.png" alt="img"></p>
 <h3 id="4个参数-1">4个参数：</h3>
-
 <ul>
 <li>α = 曲线的最大 Y 值 (上部渐近线)</li>
 <li>β = 生长速率</li>
 <li>γ = x 轴上的拐点</li>
 <li>δ = 控制拐点的 x 值</li>
 </ul>
-
 <h3 id="对应的pml代码-3">对应的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image015.png" alt="img" /></p>
-
-<h2 id="5-morgan-mercer-flodin模型和方程">5.Morgan-Mercer Flodin模型和方程</h2>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image015.png" alt="img"></p>
+<h2 id="5morgan-mercer-flodin模型和方程">5.Morgan-Mercer Flodin模型和方程</h2>
 <h3 id="特点-4">特点：</h3>
-
 <ul>
 <li>Morgan-Mercer-Flodin模型首先用于模拟生物效率，例如对营养素存在的反应。允许不对称增长（即拐点不一定是1/2最大的）。</li>
 <li>上渐近线是最大Y，下渐近线可以是非零。</li>
 <li>应用：增长率曲线</li>
 </ul>
-
 <h3 id="方程-4">方程：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image016.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image016.png" alt="img"></p>
 <h3 id="4个参数-2">4个参数：</h3>
-
 <ul>
 <li>α=曲线的最大Y值（上渐近线）</li>
 <li>β=增长率</li>
 <li>γ=增长率</li>
 <li>δ=控制拐点的x值</li>
 </ul>
-
 <h3 id="对应的pml代码-4">对应的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image018.png" alt="img" /></p>
-
-<h2 id="6-hill模型和方程">6.Hill模型和方程</h2>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image018.png" alt="img"></p>
+<h2 id="6hill模型和方程">6.Hill模型和方程</h2>
 <h3 id="特点-5">特点：</h3>
-
 <ul>
 <li>Hill模型最初用于描述氧与血红蛋白结合的动力学。它现在被广泛用于模拟药效学。使用诸如Emax和EC50之类的参数名称，这是经典的sigmoid Emax模型。</li>
 <li>指数gamma可用于修改拐点。 E0的加法允许Y截距为非零。</li>
 <li>上渐近线是最大Y，下渐近线可以是非零。</li>
 </ul>
-
 <h3 id="方程-5">方程：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image019.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image019.png" alt="img"></p>
 <h3 id="4个参数-3">4个参数：</h3>
-
 <ul>
 <li>α=下渐近线（E0）</li>
 <li>β=上渐近线（Emax）</li>
 <li>γ=拐点的x值（EC50）</li>
 <li>δ=指数控制曲线的陡度（n）</li>
 </ul>
-
 <h3 id="对应的pml代码-5">对应的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image021.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image021.png" alt="img"></p>
 <h3 id="对应的phoenix-model中的内置模型">对应的Phoenix Model中的内置模型：</h3>
-
 <p>带有基线的S型Emax模型</p>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image023.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image023.png" alt="img"></p>
 <h3 id="对应的使用药效学参数命名的pml代码">对应的使用药效学参数命名的PML代码：</h3>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image025.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image025.png" alt="img"></p>
 <h3 id="使用药效学emax模型参数估算初值估算技巧估算当前hill方程参数初值">使用药效学Emax模型参数估算初值估算技巧估算当前Hill方程参数初值：</h3>
-
 <ul>
 <li>E0 = 1，来自X = 0处的探索图</li>
 <li>Emax = 20，来自X = 20的探索图</li>
 <li>EC50 = 10，来自½Emax</li>
 <li>N =指数任意设定为1（来自简化模型）</li>
 </ul>
-
 <h1 id="结果">结果：</h1>
-
 <p>所有模型的观察和预测(水分含量)对距离图：</p>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image027.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image027.png" alt="img"></p>
 <p>模型参数估计值（Theta）表格比较：</p>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image029.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image029.png" alt="img"></p>
 <p>信息判据（Overall）表格比较：</p>
-
-<p><img src="/images/PML（6）轻松构建多种模型拟合S型曲线/clip_image031.png" alt="img" /></p>
-
+<p><img src="/images/PML%EF%BC%886%EF%BC%89%E8%BD%BB%E6%9D%BE%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%A7%8D%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88S%E5%9E%8B%E6%9B%B2%E7%BA%BF/clip_image031.png" alt="img"></p>
 <h1 id="参考文献">参考文献：</h1>
-
 <p>Gabrielsson、药动学和药效学数据分析：概念和应用, 第五版,(2015)，PD11案例。</p>
 
 
@@ -511,7 +370,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

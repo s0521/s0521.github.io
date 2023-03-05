@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -142,169 +142,86 @@ code.has-jax {
 
 
 
-
-
 <p><strong>前言：</strong></p>
-
 <p><strong>定量药理学工作平台Phoenix</strong>是<strong>专为参与药物研发的科研工作者</strong>所设计的一款软件，它拥有友好界面以及多种灵活的授权方式（WinNonlin、NLME、IVIVC、PK Submit、Validation Suite），为用户洞察研发过程中所产生的数据提供的强有力数据分析解决方案；SAS是一个统计学中经常被使用到的商业软件，使用它可以完成一些复杂的统计分析功能。</p>
-
 <p><strong>有没有什么办法把两者结合起来呢？</strong></p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127130204380.png" alt="image-20191127130204380" /></p>
-
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127130204380.png" alt="image-20191127130204380"></p>
 <p>当然是<strong>有的</strong>，Phoenix作为一个完整的解决方案平台，拥有友好的兼容性，可以把R、SAS、NONMEM、SigmaPlot等第三方分析工具无缝的集成至Phoenix平台，使用户可以像使用Phoenix本身的一些分析工具一样使用它们。</p>
-
 <p><strong>目录</strong></p>
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#1-在phoenix中进行的链接设置">1   在Phoenix中进行的链接设置</a></li>
-<li><a href="#2-应用案例">2   应用案例</a>
-<ul>
-<li><a href="#2-1-案例基本信息">2.1 案例基本信息：</a>
-<ul>
-<li><a href="#2-1-1-使用的软件">2.1.1  使用的软件</a></li>
-<li><a href="#2-1-2-案例使用的文件">2.1.2  案例使用的文件</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#3-phoenix中的操作">3   Phoenix中的操作</a>
-<ul>
-<li><a href="#3-1-新建项目">3.1 新建项目</a></li>
-<li><a href="#3-2-导入所需文件">3.2 导入所需文件</a></li>
-<li><a href="#3-3-发送至sas-shell">3.3 发送至SAS Shell</a></li>
-<li><a href="#3-4-映射">3.4 映射</a></li>
-<li><a href="#3-5-执行">3.5 执行</a></li>
-<li><a href="#3-6-结果">3.6 结果</a></li>
-</ul></li>
-<li><a href="#4-应用案例中使用到的sas代码及其注释">4   应用案例中使用到的SAS代码及其注释</a>
-<ul>
-<li><a href="#4-1-代码注释">4.1 代码注释：</a></li>
-<li><a href="#4-2-sas代码">4.2 SAS代码：</a></li>
-</ul></li>
-<li><a href="#5-小结">5   小结：</a></li>
-<li><a href="#姊妹篇"><strong>姊妹篇</strong></a></li>
-</ul>
-</nav>
-
-<h1 id="1-在phoenix中进行的链接设置">1   在Phoenix中进行的链接设置</h1>
-
+<!-- raw HTML omitted -->
+<h1 id="1---在phoenix中进行的链接设置">1   在Phoenix中进行的链接设置</h1>
 <p>“编辑（Edit）”→“首选项（Preferences…）”→“SAS”，</p>
-
 <p>设定SAS执行文件的路径。</p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125502163.png" alt="image-20191127125502163" /></p>
-
-<h1 id="2-应用案例">2   应用案例</h1>
-
-<h2 id="2-1-案例基本信息">2.1 案例基本信息：</h2>
-
-<h3 id="2-1-1-使用的软件">2.1.1  使用的软件</h3>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125515467.png" alt="image-20191127125515467" /></p>
-
-<h3 id="2-1-2-案例使用的文件">2.1.2  案例使用的文件</h3>
-
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125502163.png" alt="image-20191127125502163"></p>
+<h1 id="2---应用案例">2   应用案例</h1>
+<h2 id="21-案例基本信息">2.1 案例基本信息：</h2>
+<h3 id="211--使用的软件">2.1.1  使用的软件</h3>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125515467.png" alt="image-20191127125515467"></p>
+<h3 id="212--案例使用的文件">2.1.2  案例使用的文件</h3>
 <p>案例使用的文件为Phoenix自带的示例文件，</p>
-
 <p>如果安装Phoenix时使用默认安装路径，则文件所在路径为：</p>
-
 <p>C:\Program Files (x86)\Certara\Phoenix\application\Examples\SAS\Example1</p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125525974.png" alt="image-20191127125525974" /></p>
-
-<h1 id="3-phoenix中的操作">3   Phoenix中的操作</h1>
-
-<h2 id="3-1-新建项目">3.1 新建项目</h2>
-
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125525974.png" alt="image-20191127125525974"></p>
+<h1 id="3---phoenix中的操作">3   Phoenix中的操作</h1>
+<h2 id="31-新建项目">3.1 新建项目</h2>
 <p>新建Phoenix项目，并重命名为“<strong>sas1</strong>”</p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125535162.png" alt="image-20191127125535162" /></p>
-
-<h2 id="3-2-导入所需文件">3.2 导入所需文件</h2>
-
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125535162.png" alt="image-20191127125535162"></p>
+<h2 id="32-导入所需文件">3.2 导入所需文件</h2>
 <p>右键“sas1”项目文件，选择“导入（Import）”，导入所需的文件</p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125542801.png" alt="image-20191127125542801" /></p>
-
-<h2 id="3-3-发送至sas-shell">3.3 发送至SAS Shell</h2>
-
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125542801.png" alt="image-20191127125542801"></p>
+<h2 id="33-发送至sas-shell">3.3 发送至SAS Shell</h2>
 <p>鼠标右键“代码（Code）”储存对象下的“SimpleExampleUsingColumnMappings”文件，</p>
-
 <p>在右键菜单中依次选择“发送到（Send To）”→“SAS”→“SAS Shell”。</p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125551468.png" alt="image-20191127125551468" /></p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125559947.png" alt="image-20191127125559947" /></p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125606966.png" alt="image-20191127125606966" /></p>
-
-<h2 id="3-4-映射">3.4 映射</h2>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125615591.png" alt="image-20191127125615591" /></p>
-
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125551468.png" alt="image-20191127125551468"></p>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125559947.png" alt="image-20191127125559947"></p>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125606966.png" alt="image-20191127125606966"></p>
+<h2 id="34-映射">3.4 映射</h2>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125615591.png" alt="image-20191127125615591"></p>
 <p><strong>Subject → Subject</strong></p>
-
 <p><strong>Time → Time</strong></p>
-
 <p><strong>Conc → Concen</strong></p>
-
-<h2 id="3-5-执行">3.5 执行</h2>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125625427.png" alt="image-20191127125625427" /></p>
-
+<h2 id="35-执行">3.5 执行</h2>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125625427.png" alt="image-20191127125625427"></p>
 <p>执行过程中的截图</p>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125631448.png" alt="image-20191127125631448"></p>
+<h2 id="36-结果">3.6 结果</h2>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125639518.png" alt="image-20191127125639518"></p>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125651305.png" alt="image-20191127125651305"></p>
+<h1 id="4---应用案例中使用到的sas代码及其注释">4   应用案例中使用到的SAS代码及其注释</h1>
+<h2 id="41-代码注释">4.1 代码注释：</h2>
+<p><img src="/images/Phoenix%E4%B8%8ESAS%E7%9A%84%E9%93%BE%E6%8E%A5/image-20191127125658345.png" alt="image-20191127125658345"></p>
+<h2 id="42-sas代码">4.2 SAS代码：</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sas" data-lang="sas"><span style="color:#75715e">/* CLEAR LOG AND OUTPUT WINDOWS */</span>
+<span style="color:#66d9ef">dm</span> <span style="color:#e6db74">&#39;log; clear; output; clear;&#39;</span>;
 
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125631448.png" alt="image-20191127125631448" /></p>
+<span style="color:#66d9ef">libname</span> indata XPORT <span style="color:#e6db74">&#34;Final Parameters.xpt&#34;</span>; <span style="color:#75715e">/*WNL_IN Subject Time Concen*/</span>
+<span style="color:#66d9ef">
+</span><span style="color:#66d9ef">proc copy </span><span style="color:#66d9ef">in</span>=indata <span style="color:#66d9ef">out</span>=Work<span style="color:#66d9ef">;
+</span><span style="color:#66d9ef">run;</span>
+<span style="color:#66d9ef">
+</span><span style="color:#66d9ef">data </span>finpar;
+<span style="color:#66d9ef">set</span> Final_Pa<span style="color:#66d9ef">;
+</span><span style="color:#66d9ef">run;</span>
 
-<h2 id="3-6-结果">3.6 结果</h2>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125639518.png" alt="image-20191127125639518" /></p>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125651305.png" alt="image-20191127125651305" /></p>
-
-<h1 id="4-应用案例中使用到的sas代码及其注释">4   应用案例中使用到的SAS代码及其注释</h1>
-
-<h2 id="4-1-代码注释">4.1 代码注释：</h2>
-
-<p><img src="/images/Phoenix与SAS的链接/image-20191127125658345.png" alt="image-20191127125658345" /></p>
-
-<h2 id="4-2-sas代码">4.2 SAS代码：</h2>
-
-<pre><code class="language-sas">/* CLEAR LOG AND OUTPUT WINDOWS */
-dm 'log; clear; output; clear;';
-
-libname indata XPORT &quot;Final Parameters.xpt&quot;; /*WNL_IN Subject Time Concen*/
-
-proc copy in=indata out=Work;
-run;
-
-data finpar;
-set Final_Pa;
-run;
-
-libname outdata XPORT &quot;aucdescrp.xpt&quot;;
-proc copy in=work out=outdata;
-select finpar;
-
-run;
-</code></pre>
-
-<h1 id="5-小结">5   小结：</h1>
-
-<p>1)   名称为“indata”,“outdata”的永久<strong>数据库</strong>是Phoenix调用SAS时的保留名称，用于Phoenix与SAS之间数据的输入与输出使用。</p>
-
-<p>2)   在Phoenix中调用SAS代码时，SAS代码的典型工作步骤，</p>
-
+<span style="color:#66d9ef">libname</span> outdata XPORT <span style="color:#e6db74">&#34;aucdescrp.xpt&#34;</span><span style="color:#66d9ef">;
+</span><span style="color:#66d9ef">proc copy </span><span style="color:#66d9ef">in</span>=work <span style="color:#66d9ef">out</span>=outdata;
+<span style="color:#66d9ef">select</span> finpar<span style="color:#66d9ef">;
+</span><span style="color:#66d9ef">
+</span><span style="color:#66d9ef">run;</span>
+</code></pre></div><h1 id="5---小结">5   小结：</h1>
+<ol>
+<li>
+<p>名称为“indata”,“outdata”的永久<strong>数据库</strong>是Phoenix调用SAS时的保留名称，用于Phoenix与SAS之间数据的输入与输出使用。</p>
+</li>
+<li>
+<p>在Phoenix中调用SAS代码时，SAS代码的典型工作步骤，</p>
+</li>
+</ol>
 <p>1从indata中<strong>读取</strong>数据，</p>
-
 <p>2将读取得到的数据复制到临时数据库，</p>
-
 <p>3对数据进行<strong>操作</strong>，</p>
-
 <p>4将<strong>结果</strong>表格复制到outdata数据库中。</p>
-
 <h1 id="姊妹篇"><strong>姊妹篇</strong></h1>
-
 <p><a href="http://www.tri-ibiotech.com.cn/Appofcase/n797.html">Phoenix 友好的兼容性：Phoenix 与 R 语言的链接</a></p>
 
 
@@ -403,7 +320,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

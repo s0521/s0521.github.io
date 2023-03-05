@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -140,110 +140,24 @@ code.has-jax {
 
 
 
-
-
 <h1 id="car-t的细胞动力学模型">CAR-T的细胞动力学模型</h1>
-
 <h1 id="引言">引言</h1>
-
 <p>CAR-T细胞是最近的一个研发热点，但对该类产品所对应的细胞动力学模型并不多，但也有相关发表报道的模型，今天选取其中一篇，将其中提到的模型在Phoenix软件中通过“ML Model操作对象(Phoenix Model操作对象)”使用的“PML”语言实现一遍，以供各位同仁方便使用。</p>
-
 <h1 id="目录">目录</h1>
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#car-t的细胞动力学模型">CAR-T的细胞动力学模型</a></li>
-<li><a href="#引言">引言</a></li>
-<li><a href="#目录">目录</a></li>
-<li><a href="#文献来源">文献来源</a></li>
-<li><a href="#模型背景">模型背景</a>
-<ul>
-<li><a href="#car-t疗法">CAR-T疗法：</a></li>
-<li><a href="#描述car-t的难点">描述CAR-T的难点：</a></li>
-<li><a href="#与传统pk模型的区别">与传统PK模型的区别</a></li>
-</ul></li>
-<li><a href="#文献所提及的模型">文献所提及的模型</a></li>
-<li><a href="#几个模型之间的演化关系">几个模型之间的演化关系</a>
-<ul>
-<li><a href="#总体演化过程">总体演化过程</a></li>
-<li><a href="#模型1-基础模型">模型1：基础模型</a></li>
-<li><a href="#模型2a-一种半机制模型">模型2A：一种半机制模型</a></li>
-<li><a href="#模型3-重新参数化的基础模型">模型3：重新参数化的基础模型</a></li>
-<li><a href="#模型4-最终模型-模型3-协变量">模型4：最终模型（模型3+协变量）</a></li>
-</ul></li>
-<li><a href="#在phoenix中的实现">在Phoenix中的实现</a></li>
-<li><a href="#模型1">模型1</a>
-<ul>
-<li><a href="#模型的方程">模型的方程：</a></li>
-<li><a href="#对应的典型曲线">对应的典型曲线：</a></li>
-<li><a href="#pml代码">PML代码</a>
-<ul>
-<li><a href="#其中">其中：</a></li>
-</ul></li>
-<li><a href="#注意事项">注意事项</a></li>
-<li><a href="#典型曲线图">典型曲线图</a></li>
-<li><a href="#讨论">讨论，</a></li>
-</ul></li>
-<li><a href="#模型2b">模型2B</a>
-<ul>
-<li><a href="#模型方程">模型方程：</a></li>
-<li><a href="#模型对应的结构示意图">模型对应的结构示意图：</a>
-<ul>
-<li><a href="#其中-1">其中：</a></li>
-<li><a href="#fold-x-p-cmax-tmax间的关系">Fold_x、p、Cmax、Tmax间的关系：</a></li>
-<li><a href="#k的推导公式">k的推导公式：</a></li>
-<li><a href="#从而得到完整的方程">从而得到完整的方程：</a></li>
-</ul></li>
-<li><a href="#pml代码-1">PML代码</a></li>
-<li><a href="#注意事项-1">注意事项</a></li>
-</ul></li>
-<li><a href="#模型3">模型3</a>
-<ul>
-<li>
-<ul>
-<li><a href="#模型的方程-1">模型的方程</a></li>
-<li><a href="#pml代码-2">PML代码</a></li>
-</ul></li>
-<li><a href="#模型4-包含协变量的最终模型">模型4：包含协变量的最终模型</a>
-<ul>
-<li><a href="#模型的方程-2">模型的方程</a></li>
-<li><a href="#pml代码-3">PML代码</a></li>
-</ul></li>
-<li><a href="#注意事项-2">注意事项</a></li>
-<li><a href="#vpc图">VPC图</a></li>
-</ul></li>
-<li><a href="#文献所报道的参数值">文献所报道的参数值：</a></li>
-<li><a href="#讨论-1">讨论：</a></li>
-<li><a href="#小结">小结：</a></li>
-</ul>
-</nav>
-
+<!-- raw HTML omitted -->
 <h1 id="文献来源">文献来源</h1>
-
 <p>Model-Based Cellular Kinetic Analysis of Chimeric Antigen Receptor-T Cells in Humans（基于模型的人嵌合抗原受体-T细胞的细胞动力学分析）</p>
-
 <p><a href="https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2040">https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2040</a></p>
-
 <h1 id="模型背景">模型背景</h1>
-
 <p>CAR-T疗法，描述CAR-T的难点，与传统PK模型的区别</p>
-
 <h2 id="car-t疗法">CAR-T疗法：</h2>
-
 <p>“嵌合抗原受体(CAR)-T细胞”治疗包括过继转移转基因的自体T细胞，以通过内源性细胞毒性效应细胞机制促进抗原特异性细胞杀伤。与经典药代动力学(PK)可以描述的规范药物治疗不同，CAR-T细胞经历超过输注细胞剂量的几个对数的快速扩增，并表现出不遵循典型新陈代谢和清除模型的长期持久性。</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image002.jpg" alt="图表, 折线图  描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image002.jpg" alt="图表, 折线图  描述已自动生成"></p>
 <h2 id="描述car-t的难点">描述CAR-T的难点：</h2>
-
 <p>经典的药理药剂，如小分子或单克隆抗体，可以用标准的隔室方法来描述以估计PK参数。小分子和单克隆抗体的分布、代谢和排泄在很大程度上是由分子的生物物理性质和吸收后产生的血浆浓度驱动的。然而，基于细胞的治疗的动力学更加复杂，并且受到靶细胞类型的生理功能和细胞外部因素的影响，例如体内CAR靶分子的丰度。</p>
-
 <h2 id="与传统pk模型的区别">与传统PK模型的区别</h2>
-
 <p>与传统药物不同，CAR-T细胞具有增殖能力。因此，传统的PK参数(清除率和分布容积积)不适用，也没有作为NCA的一部分进行计算。</p>
-
 <p>对于一种典型的药物，α和β斜率是由两个过程相互作用产生的，即药物从血液分布到周围组织和药物从体内排出。然而，T细胞从体内清除是由根本不同的机制控制的。α斜率对应于快速收缩，因为大多数激活的淋巴细胞在初始免疫反应后程序性凋亡，而β斜率对应于记忆细胞的逐渐下降，这些记忆细胞可以在体内持续数年甚至数十年。尽管”tisagenlecleucel(一种药品的名称)”的持续期具有与长期记忆细胞相似的动力学，但持续也可能是持续产生表达CD19B细胞前体的结果，替代抗原充当内源性疫苗。在这方面，CD19 CAR-T细胞的长期存续期可能类似于针对潜伏病毒(如巨细胞病毒)的T细胞。</p>
-
 <table>
 <thead>
 <tr>
@@ -252,50 +166,42 @@ code.has-jax {
 <th>CAR-T细胞 17，24</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>增殖能力</td>
 <td>否</td>
 <td>是</td>
 </tr>
-
 <tr>
 <td>α和β阶段的原因</td>
 <td>分布和消除</td>
 <td>收缩与持久化</td>
 </tr>
-
 <tr>
 <td>终末半衰期时间尺度</td>
 <td>小时、天或周</td>
 <td>年</td>
 </tr>
-
 <tr>
 <td>传统NCA参数(清除率和分布容积积)的适用性</td>
 <td>适用</td>
 <td>不适用，因为CAR-T细胞具有增殖能力</td>
 </tr>
-
 <tr>
 <td>产品在不同患者间的变异</td>
 <td>无</td>
 <td>变异的存在是由于患者免疫系统的变异性</td>
 </tr>
-
 <tr>
 <td>明确剂量和暴露之间的关系</td>
 <td>是的，尽管它可能是非线性的</td>
 <td>检测到的剂量和暴露之间没有关系</td>
 </tr>
-
 <tr>
 <td>口服小分子或静脉注射CAR-T细胞剂量后的动力学方程</td>
-<td>A*EXP(-α*t)+B*EXP(-β*t)-(A+B) *EXP(-Ka*t)</td>
-<td><img src="/images/CAR-T的细胞动力学模型/clip_image004.jpg" alt="img" /></td>
+<td>A<em>EXP(-α</em>t)+B<em>EXP(-β</em>t)-(A+B) <em>EXP(-Ka</em>t)</td>
+<td><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image004.jpg" alt="img"></td>
 </tr>
-
 <tr>
 <td>给药后初始增加的指数符号</td>
 <td>负(-ka)</td>
@@ -303,376 +209,311 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <h1 id="文献所提及的模型">文献所提及的模型</h1>
-
 <ul>
-<li><p>模型1：基础模型（一种描述所观察到的曲线特征的经验模型）</p></li>
-
-<li><p>模型2：一种半机制的模型（能过够解释曲线特征的一种半机制模型，有多种学术都能够解释这种曲线特征，此处仅是举例）</p></li>
-
-<li><p>模型3：重新参数化的基础模型（文献并无直接展示，但其实隐含了这一模型，该模型在基础模型之上通过半机制模型对原有参数进行了重新参数化）</p></li>
-
-<li><p>模型4：最终模型（在重新参数化的基础模型之上引入协变量）</p></li>
+<li>
+<p>模型1：基础模型（一种描述所观察到的曲线特征的经验模型）</p>
+</li>
+<li>
+<p>模型2：一种半机制的模型（能过够解释曲线特征的一种半机制模型，有多种学术都能够解释这种曲线特征，此处仅是举例）</p>
+</li>
+<li>
+<p>模型3：重新参数化的基础模型（文献并无直接展示，但其实隐含了这一模型，该模型在基础模型之上通过半机制模型对原有参数进行了重新参数化）</p>
+</li>
+<li>
+<p>模型4：最终模型（在重新参数化的基础模型之上引入协变量）</p>
+</li>
 </ul>
-
 <h1 id="几个模型之间的演化关系">几个模型之间的演化关系</h1>
-
 <h2 id="总体演化过程">总体演化过程</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image006.png" alt="图片包含 图形用户界面  描述已自动生成" /></p>
-
-<h2 id="模型1-基础模型">模型1：基础模型</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image008.jpg" alt="image" /></p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image010.png" alt="文本  中度可信度描述已自动生成" /></p>
-
-<h2 id="模型2a-一种半机制模型">模型2A：一种半机制模型</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image012.jpg" alt="image" /></p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image014.png" alt="图形用户界面, 应用程序, Teams  描述已自动生成" /></p>
-
-<h2 id="模型3-重新参数化的基础模型">模型3：重新参数化的基础模型</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image016.png" alt="文本, 日程表  描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image006.png" alt="图片包含 图形用户界面  描述已自动生成"></p>
+<h2 id="模型1基础模型">模型1：基础模型</h2>
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image008.jpg" alt="image"></p>
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image010.png" alt="文本  中度可信度描述已自动生成"></p>
+<h2 id="模型2a一种半机制模型">模型2A：一种半机制模型</h2>
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image012.jpg" alt="image"></p>
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image014.png" alt="图形用户界面, 应用程序, Teams  描述已自动生成"></p>
+<h2 id="模型3重新参数化的基础模型">模型3：重新参数化的基础模型</h2>
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image016.png" alt="文本, 日程表  描述已自动生成"></p>
 <p>模型3介绍</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image018.png" alt="图形用户界面  低可信度描述已自动生成" /></p>
-
-<h2 id="模型4-最终模型-模型3-协变量">模型4：最终模型（模型3+协变量）</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image020.png" alt="箭头  中度可信度描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image018.png" alt="图形用户界面  低可信度描述已自动生成"></p>
+<h2 id="模型4最终模型模型3协变量">模型4：最终模型（模型3+协变量）</h2>
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image020.png" alt="箭头  中度可信度描述已自动生成"></p>
 <h1 id="在phoenix中的实现">在Phoenix中的实现</h1>
-
 <h1 id="模型1">模型1</h1>
-
 <h2 id="模型的方程">模型的方程：</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image022.jpg" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image022.jpg" alt="img"></p>
 <h2 id="对应的典型曲线">对应的典型曲线：</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image023.jpg" alt="图表, 折线图  描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image023.jpg" alt="图表, 折线图  描述已自动生成"></p>
 <h2 id="pml代码">PML代码</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
+     <span style="color:#a6e22e">covariate</span>(tt)
 
-<pre><code class="language-R">test(){
-     covariate(tt)
-
-     E=(
-          (tt&lt;Tmax)?
-              Ro*exp(p*tt)
-          :
-              A*exp(-Alpha*(tt-Tmax))+B*exp(-Beta*(tt-Tmax))
+     E<span style="color:#f92672">=</span>(
+          (tt<span style="color:#f92672">&lt;</span>Tmax)<span style="color:#f92672">?</span>
+              Ro<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(p<span style="color:#f92672">*</span>tt)
+          <span style="color:#f92672">:</span>
+              A<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))<span style="color:#f92672">+</span>B<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
      )
 
-     error(EEps = 2.66295001310029)
-     observe(EObs(tt) = E + EEps)
+     <span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.66295001310029</span>)
+     <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(tt) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
  
-stparm(Tmax=tvTmax)
-stparm(Ro=tvRo)
-stparm(p=tvp)
-stparm(A=tvA)
-stparm(Alpha=tvAlpha)
-stparm(B=tvB)
-stparm(Beta=tvBeta)
+<span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax)
+<span style="color:#a6e22e">stparm</span>(Ro<span style="color:#f92672">=</span>tvRo)
+<span style="color:#a6e22e">stparm</span>(p<span style="color:#f92672">=</span>tvp)
+<span style="color:#a6e22e">stparm</span>(A<span style="color:#f92672">=</span>tvA)
+<span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha)
+<span style="color:#a6e22e">stparm</span>(B<span style="color:#f92672">=</span>tvB)
+<span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta)
 
-fixef(tvTmax=c(,19.8649961319143,))
-fixef(tvRo=c(,6.43092405192262,))
-fixef(tvp=c(,0.0421269627420855,))
-fixef(tvA=c(,1.73947096587749,))
-fixef(tvAlpha=c(,0.109143920526125,))
-fixef(tvB=c(,9.05116731581526,))
-fixef(tvBeta=c(,0.002539845458873,))
+<span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">19.8649961319143</span>,))
+<span style="color:#a6e22e">fixef</span>(tvRo<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">6.43092405192262</span>,))
+<span style="color:#a6e22e">fixef</span>(tvp<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0421269627420855</span>,))
+<span style="color:#a6e22e">fixef</span>(tvA<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1.73947096587749</span>,))
+<span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.109143920526125</span>,))
+<span style="color:#a6e22e">fixef</span>(tvB<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.05116731581526</span>,))
+<span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.002539845458873</span>,))
 }
-</code></pre>
-
-<h3 id="其中">其中：</h3>
-
+</code></pre></div><h3 id="其中">其中：</h3>
 <ul>
-<li><p>F(t)，随时间变化的细胞在体内的数量</p></li>
-
-<li><p>R0，0时刻体内可用于扩张/增值的细胞的数量</p></li>
-
-<li><p>p，从0时刻至Tmax时刻，细胞在体内的扩张的1级速率常数</p></li>
+<li>
+<p>F(t)，随时间变化的细胞在体内的数量</p>
+</li>
+<li>
+<p>R0，0时刻体内可用于扩张/增值的细胞的数量</p>
+</li>
+<li>
+<p>p，从0时刻至Tmax时刻，细胞在体内的扩张的1级速率常数</p>
+</li>
 </ul>
-
 <p>Tmax后曲线呈双指数函数特征，即类似于血管内给药二房室模型宏观参数化，由此易知：</p>
-
 <p>A+B=Cmax</p>
-
 <p>曲线末端对数尺度下的斜率约等于（-Beta）</p>
-
 <p>所以，</p>
-
 <ul>
-<li><p>A，快速下降过程的截距</p></li>
-
-<li><p>B，慢速下降过程的截距</p></li>
-
-<li><p>Alpha，快速下降过程的速率</p></li>
-
-<li><p>Beta，慢速下降过程的速率</p></li>
-
-<li><p>EEps，残差变异的方差</p></li>
+<li>
+<p>A，快速下降过程的截距</p>
+</li>
+<li>
+<p>B，慢速下降过程的截距</p>
+</li>
+<li>
+<p>Alpha，快速下降过程的速率</p>
+</li>
+<li>
+<p>Beta，慢速下降过程的速率</p>
+</li>
+<li>
+<p>EEps，残差变异的方差</p>
+</li>
 </ul>
-
 <h2 id="注意事项">注意事项</h2>
-
 <p>文献未报告参数的初始值与估计值。</p>
-
 <h2 id="典型曲线图">典型曲线图</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image025.jpg" alt="图表, 散点图  描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image025.jpg" alt="图表, 散点图  描述已自动生成"></p>
 <h2 id="讨论">讨论，</h2>
-
 <p>可以观察到，此模型可以很好的描述出曲线的典型趋势。</p>
-
 <h1 id="模型2b">模型2B</h1>
-
 <h2 id="模型方程">模型方程：</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image027.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image027.png" alt="img"></p>
 <h2 id="模型对应的结构示意图">模型对应的结构示意图：</h2>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image028.png" alt="图示  描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image028.png" alt="图示  描述已自动生成"></p>
 <h3 id="其中-1">其中：</h3>
-
 <ul>
-<li><p>E+M，随时间变化的细胞在体内的总数量</p></li>
-
-<li><p>E，细胞中发生效用的细胞的量</p></li>
-
-<li><p>M，细胞中用于记忆的细胞的量</p></li>
-
-<li><p>p，从0时刻至Tmax时刻，细胞在体内的扩张的1级速率常数</p></li>
-
-<li><p>Alpha，快速下降过程的速率</p></li>
-
-<li><p>Beta，慢速下降过程的速率</p></li>
-
-<li><p>k，效用细胞转化为记忆细胞的一级速率常数</p></li>
-
-<li><p>E0，0时刻体内可用于扩张/增值的细胞的数量（基础模型中称之为R0）</p></li>
-
-<li><p>Cmax，Tmax时刻细胞在体内的总量</p></li>
-
-<li><p>Fold_x，折叠系数</p></li>
+<li>
+<p>E+M，随时间变化的细胞在体内的总数量</p>
+</li>
+<li>
+<p>E，细胞中发生效用的细胞的量</p>
+</li>
+<li>
+<p>M，细胞中用于记忆的细胞的量</p>
+</li>
+<li>
+<p>p，从0时刻至Tmax时刻，细胞在体内的扩张的1级速率常数</p>
+</li>
+<li>
+<p>Alpha，快速下降过程的速率</p>
+</li>
+<li>
+<p>Beta，慢速下降过程的速率</p>
+</li>
+<li>
+<p>k，效用细胞转化为记忆细胞的一级速率常数</p>
+</li>
+<li>
+<p>E0，0时刻体内可用于扩张/增值的细胞的数量（基础模型中称之为R0）</p>
+</li>
+<li>
+<p>Cmax，Tmax时刻细胞在体内的总量</p>
+</li>
+<li>
+<p>Fold_x，折叠系数</p>
+</li>
 </ul>
-
-<h3 id="fold-x-p-cmax-tmax间的关系">Fold_x、p、Cmax、Tmax间的关系：</h3>
-
+<h3 id="fold_xpcmaxtmax间的关系">Fold_x、p、Cmax、Tmax间的关系：</h3>
 <p>对于曲线的上升段可有以下公式：</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image030.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image030.png" alt="img"></p>
 <p>进而可推导出：</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image032.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image032.png" alt="img"></p>
 <p>令</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image034.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image034.png" alt="img"></p>
 <p>则有</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image036.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image036.png" alt="img"></p>
 <h3 id="k的推导公式">k的推导公式：</h3>
-
 <p>由上述联立的方程可求得</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image038.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image038.png" alt="img"></p>
 <p>即</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image040.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image040.png" alt="img"></p>
 <p>又知道</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image042.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image042.png" alt="img"></p>
 <p>由此可得：</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image044.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image044.png" alt="img"></p>
 <h3 id="从而得到完整的方程">从而得到完整的方程：</h3>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image046.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image046.png" alt="img"></p>
 <h2 id="pml代码-1">PML代码</h2>
-
-<pre><code class="language-R">test(){
-deriv(E=t&lt;Tmax?p*1*E:-Alpha*E)
-deriv(M=t&lt;Tmax?0:k*E-Beta*M)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
+<span style="color:#a6e22e">deriv</span>(E<span style="color:#f92672">=</span>t<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>p<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span>E<span style="color:#f92672">:-</span>Alpha<span style="color:#f92672">*</span>E)
+<span style="color:#a6e22e">deriv</span>(M<span style="color:#f92672">=</span>t<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>k<span style="color:#f92672">*</span>E<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>M)
  
-p=log(fold_x)/Tmax
-k=F_b*(Alpha-Beta)
+p<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
+k<span style="color:#f92672">=</span>F_b<span style="color:#f92672">*</span>(Alpha<span style="color:#f92672">-</span>Beta)
 
 sequence{
-     E=Cmax/fold_x;
-sleep(Tmax);
-     E=Cmax
-     M=0
+     E<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span>fold_x;
+<span style="color:#a6e22e">sleep</span>(Tmax);
+     E<span style="color:#f92672">=</span>Cmax
+     M<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 }
 
-error(EEps = 1)
-observe(EObs = E + EEps)
+<span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+<span style="color:#a6e22e">observe</span>(EObs <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
 
-stparm(Tmax=tvTmax*exp(nTmax))
-stparm(Cmax=tvCmax*exp(nCmax))
-stparm(fold_x=tvfold_x*exp(nfold_x))
-stparm(Alpha=tvAlpha*exp(nAlpha))
-stparm(Beta=tvBeta*exp(nBeta))
-stparm(F_b=tvF_b*exp(nF_b))
+<span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
+<span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
+<span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
+<span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
+<span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
+<span style="color:#a6e22e">stparm</span>(F_b<span style="color:#f92672">=</span>tvF_b<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nF_b))
 
-fixef(tvTmax=c(,9.3,))
-fixef(tvCmax=c(,24000,))
-fixef(tvfold_x=c(,3900,))
-fixef(tvAlpha=c(,0.16,))
-fixef(tvBeta=c(,0.0032,))
-fixef(tvF_b=c(,0.0079,))
+<span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
+<span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
+<span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
+<span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
+<span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
+<span style="color:#a6e22e">fixef</span>(tvF_b<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
 
-ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(1,1,1,1,1,1))
+<span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>))
 }
-</code></pre>
-
-<h2 id="注意事项-1">注意事项</h2>
-
+</code></pre></div><h2 id="注意事项-1">注意事项</h2>
 <p>文献未报告参数估计值</p>
-
 <h1 id="模型3">模型3</h1>
-
 <p>模型3是在模型1的基础上，利用模型2对原有的参数进行重新参数化后得到的。</p>
-
 <h3 id="模型的方程-1">模型的方程</h3>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image048.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image048.png" alt="img"></p>
 <h3 id="pml代码-2">PML代码</h3>
-
-<pre><code class="language-R">test(){
-     covariate(tt)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
+     <span style="color:#a6e22e">covariate</span>(tt)
      
-     rho=log(fold_x)/Tmax
+     rho<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
 
-     Ro=Cmax/exp(rho*Tmax)
-     AA=(1-FB)*Cmax
+     Ro<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>Tmax)
+     AA<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>FB)<span style="color:#f92672">*</span>Cmax
 
-     BB=FB*Cmax
+     BB<span style="color:#f92672">=</span>FB<span style="color:#f92672">*</span>Cmax
 
-     E=
-     tt&lt;0?
-          Ro:
-     tt&lt;Tmax?
-          Ro*exp(rho*tt):
-     AA*exp(-Alpha*(tt-Tmax))+BB*exp(-Beta*(tt-Tmax))
+     E<span style="color:#f92672">=</span>
+     tt<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
+          Ro<span style="color:#f92672">:</span>
+     tt<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>
+          Ro<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>tt)<span style="color:#f92672">:</span>
+     AA<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))<span style="color:#f92672">+</span>BB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
 
-     logE=log(E)
+     logE<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(E)
 
-     error(EEps = 0.56)
-     observe(EObs(tt)=logE*(1+EEps))
+     <span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.56</span>)
+     <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(tt)<span style="color:#f92672">=</span>logE<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>EEps))
 
-     stparm(Tmax=tvTmax*exp(nTmax))
-     stparm(Cmax=tvCmax*exp(nCmax))
-     stparm(fold_x=tvfold_x*exp(nfold_x))
-     stparm(Alpha=tvAlpha*exp(nAlpha))
-     stparm(Beta=tvBeta*exp(nBeta))
-     stparm(FB=tvFB*exp(nFB))
+     <span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
+     <span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
+     <span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
+     <span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
+     <span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
+     <span style="color:#a6e22e">stparm</span>(FB<span style="color:#f92672">=</span>tvFB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nFB))
 
-     fixef(tvTmax=c(,9.3,))
-     fixef(tvCmax=c(,24000,))
-     fixef(tvfold_x=c(,3900,))
-     fixef(tvAlpha=c(,0.16,))
-     fixef(tvBeta=c(,0.0032,))
-     fixef(tvFB=c(,0.0079,))
+     <span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
+     <span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
+     <span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
+     <span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
+     <span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
+     <span style="color:#a6e22e">fixef</span>(tvFB<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
 
-     ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nFB)=c(0.38,0.65,2.4,0.91,0.86,0.8))
+     <span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nFB)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.38</span>,<span style="color:#ae81ff">0.65</span>,<span style="color:#ae81ff">2.4</span>,<span style="color:#ae81ff">0.91</span>,<span style="color:#ae81ff">0.86</span>,<span style="color:#ae81ff">0.8</span>))
 }
-</code></pre>
-
-<h2 id="模型4-包含协变量的最终模型">模型4：包含协变量的最终模型</h2>
-
+</code></pre></div><h2 id="模型4包含协变量的最终模型">模型4：包含协变量的最终模型</h2>
 <h3 id="模型的方程-2">模型的方程</h3>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image050.png" alt="img" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image050.png" alt="img"></p>
 <h3 id="pml代码-3">PML代码</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
 
-<pre><code class="language-R">test(){
+<span style="color:#a6e22e">covariate</span>(tt)
+<span style="color:#a6e22e">fcovariate</span>(TOCI1T)
+<span style="color:#a6e22e">fcovariate</span>(STERSTT)
 
-covariate(tt)
-fcovariate(TOCI1T)
-fcovariate(STERSTT)
+t1_TOC_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(TOCI1T,Tmax)
+t1_STE_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(STERSTT,Tmax)
+t2_TOC_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(TOCI1T,Tmax)
+t2_STE_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(STERSTT,Tmax)
+t1<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>t1_TOC_OR_Tmax<span style="color:#f92672">:</span>t1_STE_OR_Tmax
+t2<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>t2_STE_OR_Tmax<span style="color:#f92672">:</span>t2_TOC_OR_Tmax
 
-t1_TOC_OR_Tmax=min(TOCI1T,Tmax)
-t1_STE_OR_Tmax=min(STERSTT,Tmax)
-t2_TOC_OR_Tmax=min(TOCI1T,Tmax)
-t2_STE_OR_Tmax=min(STERSTT,Tmax)
-t1=TOCI1T&lt;=STERSTT?t1_TOC_OR_Tmax:t1_STE_OR_Tmax
-t2=TOCI1T&lt;=STERSTT?t2_STE_OR_Tmax:t2_TOC_OR_Tmax
+F1<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>Ftoci<span style="color:#f92672">:</span>Fster
+F2<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>Fster<span style="color:#f92672">:</span>Ftoci
 
-F1=TOCI1T&lt;=STERSTT?Ftoci:Fster
-F2=TOCI1T&lt;=STERSTT?Fster:Ftoci
+rho<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
+R0<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>Tmax)
+R1<span style="color:#f92672">=</span>R0<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>t1)
+R2<span style="color:#f92672">=</span>R1<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(t2<span style="color:#f92672">-</span>t1))
+CmaxAdjust<span style="color:#f92672">=</span>R2<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>F2<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>Tmax<span style="color:#f92672">-</span>t2)
 
-rho=log(fold_x)/Tmax
-R0=Cmax/exp(rho*Tmax)
-R1=R0*exp(rho*t1)
-R2=R1*exp(F1*rho*(t2-t1))
-CmaxAdjust=R2*exp(F1*F2*rho*Tmax-t2)
+AA<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>FB)<span style="color:#f92672">*</span>CmaxAdjust
+BB<span style="color:#f92672">=</span>FB<span style="color:#f92672">*</span>CmaxAdjust
 
-AA=(1-FB)*CmaxAdjust
-BB=FB*CmaxAdjust
+E<span style="color:#f92672">=</span>tt<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>R0<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>t1<span style="color:#f92672">?</span>R0<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>tt)<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>t2<span style="color:#f92672">?</span>R1<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>t1))<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>R2<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>F2<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>t2))<span style="color:#f92672">:</span>AA<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax)) <span style="color:#f92672">+</span> BB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
 
-E=tt&lt;0?R0:tt&lt;t1?R0*exp(rho*tt):tt&lt;t2?R1*exp(F1*rho*(tt-t1)):tt&lt;Tmax?R2*exp(F1*F2*rho*(tt-t2)):AA*exp(-alpha*(tt-Tmax)) + BB*exp(-beta*(tt-Tmax))
+    \<span style="color:#75715e">#observe(Eobs(tt)=log(E)+CEps)</span>
 
-    \#observe(Eobs(tt)=log(E)+CEps)
+<span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">Eobs</span>(tt)<span style="color:#f92672">=</span>E<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(CEps))
 
-observe(Eobs(tt)=E*exp(CEps))
+<span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.56</span>)
 
-error(CEps = 0.56)
+<span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
+<span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
+<span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
+<span style="color:#a6e22e">stparm</span>(alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
+<span style="color:#a6e22e">stparm</span>(beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
+<span style="color:#a6e22e">stparm</span>(FB<span style="color:#f92672">=</span>tvF_b<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nF_b))
+<span style="color:#a6e22e">stparm</span>(Ftoci<span style="color:#f92672">=</span>tvFtoci)
+<span style="color:#a6e22e">stparm</span>(Fster<span style="color:#f92672">=</span>tvFster)
 
-stparm(Tmax=tvTmax*exp(nTmax))
-stparm(Cmax=tvCmax*exp(nCmax))
-stparm(fold_x=tvfold_x*exp(nfold_x))
-stparm(alpha=tvAlpha*exp(nAlpha))
-stparm(beta=tvBeta*exp(nBeta))
-stparm(FB=tvF_b*exp(nF_b))
-stparm(Ftoci=tvFtoci)
-stparm(Fster=tvFster)
+<span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
+<span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
+<span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
+<span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
+<span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
+<span style="color:#a6e22e">fixef</span>(tvF_b<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
+<span style="color:#a6e22e">fixef</span>(tvFtoci<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1.2</span>,))
+<span style="color:#a6e22e">fixef</span>(tvFster<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1</span>,))
 
-fixef(tvTmax=c(,9.3,))
-fixef(tvCmax=c(,24000,))
-fixef(tvfold_x=c(,3900,))
-fixef(tvAlpha=c(,0.16,))
-fixef(tvBeta=c(,0.0032,))
-fixef(tvF_b=c(,0.0079,))
-fixef(tvFtoci=c(,1.2,))
-fixef(tvFster=c(,1,))
-
-ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8))
+<span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.38</span>,<span style="color:#ae81ff">0.65</span>,<span style="color:#ae81ff">2.4</span>,<span style="color:#ae81ff">0.91</span>,<span style="color:#ae81ff">0.86</span>,<span style="color:#ae81ff">0.8</span>))
 }
-</code></pre>
-
-<h2 id="注意事项-2">注意事项</h2>
-
+</code></pre></div><h2 id="注意事项-2">注意事项</h2>
 <p>对文献报告参数之中个体间变异的假定</p>
-
 <h2 id="vpc图">VPC图</h2>
-
 <p>对文献所附带的一组示例数据集绘制VPC的结果</p>
-
-<p><img src="/images/CAR-T的细胞动力学模型/clip_image052.jpg" alt="图片包含 图表  描述已自动生成" /></p>
-
+<p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image052.jpg" alt="图片包含 图表  描述已自动生成"></p>
 <h1 id="文献所报道的参数值">文献所报道的参数值：</h1>
-
 <table>
 <thead>
 <tr>
@@ -684,7 +525,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <th><strong>个体间变异收缩值</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>固定效应参数</td>
@@ -694,7 +534,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>30</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td><em>T</em> max</td>
@@ -703,7 +542,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>4.2</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td><em>C</em> max</td>
@@ -712,7 +550,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>20</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td><em>F</em> toci</td>
@@ -721,7 +558,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>7.5</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td><em>F</em> ster</td>
@@ -730,7 +566,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>9</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td>α</td>
@@ -739,7 +574,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>11</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td><em>F</em> <em>B</em></td>
@@ -748,7 +582,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>15</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>固定效应参数</td>
 <td>β</td>
@@ -757,7 +590,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>23</td>
 <td>—</td>
 </tr>
-
 <tr>
 <td>随机效应参数</td>
 <td>fold<em>x</em></td>
@@ -766,7 +598,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>9.5</td>
 <td>0.39</td>
 </tr>
-
 <tr>
 <td>随机效应参数</td>
 <td><em>T</em> max</td>
@@ -775,7 +606,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>7.9</td>
 <td>0.14</td>
 </tr>
-
 <tr>
 <td>随机效应参数</td>
 <td><em>C</em> max</td>
@@ -784,7 +614,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>10</td>
 <td>0.29</td>
 </tr>
-
 <tr>
 <td>随机效应参数</td>
 <td>α</td>
@@ -793,7 +622,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>8.8</td>
 <td>0.27</td>
 </tr>
-
 <tr>
 <td>随机效应参数</td>
 <td><em>F</em> <em>B</em></td>
@@ -802,7 +630,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>15</td>
 <td>0.53</td>
 </tr>
-
 <tr>
 <td>随机效应参数</td>
 <td>β</td>
@@ -811,7 +638,6 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 <td>23</td>
 <td>0.82</td>
 </tr>
-
 <tr>
 <td>残差</td>
 <td>a</td>
@@ -822,51 +648,55 @@ ranef(diag(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)=c(0.38,0.65,2.4,0.91,0.86,0.8)
 </tr>
 </tbody>
 </table>
-
 <h1 id="讨论-1">讨论：</h1>
-
 <p><strong>模型1：基础模型</strong></p>
-
 <ul>
-<li><p>优点：非常清晰的模型解析表达式，可以很好的描述曲线特征</p></li>
-
-<li><p>缺点：模型的参数是一些纯粹的数学参数，没有直观的生理意义，模型参数较多。</p></li>
-
-<li><p>参数数量：7</p></li>
-
-<li><p>参数：R0，ρ，Tmax， α，β，A，B，</p></li>
+<li>
+<p>优点：非常清晰的模型解析表达式，可以很好的描述曲线特征</p>
+</li>
+<li>
+<p>缺点：模型的参数是一些纯粹的数学参数，没有直观的生理意义，模型参数较多。</p>
+</li>
+<li>
+<p>参数数量：7</p>
+</li>
+<li>
+<p>参数：R0，ρ，Tmax， α，β，A，B，</p>
+</li>
 </ul>
-
 <p><strong>模型2：一种半机制模型</strong></p>
-
 <ul>
-<li><p>优点：采用了一种假说，可以通过直观的结构示意图展示出模型，以及参数的含义，并且参数更少</p></li>
-
-<li><p>缺点：是微分方程形式，不是解析表达式</p></li>
-
-<li><p>参数数量：6</p></li>
-
-<li><p>参数：E0，ρ，Tmax， α，β，k</p></li>
+<li>
+<p>优点：采用了一种假说，可以通过直观的结构示意图展示出模型，以及参数的含义，并且参数更少</p>
+</li>
+<li>
+<p>缺点：是微分方程形式，不是解析表达式</p>
+</li>
+<li>
+<p>参数数量：6</p>
+</li>
+<li>
+<p>参数：E0，ρ，Tmax， α，β，k</p>
+</li>
 </ul>
-
 <p><strong>模型3：重新参数化的基础模型</strong></p>
-
 <ul>
-<li><p>优点：通过“模型2”重新对“模型1”参数化，使获得参数有生理意义，并且具有解析表达式</p></li>
-
-<li><p>缺点：</p></li>
-
-<li><p>参数数量：6</p></li>
-
-<li><p>参数：Cmax，flod_x，Tmax， α，β，FB</p></li>
+<li>
+<p>优点：通过“模型2”重新对“模型1”参数化，使获得参数有生理意义，并且具有解析表达式</p>
+</li>
+<li>
+<p>缺点：</p>
+</li>
+<li>
+<p>参数数量：6</p>
+</li>
+<li>
+<p>参数：Cmax，flod_x，Tmax， α，β，FB</p>
+</li>
 </ul>
-
 <p><strong>我对这个案例的耐心耗尽了，不想再投入更多的时间去组织素材、优化语言表达了，此案例看起来可能很痛苦，就这样吧。</strong></p>
-
 <h1 id="小结">小结：</h1>
-
 <p>其实可以发现，整篇文章绕来绕去，其实都是在使用的最初的经验模型，后面一些列的操作都是在为最初的经验模型赋予更多的主观认为的一些意义，这是由于，1该经验模型确实优秀良好，2CAR-T的机制及其对机制模型的抽象总结还不完善所致的。</p>
-
 <p>所以可以预见的短期未来，在良好简介的机制模型出现之前，对其细胞动力学的分析仍然后主要以最开始的经验模型为主，当然，不同的作者可能对该经验模型所对应的机制假说有不同的解读，从而产生一些如同本文一样的衍生的模型。</p>
 
 
@@ -965,7 +795,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -133,22 +133,13 @@ code.has-jax {
 
 
 
-
-
 <h1 id="scenarios">Scenarios:</h1>
-
 <p>One of the operations that is often required to create a model using the Phoenix Modeling Language (PML) is to calculate the AUC. There are two main methods for calculating the AUC in PML, formulas-based and based on integrals-based.</p>
-
 <p>Key words: Phoenix WinNonlin, Phoenix NLME, PML, Phoenix Modeling Language, AUC, AUClast, AUCinf, pAUC, Secondary parameter, Pharmacokinetic, PK/PD, Pharmacometrics</p>
-
 <h1 id="formula-based-auc-calculation">Formula-based AUC calculation</h1>
-
 <p>The AUC calculated based on the formula is equivalent to AUCinf because it is an analytical solution. It can be subdivided into two categories when calculating the AUC based on the formula.</p>
-
 <h2 id="implementation-1-methods-for-defining-secondary-parameters">Implementation 1: &ldquo;Methods for defining secondary parameters&rdquo;</h2>
-
 <p>Use the &ldquo;Secondary(二级参数)&rdquo; statement to define the AUC, such as secondary (AUC=A1Dose/Cl), and then view the value of this parameter in the &ldquo;Secondary&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
-
 <pre><code>test(){
 deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
 urinecpt(A0 = (Cl * C))
@@ -168,14 +159,9 @@ fixef(tvV2 = c(, 55, ))
 fixef(tvCl2 = c(, 1, ))
 secondary(AUC = A1Dose/Cl)
 }
-</code></pre>
-
-<p><img src="/images/PML中AUC的计算方法/1574156746005.png" alt="1574156746005" /></p>
-
+</code></pre><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/1574156746005.png" alt="1574156746005"></p>
 <h2 id="implementation-2-methods-for-directly-defining-formulas">Implementation 2: &ldquo;Methods for directly defining formulas&rdquo;</h2>
-
 <p>Define the calculation formula of the parameter directly in the model, such as AUC=A1Dose/Cl, and then add the table under the “Run Options(运行选项)” tab (if it is the simulation mode, you can specify the parameter directly in the model table). Specify &ldquo;AUC&rdquo; as the output &ldquo;Varirables(变量)&rdquo; in the table, and finally you can see the value of this parameter in the &ldquo;Table01&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
-
 <pre><code>test(){
 deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
 urinecpt(A0 = (Cl * C))
@@ -196,32 +182,18 @@ fixef(tvV2 = c(, 55, ))
 fixef(tvCl2 = c(, 1, ))
  
 }
-</code></pre>
-
-<p><img src="/images/PML中AUC的计算方法/1574156816934.png" alt="1574156816934" /></p>
-
+</code></pre><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/1574156816934.png" alt="1574156816934"></p>
 <p>As you can see, both methods can output the value of AUC, and it looks no different.</p>
-
 <h2 id="differences-in-results-between-the-two-formulas-based-methods">Differences in results between the two formulas-based methods</h2>
-
 <p>What is the difference between the two methods?</p>
-
 <p>The main difference between the two methods is that:</p>
-
 <p>The former method, which can be used to calculate the AUC of an individual model, and it can also calculate the AUC of a typical population value in a population model after replacing &ldquo;Cl&rdquo; with &ldquo;tvCl&rdquo;, but it cannot calculate the AUC of each individual in the population model.</p>
-
 <p>The latter method, which can be used to calculate the AUC of an individual model，it can calculate the AUC of each individual in the population model.</p>
-
 <p>Obviously, what we need more when calculating the population model is the value of the individual&rsquo;s AUC in the population model.</p>
-
 <h1 id="integrals-based-auc-calculation">Integrals-based AUC calculation</h1>
-
 <p>In addition to the above formula-based method for calculating AUC, Phoenix also allows users to  integrals-based method for calculating AUC. This method is a way of definite integration. So the calculated AUC is equivalent to AUClast or part of the area under the specified time period &ldquo;Partial Areas AUC(部分曲线下面积)&rdquo; or AUCall.</p>
-
 <h2 id="implementation-methods-for-integrals-based">Implementation: “Methods for Integrals-based“</h2>
-
 <p>Write a differential equation for calculating AUC in the model, such as deriv (AUC = C), and then add the table under the “Run Options(运行选项)” tab (if it is the simulation mode, you can specify the parameter directly in the model table). Specify &ldquo;AUC&rdquo; as the output &ldquo;Varirables(变量)&rdquo; in the table, and the time required to report the AUC is specified in &ldquo;Times&rdquo;, and finally you can see the value of this parameter in the &ldquo;Table01&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
-
 <pre><code>test(){
 deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
 urinecpt(A0 = (Cl * C))
@@ -241,28 +213,16 @@ fixef(tvCl = c(, 0.37, ))
 fixef(tvV2 = c(, 55, ))
 fixef(tvCl2 = c(, 1, ))
 }
-</code></pre>
-
-<p><img src="/images/PML中AUC的计算方法/clip_image003.png" alt="计算" /></p>
-
+</code></pre><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/clip_image003.png" alt="计算"></p>
 <p>You can see that there are multiple different AUC values in the result. The value of these AUCs is the value of AUC from 0 to the corresponding time point, so this method is more similar to AUClast.</p>
-
 <p>The “Methods for Integrals-based“ can be combined with the &ldquo;Methods for defining secondary parameters&rdquo; or &ldquo;Methods for directly defining formulas&rdquo; above to satisfy the calculation of some complex AUCs, such as the AUC value of each individual&rsquo;s 0-6 hour is calculated in the population model, which can be based on the &ldquo;integration-based method&rdquo; + &ldquo;method of directly defining the formula&rdquo;, deriv (AUC = C), pAUC = AUC.</p>
-
 <h1 id="summary">summary:：</h1>
-
 <h2 id="individual-model">Individual model:</h2>
-
 <p>Calculate AUCinf, using &ldquo;Method for defining secondary parameters&rdquo;, secondary(AUC=A1Dose/Cl)</p>
-
 <p>Calculate AUClast, using “Methods for Integrals-based“, deriv(AUC = C)</p>
-
 <h2 id="population-model">Population model:</h2>
-
 <p>When calculating the AUCinf of each individual, using &ldquo;method of directly defining the formula&rdquo;，AUC=A1Dose/Cl</p>
-
 <p>When calculating the AUClast of each individual, using “Methods for Integrals-based“, deriv(AUC = C)</p>
-
 <p>Other complex situations may require flexible application.</p>
 
 
@@ -357,7 +317,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

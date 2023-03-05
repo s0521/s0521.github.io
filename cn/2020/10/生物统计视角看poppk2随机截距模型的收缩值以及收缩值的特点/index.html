@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -143,77 +143,57 @@ code.has-jax {
 
 
 
-
-
 <h1 id="前言">前言：</h1>
-
 <p>在上篇案例中，我们通过“线性混合效应（Linear Mixed Effect）”操作对象构建除了一个随机截距模型，来说明他与PopPK的一些联系，我们知道提到混合效应模型，总是绕不开“收缩”这一概念，那此模型的收缩值该如何计算呢？</p>
-
 <h1 id="正文">正文：</h1>
-
 <p>我不打算自己推导，直接拿来主义。</p>
-
 <h2 id="收缩值的其他计算公式">收缩值的其他计算公式：</h2>
-
 <p>参考文献指出，随机截距的模型的收缩可以这样计算：</p>
-
 <p><strong>方差形式：</strong></p>
-
-<p><img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image002.png" alt="equation M18" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image002.png" alt="equation M18"></p>
 <p><strong>标准差形式：</strong></p>
-
-<p><img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image004.png" alt="equation M19" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image004.png" alt="equation M19"></p>
 <p>引自：Shrinkage in Nonlinear Mixed-Effects Population Models: Quantification, Influencing Factors, and Impact</p>
-
 <p>所以，通过公式可以很明显的看出，收缩值的大小与ω和σ的相对大小有关，ω比σ越大，收缩值越小，反之越大；他们相等的时候，收缩值是多少呢？</p>
-
 <p>容易计算出来，</p>
-
-<p><img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image006.png" alt="img" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image006.png" alt="img"></p>
 <p><strong>非常接近0.3，我想这就是所谓的经验性的要求收缩至小于0.3的要求的来源~！</strong></p>
-
 <p>通过类似的计算，可知，上篇文献中线性混合效应模型的收缩值为：21.4%</p>
-
 <h2 id="讨论">讨论：</h2>
-
 <p>我们来看看ω和σ在不同相对大小下标准差版收缩至的情况：</p>
-
 <ul>
-<li><p>假定<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image008.png" alt="img" />=1，</p></li>
-
-<li><p>然后指定不同的<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image010.png" alt="img" />值，并计算所对应的<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image012.png" alt="img" />值，</p></li>
-
-<li><p><em>然后计算方差的比值与收缩值。</em>
-<img src="/images/生物统计视角看PopPK（2）：随机截距模型的收缩值以及收缩值的特点/clip_image026.png" alt="img" /></p></li>
+<li>
+<p>假定<img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image008.png" alt="img">=1，</p>
+</li>
+<li>
+<p>然后指定不同的<img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image010.png" alt="img">值，并计算所对应的<img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image012.png" alt="img">值，</p>
+</li>
+<li>
+<p><em>然后计算方差的比值与收缩值。</em>
+<img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9C%8BPopPK%EF%BC%882%EF%BC%89%EF%BC%9A%E9%9A%8F%E6%9C%BA%E6%88%AA%E8%B7%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B6%E7%BC%A9%E5%80%BC%E4%BB%A5%E5%8F%8A%E6%94%B6%E7%BC%A9%E5%80%BC%E7%9A%84%E7%89%B9%E7%82%B9/clip_image026.png" alt="img"></p>
+</li>
 </ul>
-
 <p><strong>可以看到：</strong></p>
-
 <p>当标准差版收缩≈30%，“个体间变异”的方差 约等于 “个体内变异”的方差。</p>
-
 <p>当标准差版收缩≈45%，“个体间变异”的方差 约是 “个体内变异”的方差的 一半。</p>
-
 <p>当标准差版收缩≈16%，“个体间变异”的方差 约是 “个体内变异”的方差的 一倍。</p>
-
 <p>当标准差版收缩≈68%，“个体间变异”的方差 约是 “个体内变异”的方差的 九分之一。</p>
-
 <p>当标准差版收缩≈ 5%，“个体间变异”的方差 约是 “个体内变异”的方差的 九倍。</p>
-
 <p>所以通篇说了这么多，有啥直观意义呢？</p>
-
 <h2 id="直观的意义就是">直观的意义就是，</h2>
-
 <ol>
-<li><p>我们所收集数据质量的好坏，会直接影响我们可以识别出来的最小的个体间变异，</p></li>
-
-<li><p>如果没有我们收集到的质量很烂，由于记录时间的偏差、分析方法的变差、服药时间记录的偏差等导致的个体内变异很高，这会导致我们很难识别出一些参数的个体间变异，导致我们模型建立过程很痛苦。</p></li>
-
-<li><p>一般认为，参数的个体间变异是大于个体内变异的。</p></li>
-
-<li><p>所以通常提到“收缩值&gt;30%表明个体层面的信息不足”，翻译为大白话就是，你的数据分析得到的个体内变异太大了，识别不了比个体内变异更小的个体间变异的参数；所以，要么重新做实验获取更高质量的数据，要么放弃对这个个体间变异参数的估计。</p></li>
+<li>
+<p>我们所收集数据质量的好坏，会直接影响我们可以识别出来的最小的个体间变异，</p>
+</li>
+<li>
+<p>如果没有我们收集到的质量很烂，由于记录时间的偏差、分析方法的变差、服药时间记录的偏差等导致的个体内变异很高，这会导致我们很难识别出一些参数的个体间变异，导致我们模型建立过程很痛苦。</p>
+</li>
+<li>
+<p>一般认为，参数的个体间变异是大于个体内变异的。</p>
+</li>
+<li>
+<p>所以通常提到“收缩值&gt;30%表明个体层面的信息不足”，翻译为大白话就是，你的数据分析得到的个体内变异太大了，识别不了比个体内变异更小的个体间变异的参数；所以，要么重新做实验获取更高质量的数据，要么放弃对这个个体间变异参数的估计。</p>
+</li>
 </ol>
 
 
@@ -293,7 +273,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

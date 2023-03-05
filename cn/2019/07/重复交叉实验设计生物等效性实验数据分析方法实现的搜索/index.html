@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -140,21 +140,21 @@ code.has-jax {
 
 
 <p>对于2制剂多周期的重复生物等效性实验，其数据分析时协方差模型在sas或者Phoenix中选择的“因子分析”的类型（FA2），这给使用其他软件完成同样的工作造成了困难，比如</p>
-
 <ul>
-<li><p>SPSS软件就找不到这种类型的协方差模型，</p></li>
-
-<li><p>在R语言中，有些包可以使用非线性混合效应模型进行分析，它们大部分也不能指定因子分析为协方差结构</p></li>
-
-<li><ul>
+<li>
+<p>SPSS软件就找不到这种类型的协方差模型，</p>
+</li>
+<li>
+<p>在R语言中，有些包可以使用非线性混合效应模型进行分析，它们大部分也不能指定因子分析为协方差结构</p>
+</li>
+<li>
+<ul>
 <li>nlme包的gls函数允许制定协方差模型，但未包含因子分析的包</li>
-</ul>
-
-<ul>
 <li>lme4包不能指定因子分析为协方差结构</li>
 <li>目前有希望的是另一个线性混合效应的包MCMCLMER，它允许制定协方差结构，但语焉不详，所以待考察与测试</li>
 <li>R语言的ARMM包可以实现将因子分析指定为协方差结构，但这是一个商业收费的包，不是免费的。</li>
-</ul></li>
+</ul>
+</li>
 </ul>
 
 
@@ -234,7 +234,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

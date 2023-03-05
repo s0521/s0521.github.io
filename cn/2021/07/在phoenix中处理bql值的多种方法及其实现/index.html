@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -133,28 +133,17 @@ code.has-jax {
 
 
 
-
-
 <h1 id="引言">引言：</h1>
-
 <p>原始数据中“删失（Censor）”的数据点是数据分析中所面临的一项棘手的问题，“Censor（删失）”数据在药代动力学分析中，又可以被划分为“左删失（Left Censoring）”、“右删失（Right Censoring）”等，常提到的“低于定量下限（Below the Quantization Limit, BQL）”一般是一种“左删失（Left Censoring）”，“高于定量上限（After Quantification Limit, AQL）”一般是一种“右删失（Left Censoring）”，本文对“低于定量下限”数据在常见药动学分析中的处理方式的实现做了一些说明介绍。</p>
-
 <h1 id="目录">目录</h1>
-
-<!---toc--->
-
-<h1 id="1-什么是bql值">1.什么是BQL值?</h1>
-
+<!-- raw HTML omitted -->
+<h1 id="1什么是bql值">1.什么是BQL值?</h1>
 <p>BQL: Below the Quantization Limit，低于量化限</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image002.png" alt="img" /></p>
-
-<h1 id="2-处理bql值的多种方法">2.处理BQL值的多种方法</h1>
-
-<h2 id="2-1基于文献和监管指南的多种处理方法">2.1基于文献和监管指南的多种处理方法：</h2>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image002.png" alt="img"></p>
+<h1 id="2处理bql值的多种方法">2.处理BQL值的多种方法</h1>
+<h2 id="21基于文献和监管指南的多种处理方法">2.1基于文献和监管指南的多种处理方法：</h2>
 <ul>
-<li><strong>《Ways to Fit a PK Model with Some Data Below the Quantification Limit</strong><strong>》所述的多种方法</strong></li>
+<li><strong>《Ways to Fit a PK Model with Some Data Below the Quantification Limit</strong>**》所述的多种方法**</li>
 <li>——<strong>视为缺失</strong>-当作对待缺失的数据值</li>
 <li>————(M1)将BLQ测量的浓度视为缺失(MDV)</li>
 <li>——<strong>强制指定一个值</strong></li>
@@ -170,233 +159,139 @@ code.has-jax {
 <li><strong>指南建议</strong></li>
 <li>——<strong>Tmax</strong>前强制指定为0，Tmax后视为缺失</li>
 </ul>
-
-<h2 id="2-2不同方法举例">2.2不同方法举例：</h2>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image004.png" alt="img" /></p>
-
+<h2 id="22不同方法举例">2.2不同方法举例：</h2>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image004.png" alt="img"></p>
 <p><strong>注释：</strong></p>
-
 <p>对于Phoenix软件的NCA操作对象和ML Model操作对象，如果浓度值不是数字，则视为该数据点是缺失的。</p>
-
 <p>所以对于需要被缺失的数据，可以将其从数据集中删除，或者将浓度值指定未非数值的符号即可将其视为缺失。</p>
-
-<h2 id="2-3处理方法类型的划分">2.3处理方法类型的划分：</h2>
-
+<h2 id="23处理方法类型的划分">2.3处理方法类型的划分：</h2>
 <p>基于“对PK数据使用不同方法计算PK参数”视角对“处理BQL值的多种方法”的分类划分：</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/image-20210706182051348.png" alt="image-20210706182051348" /></p>
-
-<h1 id="3-介绍实现">3.介绍实现</h1>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/image-20210706182051348.png" alt="image-20210706182051348"></p>
+<h1 id="3介绍实现">3.介绍实现</h1>
 <ul>
-<li>3.1.同时适用于“非房室模型分析”和“房室模型分析”的方法</li>
-<li>——3.1.1视为缺失</li>
-
-<li><p>——3.1.2强制指定为一个具体数值</p></li>
-
-<li><p>——3.1.3区分Tmax前、Tmax后进行指定</p></li>
-
-<li><p>3.2.仅适用于“房室模型分析”的方法</p></li>
-
-<li><p>——3.2.1个体建模</p></li>
-
-<li><p>——3.2.2群体建模</p></li>
-
-<li><p>Phoenix NLME8.3版本VPC绘制的新特性</p></li>
+<li>
+<p>3.1.同时适用于“非房室模型分析”和“房室模型分析”的方法</p>
+</li>
+<li>
+<p>——3.1.1视为缺失</p>
+</li>
+<li>
+<p>——3.1.2强制指定为一个具体数值</p>
+</li>
+<li>
+<p>——3.1.3区分Tmax前、Tmax后进行指定</p>
+</li>
+<li>
+<p>3.2.仅适用于“房室模型分析”的方法</p>
+</li>
+<li>
+<p>——3.2.1个体建模</p>
+</li>
+<li>
+<p>——3.2.2群体建模</p>
+</li>
+<li>
+<p>Phoenix NLME8.3版本VPC绘制的新特性</p>
+</li>
 </ul>
-
-<h2 id="使用的-数据-与-操作对象">使用的“数据”与“操作对象”</h2>
-
+<h2 id="使用的数据与操作对象">使用的“数据”与“操作对象”</h2>
 <p>该数据集用于3.1~3.2.1章节</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image007.png" alt="表格  描述已自动生成" /></p>
-
-<p>通过在Phoenix中的<strong>“BQL”操作对象</strong>实现对低于定量下限数据点的处理，可通过右键数据表格，然后依次在右键菜单中选择“发送到（Send To）”→“数据管理（Data Management）” →“BQL”菜单，将数据集发送至“BQL”操作对象用于处理。</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image009.jpg" alt="图形用户界面, 应用程序  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image007.png" alt="表格  描述已自动生成"></p>
+<p>通过在Phoenix中的**“BQL”操作对象**实现对低于定量下限数据点的处理，可通过右键数据表格，然后依次在右键菜单中选择“发送到（Send To）”→“数据管理（Data Management）” →“BQL”菜单，将数据集发送至“BQL”操作对象用于处理。</p>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image009.jpg" alt="图形用户界面, 应用程序  描述已自动生成"></p>
 <p>在BQL操作对象中，在其“主映射表（Main）”中，按如下截图对数据集进行映射。</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image011.jpg" alt="表格  描述已自动生成" /></p>
-
-<h2 id="3-1-同时适用于-非房室模型分析-和-房室模型分析-的方法">3.1.同时适用于“非房室模型分析”和“房室模型分析”的方法</h2>
-
-<h3 id="3-1-1视为-缺失-missing">3.1.1视为“缺失（Missing）”</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image011.jpg" alt="表格  描述已自动生成"></p>
+<h2 id="31同时适用于非房室模型分析和房室模型分析的方法">3.1.同时适用于“非房室模型分析”和“房室模型分析”的方法</h2>
+<h3 id="311视为缺失missing">3.1.1视为“缺失（Missing）”</h3>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image013.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image013.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image015.jpg" alt="表格  描述已自动生成" /></p>
-
-<h3 id="3-1-2a-强制指定为一个具体数值">3.1.2a 强制指定为一个具体数值</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image015.jpg" alt="表格  描述已自动生成"></p>
+<h3 id="312a-强制指定为一个具体数值">3.1.2a 强制指定为一个具体数值</h3>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image017.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image017.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image019.jpg" alt="表格  描述已自动生成" /></p>
-
-<h3 id="3-1-2b-强制指定为一个具体数值">3.1.2b 强制指定为一个具体数值</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image019.jpg" alt="表格  描述已自动生成"></p>
+<h3 id="312b-强制指定为一个具体数值">3.1.2b 强制指定为一个具体数值</h3>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image021.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image021.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image023.jpg" alt="表格  描述已自动生成" /></p>
-
-<h3 id="3-1-3a-根据出现位置-进行差异化的替换">3.1.3a 根据出现位置，进行差异化的替换</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image023.jpg" alt="表格  描述已自动生成"></p>
+<h3 id="313a-根据出现位置进行差异化的替换">3.1.3a 根据出现位置，进行差异化的替换</h3>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image025.jpg" alt="表格  中度可信度描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image025.jpg" alt="表格  中度可信度描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image027.jpg" alt="表格  描述已自动生成" /></p>
-
-<h3 id="3-1-3b-根据出现位置-进行差异化的替换">3.1.3b 根据出现位置，进行差异化的替换</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image027.jpg" alt="表格  描述已自动生成"></p>
+<h3 id="313b-根据出现位置进行差异化的替换">3.1.3b 根据出现位置，进行差异化的替换</h3>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image029.jpg" alt="表格  中度可信度描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image029.jpg" alt="表格  中度可信度描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image031.jpg" alt="表格  描述已自动生成" /></p>
-
-<h3 id="3-1-4a-将非数字字符替换为指定字符">3.1.4a 将非数字字符替换为指定字符</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image031.jpg" alt="表格  描述已自动生成"></p>
+<h3 id="314a-将非数字字符替换为指定字符">3.1.4a 将非数字字符替换为指定字符</h3>
 <p>其他原因造成的数据缺失</p>
-
 <p>处理低于定量下限的数据，有时我们也面临由于其他原因造成的数据确实</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image033.jpg" alt="文本  低可信度描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image033.jpg" alt="文本  低可信度描述已自动生成"></p>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image035.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image035.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image037.jpg" alt="表格  描述已自动生成" /></p>
-
-<h3 id="3-1-4b-将数值与非数值字符按多种规则进行替换">3.1.4b 将数值与非数值字符按多种规则进行替换</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image037.jpg" alt="表格  描述已自动生成"></p>
+<h3 id="314b-将数值与非数值字符按多种规则进行替换">3.1.4b 将数值与非数值字符按多种规则进行替换</h3>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image039.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image039.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image041.jpg" alt="表格  描述已自动生成" /></p>
-
-<h2 id="3-2-仅适用于-房室模型分析-的方法">3.2.仅适用于“房室模型分析”的方法</h2>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image041.jpg" alt="表格  描述已自动生成"></p>
+<h2 id="32仅适用于房室模型分析的方法">3.2.仅适用于“房室模型分析”的方法</h2>
 <h3 id="额外的要求">额外的要求</h3>
-
 <p>实现仅适用于“房室模型分析”的方法时，不仅仅需要使用“BQL”操作对象，还额外的需要在用于建模分析的操作对象“ML Model（曾用名Phoenix Model）”中进行额外的设置，才可实现。</p>
-
-<h3 id="3-2-1对于个体数据的实现步骤">3.2.1对于个体数据的实现步骤</h3>
-
-<h4 id="3-2-1-首先-识别出低于定量下限的浓度值">3.2.1 首先，识别出低于定量下限的浓度值</h4>
-
+<h3 id="321对于个体数据的实现步骤">3.2.1对于个体数据的实现步骤</h3>
+<h4 id="321-首先识别出低于定量下限的浓度值">3.2.1 首先，识别出低于定量下限的浓度值</h4>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image043.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image043.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image045.jpg" alt="表格  描述已自动生成" /></p>
-
-<h4 id="3-2-1-然后-使用房室模型估计似然">3.2.1 然后，使用房室模型估计似然</h4>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image045.jpg" alt="表格  描述已自动生成"></p>
+<h4 id="321-然后使用房室模型估计似然">3.2.1 然后，使用房室模型估计似然</h4>
 <p>第三步，将“BQL”操作对象执行后产生的结果表格发送至“ML Model（曾用名Phoenix Model）”操作对象，然后按照下图所使完成“选项卡”区域和“映射列表”区域的设置。</p>
-
 <p>小提示：与BQL有关的设置是在“选项卡”区域勾选“BQL”复选框，在映射列表中将“CObsBQL”列映射至“CObsBQL”字段。</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image047.jpg" alt="图形用户界面, 文本  中度可信度描述已自动生成" /></p>
-
-<h4 id="3-2-1不同处理方法对房室模型估计的影响">3.2.1不同处理方法对房室模型估计的影响</h4>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image047.jpg" alt="图形用户界面, 文本  中度可信度描述已自动生成"></p>
+<h4 id="321不同处理方法对房室模型估计的影响">3.2.1不同处理方法对房室模型估计的影响</h4>
 <p>下图分别展示了使用“完整数据集（Full Data）”进行拟合和分别“按照指南建议处理（1_3a Conditional_Tmax_Simulation_Conc）”和“估计BLQ点的浓度小于LLoQ的似然（2_1 Simulation_Conc）”处理拟合得到的药时曲线，与观测得到的血药浓度。</p>
-
 <p>注释：“完整数据集（Full Data）”=“C Missing” + “C Obs”所构成的数据集，除“完整数据集（Full Data）”外其模型拟合时仅使用“C Obs”所构成的数据集，并将“C Missing” 所构成的点按对应BQL规则处理。</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image049.jpg" alt="图表, 直方图  描述已自动生成" /></p>
-
-<h3 id="3-2-2对于群体数据">3.2.2对于群体数据</h3>
-
-<h4 id="3-2-2-1群体建模所使用的数据">3.2.2.1群体建模所使用的数据</h4>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image051.jpg" alt="图形用户界面, 应用程序, 表格, Excel  描述已自动生成" /></p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image053.jpg" alt="图表  描述已自动生成" /></p>
-
-<h4 id="3-2-2-2群体建模中bql规则的实现步骤">3.2.2.2群体建模中BQL规则的实现步骤</h4>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image049.jpg" alt="图表, 直方图  描述已自动生成"></p>
+<h3 id="322对于群体数据">3.2.2对于群体数据</h3>
+<h4 id="3221群体建模所使用的数据">3.2.2.1群体建模所使用的数据</h4>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image051.jpg" alt="图形用户界面, 应用程序, 表格, Excel  描述已自动生成"></p>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image053.jpg" alt="图表  描述已自动生成"></p>
+<h4 id="3222群体建模中bql规则的实现步骤">3.2.2.2群体建模中BQL规则的实现步骤</h4>
 <p>在Phoenix软件中对数据进行“个体药动学建模”与“群体药动学建模”都是通过同一个操作对象“ML Model（曾用名Phoenix Model）”实现，所以设置上也完全一样</p>
-
 <p>步骤一，使用“BQL”操作对象识别出低于定量下限的浓度值</p>
-
 <p>步骤二，在“ML Model”中使用房室模型估计似然</p>
-
-<h4 id="3-2-2-3第一步-识别出低于定量下限的浓度值">3.2.2.3第一步，识别出低于定量下限的浓度值</h4>
-
+<h4 id="3223第一步识别出低于定量下限的浓度值">3.2.2.3第一步，识别出低于定量下限的浓度值</h4>
 <p>第一步，按照如下图所使的设置对“BQL”操作对象的“规则设置（Rule Set）”表格进行设置</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image055.jpg" alt="表格  描述已自动生成" /></p>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image055.jpg" alt="表格  描述已自动生成"></p>
 <p>第二步，执行“BQL”操作对象，执行后产生的结果如下图所示</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image057.jpg" alt="图形用户界面, 应用程序, 表格, Excel  描述已自动生成" /></p>
-
-<h4 id="3-2-2-4第三步-使用房室模型估计似然">3.2.2.4第三步，使用房室模型估计似然</h4>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image059.jpg" alt="图形用户界面, 文本, 应用程序  描述已自动生成" /></p>
-
-<h4 id="3-2-2-5不同处理方法对结果影响">3.2.2.5不同处理方法对结果影响</h4>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image061.jpg" alt="图形用户界面  描述已自动生成" /></p>
-
-<h3 id="3-2-3-phoenix8-3版本vpc绘制的新特性">3.2.3 Phoenix8.3版本VPC绘制的新特性</h3>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image057.jpg" alt="图形用户界面, 应用程序, 表格, Excel  描述已自动生成"></p>
+<h4 id="3224第三步使用房室模型估计似然">3.2.2.4第三步，使用房室模型估计似然</h4>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image059.jpg" alt="图形用户界面, 文本, 应用程序  描述已自动生成"></p>
+<h4 id="3225不同处理方法对结果影响">3.2.2.5不同处理方法对结果影响</h4>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image061.jpg" alt="图形用户界面  描述已自动生成"></p>
+<h3 id="323-phoenix83版本vpc绘制的新特性">3.2.3 Phoenix8.3版本VPC绘制的新特性</h3>
 <p>Phoenix8.3版本针对群体模型的VPC图绘制增加了新的特性，在用户表示出BQL的情况下，可以在“Predictive Check”运行模式下额外绘制在X轴变量不同“Bin（分箱，箱体）”情形下，分别绘制每个“Bin（分箱，箱体）”中BQL数据点占所有数据点的BQL比例图。</p>
-
-<h4 id="3-2-3-1-bql比例图图">3.2.3.1 BQL比例图图</h4>
-
+<h4 id="3231-bql比例图图">3.2.3.1 BQL比例图图</h4>
 <p>所需的额外设置：</p>
-
 <p>在“ML Model（曾用名Phoenix Model）”操作对象中，勾选“Population（群体）”复选框， 在“Structure（结构）”选项卡页面中勾选“BQL”复选框</p>
-
 <p>在“Structure（结构）”选项卡页面中选择“Predictive Check”运行模式，并勾选“BQL”复选框，然后在对应的下拉列表中选择“BQL Fraction(BQL比例图)”</p>
-
 <p>执行，即可在“Results（结果）”标签页中查看到“Pop PredCheck BQLFraction”图</p>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image063.jpg" alt="图形用户界面  描述已自动生成" /></p>
-
-<h4 id="3-2-3-2对应的-vpc图-与-bql缺失比例图">3.2.3.2对应的“VPC图”与“BQL缺失比例图”</h4>
-
-<p><img src="/images/在Phoenix中处理BQL值的多种方法及其实现/clip_image065.jpg" alt="图表, 折线图  描述已自动生成" /></p>
-
-<h1 id="4-小结">4.小结：</h1>
-
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image063.jpg" alt="图形用户界面  描述已自动生成"></p>
+<h4 id="3232对应的vpc图与bql缺失比例图">3.2.3.2对应的“VPC图”与“BQL缺失比例图”</h4>
+<p><img src="/images/%E5%9C%A8Phoenix%E4%B8%AD%E5%A4%84%E7%90%86BQL%E5%80%BC%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0/clip_image065.jpg" alt="图表, 折线图  描述已自动生成"></p>
+<h1 id="4小结">4.小结：</h1>
 <p>在Phoenix软件中通过使用“BQL”操作对象并辅以“ML Model”操作对象可以轻松实现多种处理BQL数值的方法，这些方法有的仅适用于“房室模型拟合”，有的同时适用于“非房室模型分析”和“房室模型拟合”。</p>
-
 <h1 id="参考资料">参考资料：</h1>
-
 <ul>
 <li>《WinNonlin User&rsquo;s Guide》</li>
 <li>《Maximum Likelihood Models User&rsquo;s Guide》</li>
 <li>使用低于量化限制的一些数据拟合 PK 模型的方法， [1]&ldquo;Errata: Ways to Fit a PK Model with Some Data Below the Quantification Limit, Stuart L. Beal, J. Pharmacokin. Pharmacodyn. 28 :481–504 (2001).&rdquo; Journal of Pharmacokinetics &amp; Pharmacodynamics 29.3(2002):309-309.</li>
-<li>群体分析中的QL（量化极限）处理：右删失(AQL)的特殊情况，<a href="https://support.certara.com/forums/topic/808-samples-under-loq-handling-in-phoenix-cf-nonmem-ahn-method/?hl=censored#entry4195">https://support.certara.com/forums/topic/808-samples-under-loq-handling-in-phoenix-cf-nonmem-ahn-method/?hl=censored#entry4195</a></li>
+<li>群体分析中的QL（量化极限）处理：右删失(AQL)的特殊情况，https://support.certara.com/forums/topic/808-samples-under-loq-handling-in-phoenix-cf-nonmem-ahn-method/?hl=censored#entry4195</li>
 <li>什么是量化？， <a href="https://www.certara.com/knowledge-base/what-is-quantification-anyway/">https://www.certara.com/knowledge-base/what-is-quantification-anyway/</a></li>
 <li>如何处理那些blq， <a href="https://www.certara.com/knowledge-base/what-to-do-with-those-blqs/">https://www.certara.com/knowledge-base/what-to-do-with-those-blqs/</a></li>
 <li>群体分析中的 QL（Quantification limits，量化限制）的处理：右侧删失的特殊情况 （AQL）， <a href="https://slidetodoc.com/ql-quantification-limits-handling-in-population-analysis-special/">https://slidetodoc.com/ql-quantification-limits-handling-in-population-analysis-special/</a></li>
@@ -479,7 +374,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

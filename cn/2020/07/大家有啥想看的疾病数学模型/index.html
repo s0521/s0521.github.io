@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -148,28 +148,28 @@ code.has-jax {
 
 
 <p>我最近打算开新坑，写一些疾病数学模型的案例，我目前打算的计划：</p>
-
 <ul>
-<li><p>LPS诱导的炎症模型</p></li>
-
-<li><p>肿瘤增长/凋亡模型</p></li>
-
-<li><ul>
+<li>
+<p>LPS诱导的炎症模型</p>
+</li>
+<li>
+<p>肿瘤增长/凋亡模型</p>
+</li>
+<li>
+<ul>
 <li>经验模型</li>
-</ul>
-
-<ul>
 <li>半机制模型1</li>
 <li>半机制模型2</li>
-</ul></li>
-
-<li><p>细胞增长/凋亡模型</p></li>
-
-<li><p>病毒动力学模型</p></li>
 </ul>
-
+</li>
+<li>
+<p>细胞增长/凋亡模型</p>
+</li>
+<li>
+<p>病毒动力学模型</p>
+</li>
+</ul>
 <p><strong>大家有啥想看的疾病数学模型么？</strong></p>
-
 <p>如果有，可以留言回复下，并最好可以给出参考文献，我会尽量在Phoenix中重现对应的模型~</p>
 
 
@@ -249,7 +249,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

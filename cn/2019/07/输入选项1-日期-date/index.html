@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -137,36 +137,20 @@ code.has-jax {
 
 
 
-
-
 <p>引言：Phoenix Model的“输入选项（Input Options）”选项卡的“日期?(Date?)”复选框勾选后，允许额外的映射一个“Date”字段，以便于输入日期。</p>
-
-<h1 id="1-界面变化">1.界面变化</h1>
-
-<h2 id="1-1-勾选-日期-date-复选框前的界面">1.1.勾选“日期?(Date?)”复选框前的界面：</h2>
-
-<p><img src="/images/输入选项1-日期-Date/1564109652319.png" alt="1564109652319" /></p>
-
-<h2 id="1-2-勾选-日期-date-复选框前的界面">1.2.勾选“日期?(Date?)”复选框前的界面：</h2>
-
-<p><img src="/images/输入选项1-日期-Date/1564109697195.png" alt="1564109697195" /></p>
-
+<h1 id="1界面变化">1.界面变化</h1>
+<h2 id="11勾选日期date复选框前的界面">1.1.勾选“日期?(Date?)”复选框前的界面：</h2>
+<p><img src="/images/%E8%BE%93%E5%85%A5%E9%80%89%E9%A1%B91-%E6%97%A5%E6%9C%9F-Date/1564109652319.png" alt="1564109652319"></p>
+<h2 id="12勾选日期date复选框前的界面">1.2.勾选“日期?(Date?)”复选框前的界面：</h2>
+<p><img src="/images/%E8%BE%93%E5%85%A5%E9%80%89%E9%A1%B91-%E6%97%A5%E6%9C%9F-Date/1564109697195.png" alt="1564109697195"></p>
 <p>可以看到勾选后，映射列表的表头行新增了一个字段“Date”，“输入选项（Input Options）”选项卡也额外新增除了一个下拉框，用于选择日期的格式。</p>
-
-<h1 id="2-应用示例">2.应用示例：</h1>
-
-<h2 id="2-1-假设现在有一个这样的试验">2.1.假设现在有一个这样的试验：</h2>
-
+<h1 id="2应用示例">2.应用示例：</h1>
+<h2 id="21假设现在有一个这样的试验">2.1.假设现在有一个这样的试验：</h2>
 <p>2019年3月28日是试验得第一天；</p>
-
 <p>给药方案：试验第一天在上8点口服100mg药物，下午4点口服100mg药物，然后每天都重复该给药方案，持续到第4天；</p>
-
 <p>采样方案：第1天8点给药后采集1、2、4、6时刻得血样，第4天8点给药后采集1、2、4、6时刻得血样。</p>
-
-<h2 id="2-2-我们现在尝试使用多种格式构建该数据集">2.2.我们现在尝试使用多种格式构建该数据集：</h2>
-
-<h3 id="2-2-1-以第一次给药为0点">2.2.1.以第一次给药为0点：</h3>
-
+<h2 id="22我们现在尝试使用多种格式构建该数据集">2.2.我们现在尝试使用多种格式构建该数据集：</h2>
+<h3 id="221以第一次给药为0点">2.2.1.以第一次给药为0点：</h3>
 <table>
 <thead>
 <tr>
@@ -176,7 +160,6 @@ code.has-jax {
 <th>Amount</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
@@ -184,105 +167,90 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
 <td>90</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>2</td>
 <td>81</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>4</td>
 <td>67</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>6</td>
 <td>55</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>8</td>
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>24</td>
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>32</td>
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>48</td>
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>56</td>
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>72</td>
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>73</td>
 <td>119</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>74</td>
 <td>108</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>76</td>
 <td>89</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>78</td>
 <td>73</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>80</td>
@@ -291,17 +259,11 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p>介绍，该样式是一种常用格式，也是储存数据的基本格式，时间点的计算以第一次给药开始为0点，然后记录其他事件的时间。</p>
-
 <p>点评，软件一般最终都需要将数据转换为类似的格式进行最终的计算。</p>
-
 <p>优点，清晰明了，格式规整，最为通用，便于直接使用数据进行计算，</p>
-
 <p>缺点，作为人类很难一下子将表中的点和现实世界的时间联系起来。</p>
-
-<h3 id="2-2-2-天数-以现实世界的时间">2.2.2.天数+以现实世界的时间</h3>
-
+<h3 id="222天数以现实世界的时间">2.2.2.天数+以现实世界的时间</h3>
 <table>
 <thead>
 <tr>
@@ -312,7 +274,6 @@ code.has-jax {
 <th>Amount</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
@@ -321,7 +282,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -329,7 +289,6 @@ code.has-jax {
 <td>90</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -337,7 +296,6 @@ code.has-jax {
 <td>81</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -345,7 +303,6 @@ code.has-jax {
 <td>67</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -353,7 +310,6 @@ code.has-jax {
 <td>55</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -361,7 +317,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>1</td>
@@ -369,7 +324,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>1</td>
@@ -377,7 +331,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>1</td>
@@ -385,7 +338,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>1</td>
@@ -393,7 +345,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -401,7 +352,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -409,7 +359,6 @@ code.has-jax {
 <td>119</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -417,7 +366,6 @@ code.has-jax {
 <td>108</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -425,7 +373,6 @@ code.has-jax {
 <td>89</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -433,7 +380,6 @@ code.has-jax {
 <td>73</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -443,17 +389,11 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p>介绍，也是一种储存数据的格式，需要额外增加了天数这一数据列，并指定试验开始的日期，作为天数的计算的起点（有的人喜欢把起点成为第0天，有的人喜欢把起点成为第1天），时间点的计算以每一天现实世界的0点为起点，然后记录其他事件的时间。</p>
-
 <p>点评，数据集较大的时候人们，喜欢这种排布方式。</p>
-
 <p>优点，清晰明了，格式规整，</p>
-
 <p>缺点，直接用于计算略有不便。</p>
-
-<h3 id="2-2-3-天数-现实世界的时钟时间">2.2.3.天数+现实世界的时钟时间</h3>
-
+<h3 id="223天数现实世界的时钟时间">2.2.3.天数+现实世界的时钟时间</h3>
 <table>
 <thead>
 <tr>
@@ -464,7 +404,6 @@ code.has-jax {
 <th>Amount</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
@@ -473,7 +412,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -481,7 +419,6 @@ code.has-jax {
 <td>90</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -489,7 +426,6 @@ code.has-jax {
 <td>81</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -497,7 +433,6 @@ code.has-jax {
 <td>67</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -505,7 +440,6 @@ code.has-jax {
 <td>55</td>
 <td></td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
@@ -513,7 +447,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>1</td>
@@ -521,7 +454,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>1</td>
@@ -529,7 +461,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>1</td>
@@ -537,7 +468,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>1</td>
@@ -545,7 +475,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -553,7 +482,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -561,7 +489,6 @@ code.has-jax {
 <td>119</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -569,7 +496,6 @@ code.has-jax {
 <td>108</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -577,7 +503,6 @@ code.has-jax {
 <td>89</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -585,7 +510,6 @@ code.has-jax {
 <td>73</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>1</td>
@@ -595,17 +519,11 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p>介绍，该样式也是一种常用样式，需要指定试验开始的日期，作为天数的计算的起点（有的人喜欢把起点成为第0天，有的人喜欢把起点成为第1天），然后结合现实世界的时钟记录每天发生的所有事件。</p>
-
 <p>点评，</p>
-
 <p>优点，作为人类可以非常容易的理解数据中的每一个时间，以及该时间点所对应的试验阶段，格式规整清晰，</p>
-
 <p>缺点，不便于直接使用数据进行计算，如果你打算自己通过纸和笔计算或演算下数据，过程会无比痛苦，你不得将时间转换为第一种样式进行计算，这对计算机来说也一样，但计算机完成这些任务很轻松。</p>
-
-<h3 id="2-2-4-现实世界的日期-现实世界的时钟时间">2.2.4.现实世界的日期+现实世界的时钟时间</h3>
-
+<h3 id="224现实世界的日期现实世界的时钟时间">2.2.4.现实世界的日期+现实世界的时钟时间</h3>
 <table>
 <thead>
 <tr>
@@ -616,7 +534,6 @@ code.has-jax {
 <th>Amount</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>2019-03-28</td>
@@ -625,7 +542,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-28</td>
 <td>1</td>
@@ -633,7 +549,6 @@ code.has-jax {
 <td>90</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-28</td>
 <td>1</td>
@@ -641,7 +556,6 @@ code.has-jax {
 <td>81</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-28</td>
 <td>1</td>
@@ -649,7 +563,6 @@ code.has-jax {
 <td>67</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-28</td>
 <td>1</td>
@@ -657,7 +570,6 @@ code.has-jax {
 <td>55</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-28</td>
 <td>1</td>
@@ -665,7 +577,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-29</td>
 <td>1</td>
@@ -673,7 +584,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-29</td>
 <td>1</td>
@@ -681,7 +591,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-30</td>
 <td>1</td>
@@ -689,7 +598,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-30</td>
 <td>1</td>
@@ -697,7 +605,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-31</td>
 <td>1</td>
@@ -705,7 +612,6 @@ code.has-jax {
 <td></td>
 <td>100</td>
 </tr>
-
 <tr>
 <td>2019-03-31</td>
 <td>1</td>
@@ -713,7 +619,6 @@ code.has-jax {
 <td>119</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-31</td>
 <td>1</td>
@@ -721,7 +626,6 @@ code.has-jax {
 <td>108</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-31</td>
 <td>1</td>
@@ -729,7 +633,6 @@ code.has-jax {
 <td>89</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-31</td>
 <td>1</td>
@@ -737,7 +640,6 @@ code.has-jax {
 <td>73</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2019-03-31</td>
 <td>1</td>
@@ -747,29 +649,17 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p>介绍，该样式也是一种常用样式，完全使用现实世界的日期和时间。</p>
-
 <p>点评，该样式与现实世界的时间完全一致，没有任何歧义，非常便于与团队内外所有人进行沟通，并且非常方便一线操作人员进行记录。</p>
-
 <p>优点，便于记录方便，便于传输，便于协作，便于标准化，也是CDISC中使用的格式；</p>
-
 <p>缺点，不便于直接使用数据进行计算，但在计算机化的今天，人们可以很方便的把该格式使用计算机转换为我们需要的任何类型。</p>
-
 <p>随着试验的扩大，我们的记录可能我们的记录会从最便于计算的第一种逐渐便会最便于无歧义交流的第4种。</p>
-
-<h1 id="3-在phoenix中的设置">3.在Phoenix中的设置</h1>
-
+<h1 id="3在phoenix中的设置">3.在Phoenix中的设置</h1>
 <p>第1种类型的数据，对于这种类型显而易见，无需勾选“日期?(Date?)”复选框，直接使用即可。</p>
-
 <p>第2种类型的数据，需在勾选“日期?(Date?)”复选框后，把映射列表中的“Time”列映射至“Time”字段，“Day”列映射至“Date”列即可。</p>
-
 <p>第3种类型的数据，需在勾选“日期?(Date?)”复选框后，把映射列表中的“Time”列映射至“Time”字段，“Day”列映射至“Date”列即可。</p>
-
 <p>第4种类型的数据，勾选“日期?(Date?)”复选框后，需要通过下拉框选择下日期的格式是“Day-Month-Year”，“Month-Day-Year”，“Year-Month-Day”，“Year-Day-Month”这4种格式中的哪一种，对于本案例选择“Year-Month-Day”这一种，然后在映射列表将“Time”列映射至“Time”字段，将“Day”列映射至“Date”列即可。</p>
-
-<h1 id="4-小结">4.小结</h1>
-
+<h1 id="4小结">4.小结</h1>
 <p>使用“日期?(Date?)”复选框可以帮助我们更灵活的排布数据集的时间列，是我们可以使用第2~4种排布格式，而不是仅被局限在第4种。</p>
 
 
@@ -849,7 +739,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

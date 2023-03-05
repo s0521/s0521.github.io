@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -140,23 +140,14 @@ code.has-jax {
 
 
 
-
-
 <h1 id="编写该代码的目的">编写该代码的目的：</h1>
-
 <h2 id="初衷"><strong>初衷</strong></h2>
-
 <p>我最近在撰写一些教程类的PPT，撰写过程繁琐、重复，其中有很多操作步骤是一样的，PPT的部分页面时可以重用的，但是PPT页面中对应的截图不能重用，因为有变化；截图、粘贴、裁剪、缩放、移动位置、删除旧图，一顿操作枯燥而乏味。。。。。</p>
-
 <p>我尝试寻找现有工具简化这一过程，努力的搜索与尝试了一番，发现唯一可堪一用的是“Pocket（口袋动画）”中的“设计”→“定位排版”→“对象尺子”、“应用尺子”；此功能可以实现图片的“宽高”、“位置”的获取与重用，这虽然可以减轻一些工作，但“裁剪”这一步仍然费劲，继续搜索而无所获。</p>
-
 <p>于是，该代码代码诞生了！</p>
-
 <h1 id="正文">正文</h1>
-
 <h2 id="代码"><strong>代码</strong></h2>
-
-<pre><code class="language-vbscript">'''创建时间：2021年8月18日
+<pre><code class="language-vbscript" data-lang="vbscript">'''创建时间：2021年8月18日
 '''最近一次更新时间：2021年10月18日
 '''作者：***
 '''作者邮箱：***
@@ -385,79 +376,65 @@ With shape_1
 End With
 
 End Sub
-</code></pre>
-
-<p>全部的代码就是上述了，主要是实现了对所选中对所选中图片的“裁切”、“宽高”、“位置”信息的获取与设置，并额外编写了用于串联这几个独立过程的代码，便于一键完成{“裁切”、“宽高”、“位置”的获取并删除选中的图片，然后从剪贴板粘贴一个新的对象，并完成对新对象的“裁切”、“宽高”、“位置”的设置}~！</p>
-
+</code></pre><p>全部的代码就是上述了，主要是实现了对所选中对所选中图片的“裁切”、“宽高”、“位置”信息的获取与设置，并额外编写了用于串联这几个独立过程的代码，便于一键完成{“裁切”、“宽高”、“位置”的获取并删除选中的图片，然后从剪贴板粘贴一个新的对象，并完成对新对象的“裁切”、“宽高”、“位置”的设置}~！</p>
 <h2 id="使用方法"><strong>使用方法</strong>：</h2>
-
 <p>1.我将上述代码处在一个PPT的宏模块中，之后将PPT另存为后缀名为“.ppam”格式，然后设置为PPT的加载项。</p>
-
 <p>2.下载、安装“RunMacro”程序，修改“”安装目录（C:\Program Files\RunMacro）下的“PowerPoint.xml”文件，修改后内容如下：</p>
-
-<pre><code class="language-xml">&lt;customUI xmlns=&quot;http://schemas.microsoft.com/office/2009/07/customui&quot;&gt;
-	&lt;ribbon startFromScratch=&quot;false&quot;&gt;
-		&lt;tabs&gt;
-			&lt;tab id=&quot;Tab1&quot; label=&quot;RunMacro&quot;&gt;
-				&lt;group id=&quot;Group1&quot; label=&quot;Cut&quot;&gt;
-					&lt;button id=&quot;Button1&quot; label=&quot;Get_Cut&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_获取_图片_裁切信息&quot;/&gt;
-					&lt;button id=&quot;Button2&quot; label=&quot;Set_Cut&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_设置_图片_裁切信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group2&quot; label=&quot;Scale&quot;&gt;
-					&lt;button id=&quot;Button3&quot; label=&quot;Get_Size&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_获取_图片_缩放信息&quot;/&gt;
-					&lt;button id=&quot;Button4&quot; label=&quot;Set_Size&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_设置_图片_缩放信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group3&quot; label=&quot;Size&quot;&gt;
-					&lt;button id=&quot;Button5&quot; label=&quot;Get_Size&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_设置_图片框_高宽信息&quot;/&gt;
-					&lt;button id=&quot;Button6&quot; label=&quot;Set_Size&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_设置_图片框_高宽信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group4&quot; label=&quot;Position&quot;&gt;
-					&lt;button id=&quot;Button7&quot; label=&quot;Get_position&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_获取_图片_位置信息&quot;/&gt;
-					&lt;button id=&quot;Button8&quot; label=&quot;Set_position&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.test_设置_图片_位置信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group5&quot; label=&quot;Cut_Scale&quot;&gt;
-					&lt;button id=&quot;Button9&quot; label=&quot;Get_Cut_Size&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.获取_图片_裁切_缩放信息&quot;/&gt;
-					&lt;button id=&quot;Button10&quot; label=&quot;Set_Cut_Size&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.设置_图片_裁切_缩放信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group6&quot; label=&quot;Size_Position&quot;&gt;
-					&lt;button id=&quot;Button11&quot; label=&quot;Get_Cut_Size&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.获取_图片框大小_图片位置信息&quot;/&gt;
-					&lt;button id=&quot;Button12&quot; label=&quot;Set_Cut_Size&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.设置_图片框大小_图片位置信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group7&quot; label=&quot;All&quot;&gt;
-					&lt;button id=&quot;Button13&quot; label=&quot;Get_All&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.获取_图片_裁切_缩放_位置信息&quot;/&gt;
-					&lt;button id=&quot;Button14&quot; label=&quot;Set_All&quot; imageMso=&quot;S&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.设置_图片_裁切_缩放_位置信息&quot;/&gt;
-				&lt;/group&gt;
-				&lt;group id=&quot;Group8&quot; label=&quot;All_Delete&quot;&gt;
-					&lt;button id=&quot;Button15&quot; label=&quot;Do_G_A&quot; imageMso=&quot;G&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.获取_图片_裁切_缩放_位置_删除信息&quot;/&gt;
-					&lt;button id=&quot;Button16&quot; label=&quot;Do_All&quot; imageMso=&quot;A&quot; size=&quot;large&quot; onAction=&quot;Shape_Cut_size_position.ppam!模块1.获取信息_删除_粘贴_设置&quot;/&gt;
-				&lt;/group&gt;
-			&lt;/tab&gt;
-		&lt;/tabs&gt;
-	&lt;/ribbon&gt;
-&lt;/customUI&gt;
-</code></pre>
-
-<p>注：由于我不知到该如何解决与实现“在PPT中通过菜单按钮调用宏的方法”，所以使用搜索的一个替代方案，安装“RunMacro”程序，然后借助“RunMacro”程序实现“在PPT中通过菜单按钮调用宏”，上述XML文件就是用于配置按钮、以及按钮对应的宏；关于“RunMacro”的见我参考的此文“<a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/ryueifu-VBA/p/11108695.html">https://www.cnblogs.com/ryueifu-VBA/p/11108695.html</a>”，“RunMacro”下载连接“<a href="https://link.zhihu.com/?target=https%3A//files.cnblogs.com/files/ryueifu-VBA/RunMacro-Setup.zip">https://files.cnblogs.com/files/ryueifu-VBA/RunMacro-Setup.zip</a>”。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;customUI</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://schemas.microsoft.com/office/2009/07/customui&#34;</span><span style="color:#f92672">&gt;</span>
+	<span style="color:#f92672">&lt;ribbon</span> <span style="color:#a6e22e">startFromScratch=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;tabs&gt;</span>
+			<span style="color:#f92672">&lt;tab</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Tab1&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;RunMacro&#34;</span><span style="color:#f92672">&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group1&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Cut&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button1&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_Cut&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_获取_图片_裁切信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button2&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_Cut&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_设置_图片_裁切信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group2&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Scale&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button3&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_获取_图片_缩放信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button4&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_设置_图片_缩放信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group3&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Size&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button5&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_设置_图片框_高宽信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button6&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_设置_图片框_高宽信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group4&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Position&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button7&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_position&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_获取_图片_位置信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button8&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_position&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.test_设置_图片_位置信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group5&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Cut_Scale&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button9&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_Cut_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.获取_图片_裁切_缩放信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button10&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_Cut_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.设置_图片_裁切_缩放信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group6&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Size_Position&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button11&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_Cut_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.获取_图片框大小_图片位置信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button12&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_Cut_Size&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.设置_图片框大小_图片位置信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group7&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;All&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button13&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Get_All&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.获取_图片_裁切_缩放_位置信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button14&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Set_All&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;S&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.设置_图片_裁切_缩放_位置信息&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+				<span style="color:#f92672">&lt;group</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Group8&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;All_Delete&#34;</span><span style="color:#f92672">&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button15&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Do_G_A&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;G&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.获取_图片_裁切_缩放_位置_删除信息&#34;</span><span style="color:#f92672">/&gt;</span>
+					<span style="color:#f92672">&lt;button</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;Button16&#34;</span> <span style="color:#a6e22e">label=</span><span style="color:#e6db74">&#34;Do_All&#34;</span> <span style="color:#a6e22e">imageMso=</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;large&#34;</span> <span style="color:#a6e22e">onAction=</span><span style="color:#e6db74">&#34;Shape_Cut_size_position.ppam!模块1.获取信息_删除_粘贴_设置&#34;</span><span style="color:#f92672">/&gt;</span>
+				<span style="color:#f92672">&lt;/group&gt;</span>
+			<span style="color:#f92672">&lt;/tab&gt;</span>
+		<span style="color:#f92672">&lt;/tabs&gt;</span>
+	<span style="color:#f92672">&lt;/ribbon&gt;</span>
+<span style="color:#f92672">&lt;/customUI&gt;</span>
+</code></pre></div><p>注：由于我不知到该如何解决与实现“在PPT中通过菜单按钮调用宏的方法”，所以使用搜索的一个替代方案，安装“RunMacro”程序，然后借助“RunMacro”程序实现“在PPT中通过菜单按钮调用宏”，上述XML文件就是用于配置按钮、以及按钮对应的宏；关于“RunMacro”的见我参考的此文“<a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/ryueifu-VBA/p/11108695.html">https://www.cnblogs.com/ryueifu-VBA/p/11108695.html</a>”，“RunMacro”下载连接“<a href="https://link.zhihu.com/?target=https%3A//files.cnblogs.com/files/ryueifu-VBA/RunMacro-Setup.zip">https://files.cnblogs.com/files/ryueifu-VBA/RunMacro-Setup.zip</a>”。</p>
 <p>3.然后就可在PPT中通过菜单按钮调用自己所编辑的上述的宏用于图片信息的获取与修改了~！</p>
-
-<p><img src="/images/获取PPT中选中图片的裁剪、高宽、位置，并在其他图片上重用/v2-b17fd2998279800138dc30cb2d7c1386_720w.png" alt="img" /></p>
-
+<p><img src="/images/%E8%8E%B7%E5%8F%96PPT%E4%B8%AD%E9%80%89%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E8%A3%81%E5%89%AA%E3%80%81%E9%AB%98%E5%AE%BD%E3%80%81%E4%BD%8D%E7%BD%AE%EF%BC%8C%E5%B9%B6%E5%9C%A8%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87%E4%B8%8A%E9%87%8D%E7%94%A8/v2-b17fd2998279800138dc30cb2d7c1386_720w.png" alt="img"></p>
 <h2 id="演示动画">演示动画</h2>
-
-<p><img src="/images/获取PPT中选中图片的裁剪、高宽、位置，并在其他图片上重用/v2-4b57eacb90f96423e2f167aa895e655e_720w.gif" alt="img" /></p>
-
+<p><img src="/images/%E8%8E%B7%E5%8F%96PPT%E4%B8%AD%E9%80%89%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E8%A3%81%E5%89%AA%E3%80%81%E9%AB%98%E5%AE%BD%E3%80%81%E4%BD%8D%E7%BD%AE%EF%BC%8C%E5%B9%B6%E5%9C%A8%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87%E4%B8%8A%E9%87%8D%E7%94%A8/v2-4b57eacb90f96423e2f167aa895e655e_720w.gif" alt="img"></p>
 <h2 id="小结">小结</h2>
-
 <p>最开始的问题至此得到了解决，如果看官你觉的有需求可以拿去使用，<del>也可以在其中再增加些其他的步骤，比如</del>直接一键 获取信息、从剪贴板粘贴图片、设置粘贴的图片，<del>真正的</del>一键解决，或者将这些宏绑定至快捷键，摆脱繁琐的鼠标操作，等等。</p>
-
 <h1 id="参考资料">参考资料：</h1>
-
 <ul>
-<li><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/ryueifu-VBA/p/11108695.html">https://www.cnblogs.com/ryueifu-VBA/p/11108695.html</a></li>
-
-<li><p><a href="https://link.zhihu.com/?target=https%3A//docs.microsoft.com/zh-cn/office/vba/api/powerpoint.pictureformat">https://docs.microsoft.com/zh-cn/office/vba/api/powerpoint.pictureformat</a></p></li>
-
+<li>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/ryueifu-VBA/p/11108695.html">https://www.cnblogs.com/ryueifu-VBA/p/11108695.html</a></p>
+</li>
+<li>
+<p><a href="https://link.zhihu.com/?target=https%3A//docs.microsoft.com/zh-cn/office/vba/api/powerpoint.pictureformat">https://docs.microsoft.com/zh-cn/office/vba/api/powerpoint.pictureformat</a></p>
+</li>
 <li></li>
 </ul>
 
@@ -557,7 +534,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

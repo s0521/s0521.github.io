@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -142,136 +142,97 @@ code.has-jax {
 
 
 
-
-
 <h1 id="场景">场景：</h1>
-
 <p>使用Phoenix建模语言(Phoenix Modeling Language,PML)制作模型的时候经常需要的一个操作是计算AUC，在PML中计算AUC的方法主要有两种，基于公式与基于积分。</p>
-
 <h1 id="基于公式的auc计算">基于公式的AUC计算</h1>
-
 <p>基于公式计算得到的AUC因为是解析解，所以其实相当于AUCinf，具体在基于公式计算AUC时又可以细分为两类，</p>
-
-<h2 id="实现方式1-定义二级参数的方法">实现方式1：“定义二级参数的方法”</h2>
-
+<h2 id="实现方式1定义二级参数的方法">实现方式1：“定义二级参数的方法”</h2>
 <p>使用“二级参数（Secondary）”语句定义AUC，例如secondary(AUC=A1Dose/Cl)，然后在“结果（Results）”子标签页下的“Secondary”工作表中查看该参数的值。</p>
-
-<pre><code class="language-r">test(){
-deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
-urinecpt(A0 = (Cl * C))
-deriv(A2 = (Cl2 * (C - C2)))
-C = A1 / V
-dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
-C2 = A2 / V2
-error(CEps = 0.136218)
-observe(CObs = C + CEps)
-stparm(V = tvV)
-stparm(Cl = tvCl)
-stparm(V2 = tvV2)
-stparm(Cl2 = tvCl2)
-#int
-fixef(tvV = c(, 55, ))
-fixef(tvCl = c(, 0.37, ))
-fixef(tvV2 = c(, 55, ))
-fixef(tvCl2 = c(, 1, ))
-secondary(AUC = A1Dose/Cl)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">test</span>(){
+<span style="color:#a6e22e">deriv</span>(A1 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (Cl <span style="color:#f92672">*</span> C)<span style="color:#f92672">-</span> (Cl2 <span style="color:#f92672">*</span> (C <span style="color:#f92672">-</span> C2)))
+<span style="color:#a6e22e">urinecpt</span>(A0 <span style="color:#f92672">=</span> (Cl <span style="color:#f92672">*</span> C))
+<span style="color:#a6e22e">deriv</span>(A2 <span style="color:#f92672">=</span> (Cl2 <span style="color:#f92672">*</span> (C <span style="color:#f92672">-</span> C2)))
+C <span style="color:#f92672">=</span> A1 <span style="color:#f92672">/</span> V
+<span style="color:#a6e22e">dosepoint</span>(A1, idosevar <span style="color:#f92672">=</span> A1Dose, infdosevar <span style="color:#f92672">=</span> A1InfDose, infratevar <span style="color:#f92672">=</span> A1InfRate)
+C2 <span style="color:#f92672">=</span> A2 <span style="color:#f92672">/</span> V2
+<span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.136218</span>)
+<span style="color:#a6e22e">observe</span>(CObs <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> CEps)
+<span style="color:#a6e22e">stparm</span>(V <span style="color:#f92672">=</span> tvV)
+<span style="color:#a6e22e">stparm</span>(Cl <span style="color:#f92672">=</span> tvCl)
+<span style="color:#a6e22e">stparm</span>(V2 <span style="color:#f92672">=</span> tvV2)
+<span style="color:#a6e22e">stparm</span>(Cl2 <span style="color:#f92672">=</span> tvCl2)
+<span style="color:#75715e">#int</span>
+<span style="color:#a6e22e">fixef</span>(tvV <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">55</span>, ))
+<span style="color:#a6e22e">fixef</span>(tvCl <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0.37</span>, ))
+<span style="color:#a6e22e">fixef</span>(tvV2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">55</span>, ))
+<span style="color:#a6e22e">fixef</span>(tvCl2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
+<span style="color:#a6e22e">secondary</span>(AUC <span style="color:#f92672">=</span> A1Dose<span style="color:#f92672">/</span>Cl)
 }
-</code></pre>
-
-<p><img src="/images/PML中AUC的计算方法/1574156746005.png" alt="1574156746005" /></p>
-
-<h2 id="实现方式2-直接定义公式的方法">实现方式2：“直接定义公式的方法”</h2>
-
+</code></pre></div><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/1574156746005.png" alt="1574156746005"></p>
+<h2 id="实现方式2直接定义公式的方法">实现方式2：“直接定义公式的方法”</h2>
 <p>直接在模型中定义参数的计算公式，例如AUC=A1Dose/Cl，然后再“运行选项（Run Options）”选项卡下增加自定义报表（如果是模拟模式，则可以直接在模型报表中指定该参数），在其中定义输出AUC这个“变量（Varirables）”，最后就可以在“结果（Results）”子标签页下的“Table01”工作表中查看到该参数的值。</p>
-
-<pre><code class="language-R">test(){
-#PK
-    deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
-    urinecpt(A0 = (Cl * C))
-    deriv(A2 = (Cl2 * (C - C2)))
-    C = A1 / V
-    dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
-    C2 = A2 / V2
-    AUC = A1Dose/Cl
-#Observe
-    error(CEps = 0.136218)
-    observe(CObs = C + CEps)
-    stparm(V = tvV)
-    stparm(Cl = tvCl)
-    stparm(V2 = tvV2)
-    stparm(Cl2 = tvCl2)
-    fixef(tvV = c(, 55, ))
-    fixef(tvCl = c(, 0.37, ))
-    fixef(tvV2 = c(, 55, ))
-    fixef(tvCl2 = c(, 1, ))
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
+<span style="color:#75715e">#PK</span>
+    <span style="color:#a6e22e">deriv</span>(A1 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (Cl <span style="color:#f92672">*</span> C)<span style="color:#f92672">-</span> (Cl2 <span style="color:#f92672">*</span> (C <span style="color:#f92672">-</span> C2)))
+    <span style="color:#a6e22e">urinecpt</span>(A0 <span style="color:#f92672">=</span> (Cl <span style="color:#f92672">*</span> C))
+    <span style="color:#a6e22e">deriv</span>(A2 <span style="color:#f92672">=</span> (Cl2 <span style="color:#f92672">*</span> (C <span style="color:#f92672">-</span> C2)))
+    C <span style="color:#f92672">=</span> A1 <span style="color:#f92672">/</span> V
+    <span style="color:#a6e22e">dosepoint</span>(A1, idosevar <span style="color:#f92672">=</span> A1Dose, infdosevar <span style="color:#f92672">=</span> A1InfDose, infratevar <span style="color:#f92672">=</span> A1InfRate)
+    C2 <span style="color:#f92672">=</span> A2 <span style="color:#f92672">/</span> V2
+    AUC <span style="color:#f92672">=</span> A1Dose<span style="color:#f92672">/</span>Cl
+<span style="color:#75715e">#Observe</span>
+    <span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.136218</span>)
+    <span style="color:#a6e22e">observe</span>(CObs <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> CEps)
+    <span style="color:#a6e22e">stparm</span>(V <span style="color:#f92672">=</span> tvV)
+    <span style="color:#a6e22e">stparm</span>(Cl <span style="color:#f92672">=</span> tvCl)
+    <span style="color:#a6e22e">stparm</span>(V2 <span style="color:#f92672">=</span> tvV2)
+    <span style="color:#a6e22e">stparm</span>(Cl2 <span style="color:#f92672">=</span> tvCl2)
+    <span style="color:#a6e22e">fixef</span>(tvV <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">55</span>, ))
+    <span style="color:#a6e22e">fixef</span>(tvCl <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0.37</span>, ))
+    <span style="color:#a6e22e">fixef</span>(tvV2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">55</span>, ))
+    <span style="color:#a6e22e">fixef</span>(tvCl2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
 }
-</code></pre>
-
-<p><img src="/images/PML中AUC的计算方法/1574156816934.png" alt="1574156816934" /></p>
-
+</code></pre></div><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/1574156816934.png" alt="1574156816934"></p>
 <p>可以看到，这两种方式都可以输出AUC的值，看起来没什么差别。</p>
-
 <h2 id="两种公式定义方法得到结果的差异">两种公式定义方法得到结果的差异</h2>
-
 <p>这两种方法的差别是什么呢？</p>
-
 <p>这两种方法的主要差异在于：</p>
-
 <p>前者可用于计算个体模型的AUC，已及在将“Cl”替换为“tvCl”后计算群体模型中群体典型值的AUC，但没有办法计算群体模型中每个个体的AUC。</p>
-
 <p>后者既可以用于计算个体模型的AUC，也可以用于计算群体模型中个体的AUC值．</p>
-
 <p>显然在计算群体模型的时候我们更多的需要的是群体模型中个体的AUC的值。</p>
-
 <h1 id="基于积分的auc计算">基于积分的AUC计算</h1>
-
 <p>除了上述基于公式的计算AUC的方法，Phoenix也允许用户基于积分的方法计算AUC，这种方法是定积分的方式，所以求算出算的AUC相当于AUClast或者指定时段的部分曲线下面积(Partial Areas AUC)或者AUCall。</p>
-
-<h2 id="实现方式-基于积分的方法">实现方式：“基于积分的方法“</h2>
-
+<h2 id="实现方式基于积分的方法">实现方式：“基于积分的方法“</h2>
 <p>在模型中写入计算AUC的微分方程，例如deriv(AUC = C)，然后再“运行选项（Run Options）”选项卡下增加自定义报表（如果是模拟模型，则可以直接在模型报表中指定该参数），在其中定义输出AUC这个“变量（Varirables）”并在“Times”中指定需要报告AUC的时间，最后就可以在“结果（Results）”子标签页下的“Table01”工作表中查看到该参数的值。</p>
-
-<pre><code class="language-R">test(){
-deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
-urinecpt(A0 = (Cl * C))
-deriv(A2 = (Cl2 * (C - C2)))
-C = A1 / V
-dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
-C2 = A2 / V2
-deriv(AUC = C)
-error(CEps = 0.136218)
-observe(CObs = C + CEps)
-stparm(V = tvV)
-stparm(Cl = tvCl)
-stparm(V2 = tvV2)
-stparm(Cl2 = tvCl2)
-fixef(tvV = c(, 55, ))
-fixef(tvCl = c(, 0.37, ))
-fixef(tvV2 = c(, 55, ))
-fixef(tvCl2 = c(, 1, ))
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
+<span style="color:#a6e22e">deriv</span>(A1 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (Cl <span style="color:#f92672">*</span> C)<span style="color:#f92672">-</span> (Cl2 <span style="color:#f92672">*</span> (C <span style="color:#f92672">-</span> C2)))
+<span style="color:#a6e22e">urinecpt</span>(A0 <span style="color:#f92672">=</span> (Cl <span style="color:#f92672">*</span> C))
+<span style="color:#a6e22e">deriv</span>(A2 <span style="color:#f92672">=</span> (Cl2 <span style="color:#f92672">*</span> (C <span style="color:#f92672">-</span> C2)))
+C <span style="color:#f92672">=</span> A1 <span style="color:#f92672">/</span> V
+<span style="color:#a6e22e">dosepoint</span>(A1, idosevar <span style="color:#f92672">=</span> A1Dose, infdosevar <span style="color:#f92672">=</span> A1InfDose, infratevar <span style="color:#f92672">=</span> A1InfRate)
+C2 <span style="color:#f92672">=</span> A2 <span style="color:#f92672">/</span> V2
+<span style="color:#a6e22e">deriv</span>(AUC <span style="color:#f92672">=</span> C)
+<span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.136218</span>)
+<span style="color:#a6e22e">observe</span>(CObs <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> CEps)
+<span style="color:#a6e22e">stparm</span>(V <span style="color:#f92672">=</span> tvV)
+<span style="color:#a6e22e">stparm</span>(Cl <span style="color:#f92672">=</span> tvCl)
+<span style="color:#a6e22e">stparm</span>(V2 <span style="color:#f92672">=</span> tvV2)
+<span style="color:#a6e22e">stparm</span>(Cl2 <span style="color:#f92672">=</span> tvCl2)
+<span style="color:#a6e22e">fixef</span>(tvV <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">55</span>, ))
+<span style="color:#a6e22e">fixef</span>(tvCl <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0.37</span>, ))
+<span style="color:#a6e22e">fixef</span>(tvV2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">55</span>, ))
+<span style="color:#a6e22e">fixef</span>(tvCl2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
 }
-</code></pre>
-
-<p><img src="/images/PML中AUC的计算方法/clip_image003.png" alt="计算" /></p>
-
+</code></pre></div><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/clip_image003.png" alt="计算"></p>
 <p>可以看到结果中有多个不同的AUC的值，这些AUC的值就是从0时刻其到到对应时间点的AUC的值，所以说这种方式更类似与AUClast。</p>
-
 <p>“基于积分的方法“可以与上述的“定义二级参数的方法”或者“直接定义公式的方法”进行组合，以满足一些复杂AUC的计算，比如在群体模型中计算每个个体0-6小时的AUC的值，这可以采用“基于积分的方法“+“直接定义公式的方法”，deriv(AUC = C) ，pAUC=AUC。</p>
-
 <h1 id="小结">小结：</h1>
-
 <h2 id="个体模型">个体模型：</h2>
-
 <p>计算AUCinf，用“定义二级参数的方法”，secondary(AUC=A1Dose/Cl)</p>
-
 <p>计算AUClast，用“基于积分的方法“，deriv(AUC = C)</p>
-
 <h2 id="群体模型">群体模型：</h2>
-
 <p>计算每个个体的AUCinf时，用“直接定义公式的方法”，AUC=A1Dose/Cl</p>
-
 <p>计算每个个体的AUClast时，用“基于积分的方法“，deriv(AUC = C)</p>
-
 <p>其他的一些复杂情况，可能需要灵活应用。</p>
 
 
@@ -368,7 +329,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

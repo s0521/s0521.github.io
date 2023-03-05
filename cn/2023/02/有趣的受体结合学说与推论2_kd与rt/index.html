@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+    
+    <title>有趣的受体结合学说与推论2_Kd与Rt - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="有趣的受体结合学说与推论2_Kd与Rt - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="已知药物的剂量与Cmax浓度求Kd
+基于首次假说，存在以下公式
+$$ C*R/RC=Kd \
+$$ $$ Rt=R&#43;RC \
+Ct=C&#43;RC \
+$$ $$ RO=RC/Rt\
+RO=C/(C&#43;Kd)\
+$$ $$ CO=RC/Ct\
+CO=R/(R&#43;Kd) $$
+[&amp;hellip;] 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显 &amp;hellip;">
+      <meta property="og:description" content="已知药物的剂量与Cmax浓度求Kd
+基于首次假说，存在以下公式
+$$ C*R/RC=Kd \
+$$ $$ Rt=R&#43;RC \
+Ct=C&#43;RC \
+$$ $$ RO=RC/Rt\
+RO=C/(C&#43;Kd)\
+$$ $$ CO=RC/Ct\
+CO=R/(R&#43;Kd) $$
+[&amp;hellip;] 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2023/02/%e6%9c%89%e8%b6%a3%e7%9a%84%e5%8f%97%e4%bd%93%e7%bb%93%e5%90%88%e5%ad%a6%e8%af%b4%e4%b8%8e%e6%8e%a8%e8%ae%ba2_Kd%e4%b8%8eRt.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>有趣的受体结合学说与推论2_Kd与Rt</h1>
+
+
+<h3>付永超 / 
+2023-02-22</h3>
+
+<hr>
+
+
+      </header>
+
+
+
+<h1 id="受体结合假说的一些基础公式关系">受体结合假说的一些基础公式关系</h1>
+<p>已知药物的剂量与Cmax浓度求Kd</p>
+<p>基于首次假说，存在以下公式</p>
+<p>$$
+C*R/RC=Kd \<br>
+$$
+$$
+Rt=R+RC \<br>
+Ct=C+RC \<br>
+$$
+$$
+RO=RC/Rt\<br>
+RO=C/(C+Kd)\<br>
+$$
+$$
+CO=RC/Ct\<br>
+CO=R/(R+Kd)
+$$</p>
+<h1 id="一仅通过血药浓度c与剂量估算受体-药物结合复合物rc的浓度">一、仅通过血药浓度(C)与剂量，估算受体-药物结合复合物（RC）的浓度</h1>
+<h2 id="ct的估计">Ct的估计</h2>
+<p>当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显的吸收与消除过程，将吸收、分布、消除暂时忽略，认为$C0=Cmax$，这是一个近似的假设并不是，因为此推论用于估计一个粗略的值而不是求算精确的值，所以这种近似在这里时可行的）</p>
+<p>此处将通过公式计算出的Cmax认为是Ctot→Ct。</p>
+<h2 id="c的估计">C的估计</h2>
+<p>另外通过试验测得了一个Cmax的数值，此数值显著小于Ctot，假设这时怀疑药物并不是进入了周边室，而是仍在中央室中，此时解释药物浓观测值显著低于Ctot的原因是因为药物与中央是中的受体发生了大量的结合，而检测得到的血药浓度仅是中央室中游离的药物浓度（比如药物与血细胞表面受体大量结合，而检测的基质是血清，血清中不含血细胞）</p>
+<p>此时认为观测得到的Cmax为Cfree→C。</p>
+<h2 id="rc的估计">RC的估计</h2>
+<p>则有</p>
+<p>$$
+RC=Ct-C
+$$</p>
+<h1 id="二基于ctc以及衍生出的受体占有率ro的比值计算kdrt">二、基于Ct、C以及衍生出的受体占有率（RO）的比值，计算Kd、Rt</h1>
+<h2 id="基于ctc计算kd的推导">基于Ct、C计算Kd的推导</h2>
+<p><strong>由</strong></p>
+<p>$$
+RO=RC/Rt
+$$
+<strong>可知</strong></p>
+<p>$$
+RO1/RO2=(RC1/Rt)/(RC2/Rt)\</p>
+<p>RO1/RO2=RC1/RC2
+$$</p>
+<p>即</p>
+<p><strong>RO</strong>的比值与RC的比值<strong>在数值上是</strong>一致的。</p>
+<p>此处令<strong>X为RO的比值，即</strong></p>
+<p>$X=RO1/RO2$ ①</p>
+<p>($X=RO1/RO2=RC1/RC2$ )</p>
+<p>又已知</p>
+<p>$RO=C/(C+Kd)$②</p>
+<p>即</p>
+<p>$RO1/RO2=( C1/(C1+Kd) )/( C2/(C2+Kd) )$③</p>
+<p>则将③带入①可得</p>
+<p>$$
+X=( C1/(C1+Kd) )/( C2/(C2+Kd) )​
+$$</p>
+<p>$$
+C1/( C1+Kd ) = X*C2 / ( C2+Kd )\</p>
+<p>C1<em>C2 + C1</em>Kd = X<em>C1</em>C2 + X<em>C2</em>Kd\</p>
+<p>C1<em>Kd - X</em>C2<em>Kd = X</em>C1<em>C2 - C1</em>C2\</p>
+<p>Kd*( C1 - X*C2 ) = C1*C2( X-1 )
+$$</p>
+<p>$Kd = C1<em>C2</em>( X-1 ) / ( C1 - X*C2 )$④</p>
+<p>由此就可以基于已有得观测数据计算Kd了</p>
+<p>因为$X=RC1/RC2$，可以由$Rt-R$计算出</p>
+<p>计算出后只需带入临近几个剂量组检测得到得观测浓度C即可计算出Kd，举例</p>
+<h2 id="示例1">示例1</h2>
+<h3 id="示例背景与数据">示例背景与数据</h3>
+<p>假设以下剂量0.3、1、3、10、20、30mg/kg剂量组，假设这是一个大分子，分布容积为大分子典型分布容积0.05L/kg，并且观测有不同剂量组得Cmax值，则可以进行以下计算</p>
+<h3 id="计算过程与结果">计算过程与结果</h3>
+<table>
+<thead>
+<tr>
+<th>Dose</th>
+<th>Ctot</th>
+<th>Cmax</th>
+<th>RC</th>
+<th>CO</th>
+<th>X</th>
+<th>ls1</th>
+<th>ls2</th>
+<th>KD</th>
+<th>R</th>
+<th>Rt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>$Dose/0.05$</td>
+<td>C_free</td>
+<td>$Ct-C_free$</td>
+<td>$RC/Ct$</td>
+<td>$RC1/RC2$</td>
+<td>$C1<em>C2t</em>(x-1)$</td>
+<td>$C1-C2*X$</td>
+<td>$ls1/ls2$</td>
+<td>$RC*KD/C$</td>
+<td>$R+RC$</td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>6</td>
+<td>0.170</td>
+<td>5.83</td>
+<td>0.972</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>20</td>
+<td>5.83</td>
+<td>14.2</td>
+<td>0.709</td>
+<td>0.411</td>
+<td>-0.583</td>
+<td>-2.23</td>
+<td>0.262</td>
+<td>0.636</td>
+<td>14.8</td>
+</tr>
+<tr>
+<td>3</td>
+<td>60</td>
+<td>45.3</td>
+<td>14.7</td>
+<td>0.245</td>
+<td>0.964</td>
+<td>-9.52</td>
+<td>-37.8</td>
+<td>0.252</td>
+<td>0.0817</td>
+<td>14.8</td>
+</tr>
+<tr>
+<td>10</td>
+<td>200</td>
+<td>177</td>
+<td>23.0</td>
+<td>0.115</td>
+<td>0.639</td>
+<td>-2893</td>
+<td>-67.8</td>
+<td>42.7</td>
+<td>5.54</td>
+<td>28.5</td>
+</tr>
+<tr>
+<td>20</td>
+<td>400</td>
+<td>411</td>
+<td>-11.0</td>
+<td>-0.0275</td>
+<td>-2.09</td>
+<td>-224854</td>
+<td>1036</td>
+<td>-217</td>
+<td>5.81</td>
+<td>-5.19</td>
+</tr>
+<tr>
+<td>30</td>
+<td>600</td>
+<td>586</td>
+<td>14.0</td>
+<td>0.0233</td>
+<td>-0.786</td>
+<td>-430082</td>
+<td>871</td>
+<td>-494</td>
+<td>-11.8</td>
+<td>2.21</td>
+</tr>
+</tbody>
+</table>
+<p>从上述计算可以看出，可以计算出多个KD值，但显然基于CO50附近计算得到的结果相对更可靠些，且存在两个组数值相近的结果，综合上述信息可以使用$Kd=0.25$作为一个粗略的估计值。</p>
+<p>当已知Kd，RC，C时，可基于$C*R/RC=Kd$计算出R，进而基于$Rt=R+RC$计算出Rt。</p>
+<p>可以看到计算出的Rt也十分接近，这里取$Rt=14.8$。</p>
+<h3 id="基于计算结果用于预测">基于计算结果用于预测</h3>
+<p>之后，我们基于Ct、Rt和Kd这三个算数，模拟计算下所对应的R、C、RO、CO，结果如下</p>
+<table>
+<thead>
+<tr>
+<th>Dose</th>
+<th>CT</th>
+<th>RT</th>
+<th>KD</th>
+<th>RC</th>
+<th>C</th>
+<th>R</th>
+<th>RO</th>
+<th>CO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>公式计算</td>
+<td>$Ct-RC$</td>
+<td>$Rt-RC$</td>
+<td>$RC/Rt$</td>
+<td>$RC/Ct$</td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>6</td>
+<td>14.8</td>
+<td>0.25</td>
+<td>5.84</td>
+<td>0.163</td>
+<td>8.96</td>
+<td>0.394</td>
+<td>0.973</td>
+</tr>
+<tr>
+<td>1</td>
+<td>20</td>
+<td>14.8</td>
+<td>0.25</td>
+<td>14.2</td>
+<td>5.81</td>
+<td>0.611</td>
+<td>0.959</td>
+<td>0.709</td>
+</tr>
+<tr>
+<td>3</td>
+<td>60</td>
+<td>14.8</td>
+<td>0.25</td>
+<td>14.7</td>
+<td>45.3</td>
+<td>0.0813</td>
+<td>0.995</td>
+<td>0.245</td>
+</tr>
+<tr>
+<td>10</td>
+<td>200</td>
+<td>14.8</td>
+<td>0.25</td>
+<td>14.8</td>
+<td>185</td>
+<td>0.0199</td>
+<td>0.999</td>
+<td>0.0739</td>
+</tr>
+<tr>
+<td>20</td>
+<td>400</td>
+<td>14.8</td>
+<td>0.25</td>
+<td>14.8</td>
+<td>385</td>
+<td>0.00960</td>
+<td>0.999</td>
+<td>0.0370</td>
+</tr>
+<tr>
+<td>30</td>
+<td>600</td>
+<td>14.8</td>
+<td>0.25</td>
+<td>14.8</td>
+<td>585</td>
+<td>0.00632</td>
+<td>1.00</td>
+<td>0.0247</td>
+</tr>
+</tbody>
+</table>
+<h3 id="预测与观测的比较">预测与观测的比较</h3>
+<p>对比观测的和模拟出的C</p>
+<table>
+<thead>
+<tr>
+<th>Dose</th>
+<th>C_obs</th>
+<th>C_pre</th>
+<th>RES</th>
+<th>WRES%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>观测</td>
+<td>模拟</td>
+<td>Obs-Pre</td>
+<td>RES/Obs*100%</td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>0.17</td>
+<td>0.163</td>
+<td>-0.00718</td>
+<td>-4.23%</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5.83</td>
+<td>5.81</td>
+<td>-0.0195</td>
+<td>-0.33%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>45.3</td>
+<td>45.3</td>
+<td>-0.0187</td>
+<td>-0.04%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>177</td>
+<td>185</td>
+<td>8.22</td>
+<td>4.64%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>411</td>
+<td>385</td>
+<td>-25.8</td>
+<td>-6.28%</td>
+</tr>
+<tr>
+<td>30</td>
+<td>586</td>
+<td>585</td>
+<td>-0.794</td>
+<td>-0.14%</td>
+</tr>
+</tbody>
+</table>
+<p>结果相当准确，相对偏差在7%内！</p>
+<h1 id="三基于受体总数rt与kd值以及所需的co推算所需得剂量ct以及药物血浆结合百分比的极限">三、基于受体总数Rt与KD值以及所需的CO，推算所需得剂量Ct，以及药物血浆结合百分比的极限</h1>
+<h2 id="已知rtkd并指定不同co来预测对应的ct和c">已知Rt、Kd并指定不同CO来预测对应的Ct和C</h2>
+<p>得到上述结论后，我就很兴奋的又推算了下，在已知Rt、Kd时，不同的CO百分比对应的Ct和C的数值，最终也推断得到了，推断过程如下：</p>
+<p>由</p>
+<p>$$
+Ctot*Rtot - ( Ctot+Rtot )<em>RC +RC^2 =RC</em>KD
+$$
+得</p>
+<p>$Ctot = RC*( Rtot+KD-RC )/( Rtot-RC )$ ①</p>
+<p>又有</p>
+<p>$$
+RC = Rtot - KD*( 1/[ (1-CO) / CO] ) -RC )​
+$$
+令$Y = 1/[ (1-CO)/CO ]$ ②，</p>
+<p>则</p>
+<p>$RC = Rtot - KD*Y$ ③</p>
+<p>将③带入①得</p>
+<p>$$
+Ctot = Rt*( 1+1/Y) - KD*( 1+Y)
+$$</p>
+<p>将常见得一些数值带入可得：</p>
+<table>
+<thead>
+<tr>
+<th>CO</th>
+<th>X</th>
+<th>Y</th>
+<th>RC</th>
+<th>Y</th>
+<th>RT</th>
+<th>Kd</th>
+<th>Ct</th>
+<th>R_free</th>
+<th>RC</th>
+<th>CO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(1-CO)/CO</td>
+<td>1/((1-CO)/CO)</td>
+<td></td>
+<td>Y</td>
+<td>RT</td>
+<td>Kd</td>
+<td></td>
+<td>Ct-RC</td>
+<td>Rt-Kd*Y</td>
+<td>RC/Ct</td>
+</tr>
+<tr>
+<td>0.0100</td>
+<td>99.0</td>
+<td>0.0101</td>
+<td>RT-KD*0.01</td>
+<td>0.0101</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>1399</td>
+<td>0.0101</td>
+<td>14.0</td>
+<td>0.0100</td>
+</tr>
+<tr>
+<td>0.100</td>
+<td>9.00</td>
+<td>0.111</td>
+<td>RT-KD*0.11</td>
+<td>0.111</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>139</td>
+<td>0.111</td>
+<td>13.9</td>
+<td>0.100</td>
+</tr>
+<tr>
+<td>0.200</td>
+<td>4.00</td>
+<td>0.250</td>
+<td>RT-KD*0.25</td>
+<td>0.250</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>68.8</td>
+<td>0.250</td>
+<td>13.8</td>
+<td>0.200</td>
+</tr>
+<tr>
+<td>0.250</td>
+<td>3.00</td>
+<td>0.333</td>
+<td>RT-KD*0.33</td>
+<td>0.333</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>54.7</td>
+<td>0.333</td>
+<td>13.7</td>
+<td>0.250</td>
+</tr>
+<tr>
+<td>0.500</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>RT-KD*1</td>
+<td>1.00</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>26.0</td>
+<td>1.00</td>
+<td>13.0</td>
+<td>0.500</td>
+</tr>
+<tr>
+<td>0.750</td>
+<td>0.333</td>
+<td>3.00</td>
+<td>RT-KD*3</td>
+<td>3.00</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>14.7</td>
+<td>3.00</td>
+<td>11.0</td>
+<td>0.750</td>
+</tr>
+<tr>
+<td>0.800</td>
+<td>0.250</td>
+<td>4.00</td>
+<td>RT-KD*4</td>
+<td>4.00</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>12.5</td>
+<td>4.00</td>
+<td>10.0</td>
+<td>0.800</td>
+</tr>
+<tr>
+<td>0.900</td>
+<td>0.111</td>
+<td>9.00</td>
+<td>RT-KD*9</td>
+<td>9.00</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>5.56</td>
+<td>9.00</td>
+<td>5.00</td>
+<td>0.900</td>
+</tr>
+<tr>
+<td>0.930</td>
+<td>0.0753</td>
+<td>13.3</td>
+<td>RT-KD*13.29</td>
+<td>13.3</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>0.768</td>
+<td>13.3</td>
+<td>0.714</td>
+<td>0.930</td>
+</tr>
+<tr>
+<td>0.990</td>
+<td>0.0101</td>
+<td>99.0</td>
+<td>RT-KD*99</td>
+<td>99.0</td>
+<td>14.0</td>
+<td>1.00</td>
+<td>-85.9</td>
+<td>99.0</td>
+<td>-85.0</td>
+<td>0.990</td>
+</tr>
+</tbody>
+</table>
+<p>带入后，竟然发现RC出现了Ct竟然出现了负数！</p>
+<p>仔细检查与推导后，发现，这是合理得，因为CO不可能达到0.99，它存在极限。</p>
+<p>因为RO只可能接近于1，而不能是以，所以RC只能无限接近Rt。</p>
+<p>具体推到极限值是可以推导得，我没有推到，取以下作为近似</p>
+<p>$CO极限≈1-Kd/Ct$</p>
+<p>即当前得表格中得CO极限约为，$1-1/14≈93.2 %$</p>
+<p>由此也就想到了传统得小分子药物经常检测得游离分数，或称之为血浆蛋白结合率。</p>
+<h1 id="四讨论">四、讨论</h1>
+<h2 id="药物开发中常见到的与此相关的现象">药物开发中常见到的与此相关的现象</h2>
+<h3 id="1小分子药物的血浆蛋白结合率">1.小分子药物的血浆蛋白结合率</h3>
+<p>一般，小分子药物的血浆蛋白结合率很多都在90%以上，</p>
+<p>由此，可知</p>
+<p>CO占比大（$(Ct-C)/Ct$ 大，$C/Ct$ 小），$R&raquo;Kd$。</p>
+<p>即，在血浆中“可与药物结合受体”大都处于游离状态，只有就较少的“药物受体复合物”。</p>
+<h3 id="2大分子药物在血液中的可检测浓度cmax相对于理论血浆浓度ct的占比">2.大分子药物在血液中的可检测浓度Cmax，相对于理论血浆浓度Ct的占比</h3>
+<p>前提假设：</p>
+<blockquote>
+<ul>
+<li>给药后初始血药浓度在仅考虑血液体积因素的情况下，理论浓度=理论药量/血液体积（比如，5mg/kg / 0.05L/kg =     100mg/L），此处将“理论浓度”记为为Ct。</li>
+<li>给药后检测到的血药浓度，可以认为血液中游离的血药浓度；给药后0时刻的血药浓度为C0， 当C0不可得时，我们使用Cmax作为替代。此时Cmax可以被认为是血液中游离的药物浓度，此处将“游离的药物浓度”记为C。</li>
+<li>为了简单起见，仅考虑给药后0时刻的情况。</li>
+</ul>
+<p>则有：</p>
+<p>药物占有率$CO=(Ct-C)/C$</p>
+</blockquote>
+<p>一般，大分子药物在血液中很少与其他受体结合，其分布容积一般接近理论的分布容积。即，我们观测的血药浓度C一般等于理论的血药浓度Ct。</p>
+<p>此时，可以认为CO占比小（$(Ct-C)/Ct$ 小，$C/Ct$ 大），$R&laquo;Kd$。</p>
+<p>即，在血浆中“可与药物结合受体”大都处于结合状态，只有就较少的“游离受体”。</p>
+<h2 id="一些特例">一些特例</h2>
+<p>这些常见的现象并不是已成不变的，也会出现一些特例，比如：</p>
+<p>小分子中也会有一些血浆蛋白结合率较低的药物。</p>
+<p>大分子在低剂量下（小于1mg/kg）的情况下，如果与该大分子结合的受体广泛分布在血液中，则也会出现游离分数较小的情景，一般药物开发时是希望尽量高的与受体结合，所以一般会进一步的探索剂量水平，剂量爬坡至更高的剂量，以使药物的分布容积接近理论分布容积（此时药物的暴露于剂量会呈线性，而在此之前不呈线性）。</p>
+<h2 id="小结">小结</h2>
+<p>“基于Ct、C以及衍生出的受体占有率（RO）的比值，计算Kd、Rt”是一种新颖的方法！</p>
+<p>受体结合模型既会应用于临床前的体外的研究，也会应用于临床前和临床的体内研究，但在应用时都未使用过这种新颖的方法，比如：</p>
+<p>对于临床前的体外的研究，因为一般体外试验时可以做到Rt、Kd固定，控制Ct，但此时一般感兴趣的是准确估计Kd不感兴趣估计Rt（因为一般Rt已知），并且一般是通过拟合方程来估计Kd，而本文提出的方法不依赖数据拟合，而是通过解析解的方式求解Kd，并且进一步推到了基于此计算Rt的方程。</p>
+<p>对于临床：一般Rt未知、Kd也未知，C已知，但对于Ct一般未知，对于这样的场景，一般只能通过多个剂量水平的密集采样的数据PK建立较为复杂的PKPD模型来求解，而本文的方法给出了在大分子药物这一特定场景下基于较少的数据与计算求解Rt、Kd的方法。（当然本文的方法也有局限性，在CO小于20%时，估算的准确与精确度会下降）</p>
+<h1 id="五应用">五、应用</h1>
+<p>上述一系列推导有什么用处呢？</p>
+<p>当我们观察到大分子药物的分布容积远大于理论分布容积时(0.05L/kg)时，它可以帮助我们</p>
+<p><strong>基于早期试验得数据，</strong></p>
+<ul>
+<li>推算我们达到CO50、CO80、CO90所需得剂量（简单计算得话，仅需有Ct数值即可，用Rt替代RC计算CO=Rt/Ct）以及对应得浓度C（此浓度可用于作为阈值、或者Cavg、Cmin得目标值用于试验设计），</li>
+<li>推算我们达到RO50、RO80、RO90所需得剂量以及对应得浓度C（此浓度可用于作为阈值、或者Cavg、Cmin得目标值用于试验设计）。</li>
+</ul>
+<blockquote>
+<p>（如果期望峰浓度达到对于对应设计得RO或CO水平可用直接推到出得剂量，如果期望给药后大部分时段在RO或CO数值在期望得水平之上则可用浓度C作为阈值并进一步估算所需得剂量）</p>
+</blockquote>
+<p><strong>尽早通过计算出的Kd，评价药物相对于同类要的结合效力强弱</strong>。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2022/10/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA/">有趣的受体结合学说与推论</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2022\/10\/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://s0521.github.io/js/md5.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: '8d1421e8a6cfe245f5f2',
+    clientSecret: '7b842e02dbc3388b936bdc37373643f6379b9fb2',
+    repo: 's0521.github.io',
+    owner: 's0521',
+    admin: ['s0521'],
+    
+	id: md5(location.pathname),
+	
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+<script async src="/js/fix-toc.js"></script>
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+<script async src="/js/math-code.js"></script>
+
+<script async src="/js/external-link.js"></script>
+
+<script async src="/js/alt-title.js"></script>
+
+<script async src="/js/header-link.js"></script>
+
+
+
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  
+  </footer>
+  </article>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-138584476-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

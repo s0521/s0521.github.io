@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -141,80 +141,75 @@ code.has-jax {
 
 
 
-
-
 <p>群体药物代谢动力学是生物统计与药物代谢动力学的交叉学科，过往大家多从药物代谢动力学的视角介绍PopPK，今天我尝试通过生物统计学的统计模型视角介绍Pop PK，以便生物统计学家可以快速理解Pop PK，以及帮助大家更好的多视角立体的看待Pop PK。</p>
-
 <p><strong>介绍流程</strong></p>
-
 <p>1.使用Phoenix软件，基于一个群体模型模拟出一组数据。</p>
-
 <p>2.群体分析常用的三种方法，单纯积聚法，两步法，一步法</p>
-
 <p>3.尝试应用Phoenix中的用于生物统计的“线性混合效应（Linear Mixed Effect）”操作对象，和用于PopPK建模的“最大似然模型（ML Model）”操作对象，实现这三种方法，并对比操作设置与计算结果。</p>
-
-<h1 id="1-使用phoenix软件-基于一个群体模型模拟出一组数据">1. 使用Phoenix软件，基于一个群体模型模拟出一组数据。</h1>
-
-<h2 id="1-1模拟所使用的模型">1.1模拟所使用的模型</h2>
-
+<h1 id="1-使用phoenix软件基于一个群体模型模拟出一组数据">1. 使用Phoenix软件，基于一个群体模型模拟出一组数据。</h1>
+<h2 id="11模拟所使用的模型">1.1模拟所使用的模型</h2>
 <p><strong>PK模型：</strong></p>
-
 <ul>
-<li><p>静脉注射，一房室，线性消除</p></li>
-
-<li><p>使用V、ke参数化模型</p></li>
+<li>
+<p>静脉注射，一房室，线性消除</p>
+</li>
+<li>
+<p>使用V、ke参数化模型</p>
+</li>
 </ul>
-
 <p><strong>变异假设：</strong></p>
-
 <ul>
-<li><p>残差（个体内变异）变异：对数加和型误差</p></li>
-
-<li><p>个体内变异：仅考虑V的个体变异，V为对数正态分布</p></li>
+<li>
+<p>残差（个体内变异）变异：对数加和型误差</p>
+</li>
+<li>
+<p>个体内变异：仅考虑V的个体变异，V为对数正态分布</p>
+</li>
 </ul>
-
 <p><strong>参数值：</strong></p>
-
 <ul>
-<li><p>表观分布容积的典型值，tvV=10，L</p></li>
-
-<li><p>消除速率的典型值，tvke=0.1，1/h</p></li>
-
-<li><p>残差(个体内变异)的方差，σ^2=0.09，</p></li>
-
-<li><p>表观分布容积的个体间变异方差，𝜔_𝑉^2=0.09</p></li>
+<li>
+<p>表观分布容积的典型值，tvV=10，L</p>
+</li>
+<li>
+<p>消除速率的典型值，tvke=0.1，1/h</p>
+</li>
+<li>
+<p>残差(个体内变异)的方差，σ^2=0.09，</p>
+</li>
+<li>
+<p>表观分布容积的个体间变异方差，𝜔_𝑉^2=0.09</p>
+</li>
 </ul>
-
-<h2 id="1-2使用该模型模拟的原因">1.2使用该模型模拟的原因</h2>
-
+<h2 id="12使用该模型模拟的原因">1.2使用该模型模拟的原因</h2>
 <p>该模型浓度数据对数转换后，可以使用常见的线性模型拟合，来替代“PK模型”部分</p>
-
-<h2 id="1-3对数转换后可用的线性模型">1.3对数转换后可用的线性模型</h2>
-
+<h2 id="13对数转换后可用的线性模型">1.3对数转换后可用的线性模型</h2>
 <p>Ln(Conc)=int+time* β+ε</p>
-
 <p>其中</p>
-
 <ul>
-<li><p>int，截距</p></li>
-
-<li><p>β，斜率</p></li>
-
-<li><p>ε，残差</p></li>
-
-<li><p>time，时间</p></li>
+<li>
+<p>int，截距</p>
+</li>
+<li>
+<p>β，斜率</p>
+</li>
+<li>
+<p>ε，残差</p>
+</li>
+<li>
+<p>time，时间</p>
+</li>
 </ul>
-
 <p>与PK参数的关系</p>
-
 <ul>
-<li><p>V=Dose/C0=Dose/int</p></li>
-
-<li><p>ke=- β</p></li>
+<li>
+<p>V=Dose/C0=Dose/int</p>
+</li>
+<li>
+<p>ke=- β</p>
+</li>
 </ul>
-
-<h2 id="1-4模拟出的数据">1.4模拟出的数据</h2>
-
+<h2 id="14模拟出的数据">1.4模拟出的数据</h2>
 <table>
 <thead>
 <tr>
@@ -225,7 +220,6 @@ code.has-jax {
 <th><strong>EXP_DV</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1.00</td>
@@ -234,7 +228,6 @@ code.has-jax {
 <td>5.20</td>
 <td>182.16</td>
 </tr>
-
 <tr>
 <td>1.00</td>
 <td>2.00</td>
@@ -242,7 +235,6 @@ code.has-jax {
 <td>4.39</td>
 <td>80.49</td>
 </tr>
-
 <tr>
 <td>1.00</td>
 <td>4.00</td>
@@ -250,7 +242,6 @@ code.has-jax {
 <td>3.68</td>
 <td>39.56</td>
 </tr>
-
 <tr>
 <td>1.00</td>
 <td>8.00</td>
@@ -258,7 +249,6 @@ code.has-jax {
 <td>3.04</td>
 <td>20.92</td>
 </tr>
-
 <tr>
 <td>1.00</td>
 <td>24.00</td>
@@ -266,7 +256,6 @@ code.has-jax {
 <td>2.08</td>
 <td>8.04</td>
 </tr>
-
 <tr>
 <td>2.00</td>
 <td>1.00</td>
@@ -274,7 +263,6 @@ code.has-jax {
 <td>5.18</td>
 <td>177.11</td>
 </tr>
-
 <tr>
 <td>2.00</td>
 <td>2.00</td>
@@ -282,7 +270,6 @@ code.has-jax {
 <td>4.91</td>
 <td>135.40</td>
 </tr>
-
 <tr>
 <td>2.00</td>
 <td>4.00</td>
@@ -290,7 +277,6 @@ code.has-jax {
 <td>4.68</td>
 <td>107.46</td>
 </tr>
-
 <tr>
 <td>2.00</td>
 <td>8.00</td>
@@ -298,7 +284,6 @@ code.has-jax {
 <td>4.58</td>
 <td>97.04</td>
 </tr>
-
 <tr>
 <td>2.00</td>
 <td>24.00</td>
@@ -306,7 +291,6 @@ code.has-jax {
 <td>2.37</td>
 <td>10.70</td>
 </tr>
-
 <tr>
 <td>3.00</td>
 <td>1.00</td>
@@ -314,7 +298,6 @@ code.has-jax {
 <td>4.68</td>
 <td>107.88</td>
 </tr>
-
 <tr>
 <td>3.00</td>
 <td>2.00</td>
@@ -322,7 +305,6 @@ code.has-jax {
 <td>4.58</td>
 <td>97.68</td>
 </tr>
-
 <tr>
 <td>3.00</td>
 <td>4.00</td>
@@ -330,7 +312,6 @@ code.has-jax {
 <td>4.16</td>
 <td>64.21</td>
 </tr>
-
 <tr>
 <td>3.00</td>
 <td>8.00</td>
@@ -338,7 +319,6 @@ code.has-jax {
 <td>3.98</td>
 <td>53.65</td>
 </tr>
-
 <tr>
 <td>3.00</td>
 <td>24.00</td>
@@ -346,7 +326,6 @@ code.has-jax {
 <td>1.95</td>
 <td>7.02</td>
 </tr>
-
 <tr>
 <td>4.00</td>
 <td>1.00</td>
@@ -354,7 +333,6 @@ code.has-jax {
 <td>3.57</td>
 <td>35.53</td>
 </tr>
-
 <tr>
 <td>4.00</td>
 <td>2.00</td>
@@ -362,7 +340,6 @@ code.has-jax {
 <td>3.29</td>
 <td>26.80</td>
 </tr>
-
 <tr>
 <td>4.00</td>
 <td>4.00</td>
@@ -370,7 +347,6 @@ code.has-jax {
 <td>3.44</td>
 <td>31.09</td>
 </tr>
-
 <tr>
 <td>4.00</td>
 <td>8.00</td>
@@ -378,7 +354,6 @@ code.has-jax {
 <td>3.06</td>
 <td>21.22</td>
 </tr>
-
 <tr>
 <td>4.00</td>
 <td>24.00</td>
@@ -388,107 +363,91 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image002.png" alt="img" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image002.png" alt="img"></p>
 <p>其中：</p>
-
 <ul>
-<li><p>subject,个体编号</p></li>
-
-<li><p>time，时间</p></li>
-
-<li><p>C，个体浓度预测值</p></li>
-
-<li><p>DV，对数转换后的个体浓度观测值</p></li>
-
-<li><p>EXP_DV，未经对数转换的个体浓度观测值</p></li>
+<li>
+<p>subject,个体编号</p>
+</li>
+<li>
+<p>time，时间</p>
+</li>
+<li>
+<p>C，个体浓度预测值</p>
+</li>
+<li>
+<p>DV，对数转换后的个体浓度观测值</p>
+</li>
+<li>
+<p>EXP_DV，未经对数转换的个体浓度观测值</p>
+</li>
 </ul>
-
-<h1 id="2-群体药物代谢动力学分析常用的三种方法-单纯积聚法-两步法-一步法">2.群体药物代谢动力学分析常用的三种方法，单纯积聚法，两步法，一步法</h1>
-
-<h2 id="2-1单纯积聚法">2.1单纯积聚法</h2>
-
+<h1 id="2群体药物代谢动力学分析常用的三种方法单纯积聚法两步法一步法">2.群体药物代谢动力学分析常用的三种方法，单纯积聚法，两步法，一步法</h1>
+<h2 id="21单纯积聚法">2.1单纯积聚法</h2>
 <p>将同一时间浓度值之间的差异，都认为是残差变异，不考虑个体因素。</p>
-
 <p>或者表述为，将所有个体是为一个个体。</p>
-
-<h2 id="2-2两步法">2.2两步法</h2>
-
+<h2 id="22两步法">2.2两步法</h2>
 <p>将个体是为一个分类变量，并将该变量认为是一个固定效应，估计个体因素的每个水平。</p>
-
 <p>或者表述为，为每个个体分别拟合出其所对应的参数。</p>
-
-<h2 id="2-3一步法">2.3一步法</h2>
-
+<h2 id="23一步法">2.3一步法</h2>
 <p>将个体是为一个分类变量，并将该变量认为是一个随机效应，估计个体因素的均值与方差。</p>
-
 <p>或者表述为，将一组个体认为是从一个统计总体中随机抽取出的一个样本，通过通过该样本去估计整个统计总体的参数（均值，方差）。</p>
-
-<h1 id="3-尝试应用phoenix中的用于生物统计的-线性混合效应-linear-mixed-effect-操作对象-和用于poppk建模的-最大似然模型-ml-model-操作对象-实现这三种方法-并对比操作设置与计算结果">3.尝试应用Phoenix中的用于生物统计的“线性混合效应（Linear Mixed Effect）”操作对象，和用于PopPK建模的“最大似然模型（ML Model）”操作对象，实现这三种方法，并对比操作设置与计算结果。</h1>
-
-<h2 id="3-1不考虑个体因素">3.1不考虑个体因素</h2>
-
-<h3 id="3-1-1lme模型构建">3.1.1LME模型构建</h3>
-
+<h1 id="3尝试应用phoenix中的用于生物统计的线性混合效应linear-mixed-effect操作对象和用于poppk建模的最大似然模型ml-model操作对象实现这三种方法并对比操作设置与计算结果">3.尝试应用Phoenix中的用于生物统计的“线性混合效应（Linear Mixed Effect）”操作对象，和用于PopPK建模的“最大似然模型（ML Model）”操作对象，实现这三种方法，并对比操作设置与计算结果。</h1>
+<h2 id="31不考虑个体因素">3.1不考虑个体因素</h2>
+<h3 id="311lme模型构建">3.1.1LME模型构建</h3>
 <p><strong>使用的统计学模型</strong></p>
-
 <p>Ln(Conc)=int+time* β+ε</p>
-
 <p><strong>Phoenix中的操作</strong></p>
-
 <ol>
-<li><p>将数据集发送至线性混合效应模型操作对象</p></li>
-
-<li><p>将DV映射值“因变量（Dependent）”字段</p></li>
-
-<li><p>将time映射至“回归字段（Regressor）”</p></li>
-
-<li><p>在“固定效应（Fixed Effect）”选项卡，将time指定为固定效应</p></li>
+<li>
+<p>将数据集发送至线性混合效应模型操作对象</p>
+</li>
+<li>
+<p>将DV映射值“因变量（Dependent）”字段</p>
+</li>
+<li>
+<p>将time映射至“回归字段（Regressor）”</p>
+</li>
+<li>
+<p>在“固定效应（Fixed Effect）”选项卡，将time指定为固定效应</p>
+</li>
 </ol>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image004.png" alt="img" /></p>
-
-<h3 id="3-1-2nlme模型构建">3.1.2NLME模型构建</h3>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image004.png" alt="img"></p>
+<h3 id="312nlme模型构建">3.1.2NLME模型构建</h3>
 <p><strong>所使用的PK模型</strong></p>
-
 <p>𝑑A/𝑑𝑡=-𝑘𝑒∗A</p>
-
 <p>𝐶=𝐴/𝑉</p>
-
-<p>log(C_obs)=log&copy;+ε</p>
-
+<p>log(C_obs)=log(C)+ε</p>
 <p><strong>Phoenix中的操作</strong></p>
-
 <ol>
-<li><p>将数据集发送至“最大似然模型（Maximum Likelihood Models）”操作对象</p></li>
-
-<li><p>将EXP_DV映射值“浓度观测值（CObs）”字段</p></li>
-
-<li><p>将time映射至“时间（time）”</p></li>
-
-<li><p>在“结构（Strucure）”选项卡，将PK模型指定为“微观（Micro）”参数化，“血管内（Intravenous）”，1房室模型。</p></li>
-
-<li><p>误差模型设定为“对数加和型（Log-addtive）”</p></li>
-
-<li><p>将subject映射至“ID”字段</p></li>
-
-<li><p>将算法设定为“单纯积聚法（Naïve pooled）”</p></li>
+<li>
+<p>将数据集发送至“最大似然模型（Maximum Likelihood Models）”操作对象</p>
+</li>
+<li>
+<p>将EXP_DV映射值“浓度观测值（CObs）”字段</p>
+</li>
+<li>
+<p>将time映射至“时间（time）”</p>
+</li>
+<li>
+<p>在“结构（Strucure）”选项卡，将PK模型指定为“微观（Micro）”参数化，“血管内（Intravenous）”，1房室模型。</p>
+</li>
+<li>
+<p>误差模型设定为“对数加和型（Log-addtive）”</p>
+</li>
+<li>
+<p>将subject映射至“ID”字段</p>
+</li>
+<li>
+<p>将算法设定为“单纯积聚法（Naïve pooled）”</p>
+</li>
 </ol>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image006.png" alt="img" /></p>
-
-<h3 id="3-1-3结果">3.1.3结果：</h3>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image006.png" alt="img"></p>
+<h3 id="313结果">3.1.3结果：</h3>
 <p><strong>LME结果：</strong></p>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image008.jpg" alt="img" /></p>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image010.jpg" alt="img" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image008.jpg" alt="img"></p>
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image010.jpg" alt="img"></p>
 <p><strong>整理后：</strong></p>
-
 <table>
 <thead>
 <tr>
@@ -496,36 +455,28 @@ code.has-jax {
 <th><strong>值</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td><strong>Ke</strong></td>
 <td>0.1154465</td>
 </tr>
-
 <tr>
 <td><strong>V</strong></td>
 <td>10.165929</td>
 </tr>
-
 <tr>
 <td></td>
 <td></td>
 </tr>
-
 <tr>
 <td><strong>Var(Residual)</strong></td>
 <td>0.3997978</td>
 </tr>
 </tbody>
 </table>
-
 <p><strong>NLME的结果：</strong></p>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image012.jpg" alt="img" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image012.jpg" alt="img"></p>
 <p><strong>整理后得：</strong></p>
-
 <table>
 <thead>
 <tr>
@@ -533,69 +484,57 @@ code.has-jax {
 <th><strong>值</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td><strong>tvV</strong></td>
 <td>10.165918</td>
 </tr>
-
 <tr>
 <td><strong>tvKe</strong></td>
 <td>0.11544665</td>
 </tr>
-
 <tr>
 <td><strong>stdev0</strong></td>
 <td>0.59984834</td>
 </tr>
-
 <tr>
 <td></td>
 <td></td>
 </tr>
-
 <tr>
 <td><strong>Var(Residual)</strong></td>
 <td>0.35981803</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="3-2将个体层面的变异作为固定效应引入模型">3.2将个体层面的变异作为固定效应引入模型</h2>
-
-<h3 id="3-2-1-lme模型构建">3.2.1.LME模型构建</h3>
-
+<h2 id="32将个体层面的变异作为固定效应引入模型">3.2将个体层面的变异作为固定效应引入模型</h2>
+<h3 id="321lme模型构建">3.2.1.LME模型构建</h3>
 <p><strong>统计学模型:</strong></p>
-
 <p>Ln(Conc)=int +time* β1+subject* β2+ε</p>
-
 <p>Phoenix中的操作</p>
-
 <ol>
-<li><p>将数据集发送至线性混合效应模型操作对象</p></li>
-
-<li><p>将DV映射值“因变量（Dependent）”字段</p></li>
-
-<li><p>将time映射至“回归字段（Regressor）”</p></li>
-
-<li><p>将subject映射至“分类变量（Classification）”字段下</p></li>
-
-<li><p>在“固定效应（Fixed Effect）”选项卡，将time，subject指定为固定效应</p></li>
+<li>
+<p>将数据集发送至线性混合效应模型操作对象</p>
+</li>
+<li>
+<p>将DV映射值“因变量（Dependent）”字段</p>
+</li>
+<li>
+<p>将time映射至“回归字段（Regressor）”</p>
+</li>
+<li>
+<p>将subject映射至“分类变量（Classification）”字段下</p>
+</li>
+<li>
+<p>在“固定效应（Fixed Effect）”选项卡，将time，subject指定为固定效应</p>
+</li>
 </ol>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image014.png" alt="img" /></p>
-
-<h3 id="3-2-2nlme模型构建">3.2.2NLME模型构建</h3>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image014.png" alt="img"></p>
+<h3 id="322nlme模型构建">3.2.2NLME模型构建</h3>
 <p>以将个体作为固定效应引入模型中并不是Pop PK常用方法，也与两步法有差异，所以不在“ML Model”操作对象中实现了，但作为用于直观理解两步法，LME的模型足够了。</p>
-
-<h3 id="3-2-3结果">3.2.3结果</h3>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image016.png" alt="img" /></p>
-
+<h3 id="323结果">3.2.3结果</h3>
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image016.png" alt="img"></p>
 <p>整理后：</p>
-
 <table>
 <thead>
 <tr>
@@ -603,116 +542,104 @@ code.has-jax {
 <th><strong>值</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>V4</td>
 <td>23.244934</td>
 </tr>
-
 <tr>
 <td>V3</td>
 <td>8.4659761</td>
 </tr>
-
 <tr>
 <td>V2</td>
 <td>5.2897363</td>
 </tr>
-
 <tr>
 <td>V1</td>
 <td>10.260037</td>
 </tr>
-
 <tr>
 <td>Ke</td>
 <td>0.1154465</td>
 </tr>
-
 <tr>
 <td>Mean_V</td>
 <td>11.81517085</td>
 </tr>
-
 <tr>
 <td></td>
 <td></td>
 </tr>
-
 <tr>
 <td>Var(Residual)</td>
 <td>0.098310976</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="3-3将个体层面的变异作为随机应引入模型">3.3将个体层面的变异作为随机应引入模型</h2>
-
-<h3 id="3-3-1lme模型构建">3.3.1LME模型构建</h3>
-
+<h2 id="33将个体层面的变异作为随机应引入模型">3.3将个体层面的变异作为随机应引入模型</h2>
+<h3 id="331lme模型构建">3.3.1LME模型构建</h3>
 <p><strong>统计学模型：</strong></p>
-
-<p>Ln&copy;=int+time*β+subject*γ+ε</p>
-
+<p>Ln(C)=int+time<em>β+subject</em>γ+ε</p>
 <p><strong>Phoenix中的操作</strong></p>
-
 <ol>
-<li><p>将数据集发送至线性混合效应模型操作对象</p></li>
-
-<li><p>将DV映射值“因变量（Dependent）”字段</p></li>
-
-<li><p>将time映射至“回归字段（Regressor）”</p></li>
-
-<li><p>将subject映射至“分类变量（Classification）”字段下</p></li>
-
-<li><p>在“固定效应（Fixed Effect）”选项卡，将time指定为固定效应</p></li>
-
-<li><p>在“方差结构（Variance Structure）”选项卡下，将Subject指定为随机效应</p></li>
+<li>
+<p>将数据集发送至线性混合效应模型操作对象</p>
+</li>
+<li>
+<p>将DV映射值“因变量（Dependent）”字段</p>
+</li>
+<li>
+<p>将time映射至“回归字段（Regressor）”</p>
+</li>
+<li>
+<p>将subject映射至“分类变量（Classification）”字段下</p>
+</li>
+<li>
+<p>在“固定效应（Fixed Effect）”选项卡，将time指定为固定效应</p>
+</li>
+<li>
+<p>在“方差结构（Variance Structure）”选项卡下，将Subject指定为随机效应</p>
+</li>
 </ol>
-
-<h3 id="3-3-2-nlme模型构建">3.3.2 NLME模型构建</h3>
-
+<h3 id="332-nlme模型构建">3.3.2 NLME模型构建</h3>
 <p>dA/dt=-Ke*A</p>
-
 <p>C=A/V</p>
-
-<p>log(C_obs)=log&copy;+ε</p>
-
+<p>log(C_obs)=log(C)+ε</p>
 <p>V=tvV+nV</p>
-
 <p>nv~N(0,ω^2)</p>
-
 <p><strong>Phoenix中的操作</strong></p>
-
 <ol>
-<li><p>将数据集发送至“最大似然模型（Maximum Likelihood Models）”操作对象</p></li>
-
-<li><p>将EXP_DV映射值“浓度观测值（CObs）”字段</p></li>
-
-<li><p>将time映射至“时间（time）”</p></li>
-
-<li><p>将subject映射至“ID”字段下</p></li>
-
-<li><p>在“结构（Strucure）”选项卡，将PK模型指定为“微观（Micro）”参数化，“血管内（Intravenous）”，1房室模型。</p></li>
-
-<li><p>误差模型设定为“对数加和型（Log-addtive）”</p></li>
-
-<li><p>在“参数（Parameter）”→“结构（Structural）”选项卡下，取消ke的随机效应复选狂。</p></li>
-
-<li><p>将算法设定为“FOCE”</p></li>
+<li>
+<p>将数据集发送至“最大似然模型（Maximum Likelihood Models）”操作对象</p>
+</li>
+<li>
+<p>将EXP_DV映射值“浓度观测值（CObs）”字段</p>
+</li>
+<li>
+<p>将time映射至“时间（time）”</p>
+</li>
+<li>
+<p>将subject映射至“ID”字段下</p>
+</li>
+<li>
+<p>在“结构（Strucure）”选项卡，将PK模型指定为“微观（Micro）”参数化，“血管内（Intravenous）”，1房室模型。</p>
+</li>
+<li>
+<p>误差模型设定为“对数加和型（Log-addtive）”</p>
+</li>
+<li>
+<p>在“参数（Parameter）”→“结构（Structural）”选项卡下，取消ke的随机效应复选狂。</p>
+</li>
+<li>
+<p>将算法设定为“FOCE”</p>
+</li>
 </ol>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image018.png" alt="img" /></p>
-
-<h3 id="3-3-3结果">3.3.3结果</h3>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image018.png" alt="img"></p>
+<h3 id="333结果">3.3.3结果</h3>
 <p><strong>LME的结果</strong></p>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image020.png" alt="img" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image020.png" alt="img"></p>
 <p><strong>整理后：</strong></p>
-
 <table>
 <thead>
 <tr>
@@ -720,41 +647,32 @@ code.has-jax {
 <th><strong>值</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Ke</td>
 <td>0.115446497</td>
 </tr>
-
 <tr>
 <td>V</td>
 <td>10.16592915</td>
 </tr>
-
 <tr>
 <td></td>
 <td></td>
 </tr>
-
 <tr>
 <td>Var(Subject)</td>
 <td>0.36178422</td>
 </tr>
-
 <tr>
 <td>Var(Residual)</td>
 <td>0.098310976</td>
 </tr>
 </tbody>
 </table>
-
 <p><strong>NLME的结果：</strong></p>
-
-<p><img src="/images/生物统计视角的PopPK/clip_image022.png" alt="img" /></p>
-
+<p><img src="/images/%E7%94%9F%E7%89%A9%E7%BB%9F%E8%AE%A1%E8%A7%86%E8%A7%92%E7%9A%84PopPK/clip_image022.png" alt="img"></p>
 <p><strong>整理后：</strong></p>
-
 <table>
 <thead>
 <tr>
@@ -762,68 +680,54 @@ code.has-jax {
 <th><strong>值</strong></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>tvV</td>
 <td>10.167932</td>
 </tr>
-
 <tr>
 <td>tvKe</td>
 <td>0.11542232</td>
 </tr>
-
 <tr>
 <td>stdev0</td>
 <td>0.30358454</td>
 </tr>
-
 <tr>
 <td></td>
 <td></td>
 </tr>
-
 <tr>
 <td>Var(Residual)</td>
 <td>0.092163573</td>
 </tr>
-
 <tr>
 <td>VAR(nV)</td>
 <td>0.26738008</td>
 </tr>
 </tbody>
 </table>
-
-<h1 id="4-一些备注说明">4.一些备注说明</h1>
-
+<h1 id="4一些备注说明">4.一些备注说明</h1>
 <p>关于“Linear Mixed Effects”操作对象与“ML Model”操作对象间的一些差异说明：</p>
-
 <p>Phoenix的“Linear Mixed Effects”操作对象，使用限制性最大似然法构建目标函数；“ML Model”操作对象使用最大似然法构建目标函数。</p>
-
 <p>限制性最大似然与最大似然法之间存在着一些差异，一个明显的区别是结果中的估算出的方差值，一般限制性最大似然的比最大似然的大，这是由于自由度的差异导致的。</p>
-
 <p><strong>两步法的说明：</strong></p>
-
 <p>两步法在这里和Pop PK传统的两部法不同，因为按照传统的视角，是确确实实将每个个体分开拟合的，而将个体作为固定效应引入模型后，比如本模型，其确实会为每个个体估计了一个单独的V，但是所有个体共享一个Ke和残差，所以这与传统的不同，在ML Model中也能实现类似的方式描述模型，但这非本次重点，感性取得小伙伴可以自己尝试构建下。</p>
-
-<h1 id="5-随堂作业">5.随堂作业</h1>
-
+<h1 id="5随堂作业">5.随堂作业</h1>
 <p>大家可以尝试一下练习：</p>
-
 <p>使用LME构建一下模型：</p>
-
 <ul>
-<li><p>将斜率的个体间差异作为固定效应引入模型。</p></li>
-
-<li><p>将斜率的个体间差异作为随机效应引入模型。</p></li>
-
-<li><p>同时将截距与斜率的个体间差异作为随机效应引入模型。</p></li>
+<li>
+<p>将斜率的个体间差异作为固定效应引入模型。</p>
+</li>
+<li>
+<p>将斜率的个体间差异作为随机效应引入模型。</p>
+</li>
+<li>
+<p>同时将截距与斜率的个体间差异作为随机效应引入模型。</p>
+</li>
 </ul>
-
 <p>使用“ML Model”构建一下模型：</p>
-
 <ul>
 <li>2*2生物等效性的统计学模型</li>
 </ul>
@@ -905,7 +809,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

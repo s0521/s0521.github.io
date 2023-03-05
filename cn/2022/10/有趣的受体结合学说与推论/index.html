@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -54,12 +54,14 @@ code.has-jax {
 [&amp;hellip;] 受体结合学说认为，某两种物质会可逆的结合与解离，为了便于描述，将两种物质中的任意一种称之为“药物”另一种称呼为“受体”。
 药物和受体会可逆的结合与解离，并一般最终到达平衡：
 [&amp;hellip;] C∗R∗k_on⇌RC∗k_off
-其中： - C，两种结合物质中的一种 &amp;hellip;">
+其中：
+[&amp;hellip;] 另外定 &amp;hellip;">
       <meta property="og:description" content="在PKPD中，“受体结合”学说大名鼎鼎，我认为与“房室”、“周转”这两个概念一样重要，是现代PKPD的基石。
 [&amp;hellip;] 受体结合学说认为，某两种物质会可逆的结合与解离，为了便于描述，将两种物质中的任意一种称之为“药物”另一种称呼为“受体”。
 药物和受体会可逆的结合与解离，并一般最终到达平衡：
 [&amp;hellip;] C∗R∗k_on⇌RC∗k_off
-其中： - C，两种结合物质中的一种 &amp;hellip;">
+其中：
+[&amp;hellip;] 另外定 &amp;hellip;">
       
     
 
@@ -141,120 +143,89 @@ code.has-jax {
 
 
 
-
-
 <p>在PKPD中，“受体结合”学说大名鼎鼎，我认为与“房室”、“周转”这两个概念一样重要，是现代PKPD的基石。</p>
-
-<h1 id="受体结合-学说简要说明">“受体结合”学说简要说明：</h1>
-
+<h1 id="受体结合学说简要说明">“受体结合”学说简要说明：</h1>
 <p>受体结合学说认为，某两种物质会可逆的结合与解离，为了便于描述，将两种物质中的任意一种称之为“药物”另一种称呼为“受体”。</p>
-
 <p>药物和受体会可逆的结合与解离，并一般最终到达平衡：</p>
-
 <h2 id="可写为">可写为：</h2>
-
 <p>C∗R∗k_on⇌RC∗k_off</p>
-
-<p><strong>其中</strong>：
- - C，两种结合物质中的一种物质的游离浓度，单位必须为摩尔单位，比如nmol/L
- - R，两种结合物质中的一种物质的游离浓度，单位必须为摩尔单位，比如nmol/L
- - RC，两种结合物质中结合后的物质的浓度，单位必须为摩尔单位，比如nmol/L
- - kon，结合速率常数
- - koff，解离速率常数</p>
-
-<p>另外定义：
- - Ctot，两种结合物质中的一种物质的总浓度
- - Rtot，两种结合物质中的一种物质的总浓度</p>
-
-<p>则有：
- - Ctot=C+RC
- - Rtot=R+RC</p>
-
+<p><strong>其中</strong>：</p>
+<ul>
+<li>C，两种结合物质中的一种物质的游离浓度，单位必须为摩尔单位，比如nmol/L</li>
+<li>R，两种结合物质中的一种物质的游离浓度，单位必须为摩尔单位，比如nmol/L</li>
+<li>RC，两种结合物质中结合后的物质的浓度，单位必须为摩尔单位，比如nmol/L</li>
+<li>kon，结合速率常数</li>
+<li>koff，解离速率常数</li>
+</ul>
+<p>另外定义：</p>
+<ul>
+<li>Ctot，两种结合物质中的一种物质的总浓度</li>
+<li>Rtot，两种结合物质中的一种物质的总浓度</li>
+</ul>
+<p>则有：</p>
+<ul>
+<li>Ctot=C+RC</li>
+<li>Rtot=R+RC</li>
+</ul>
 <p>这与化学中的离子解离结合、酸碱电离假说等非常类似。</p>
-
 <h1 id="在达到动态平衡时的推论">在达到动态平衡时的推论：</h1>
-
-<h2 id="1-在动态平衡下有">1.在动态平衡下有：</h2>
-
+<h2 id="1在动态平衡下有">1.在动态平衡下有：</h2>
 <p>C∗R∗kon=RC∗koff
 C*R/RC=koff/kon</p>
-
-<h2 id="2-定义亲和力常数kd">2.定义亲和力常数KD</h2>
-
+<h2 id="2定义亲和力常数kd">2.定义亲和力常数KD</h2>
 <p>令KD=koff/kon</p>
-
 <p>则，有
 <strong>KD=koff/kon</strong>=C*R/RC</p>
-
-<h2 id="3-rc的计算公式-基于c与rtot">3.RC的计算公式(基于C与Rtot)</h2>
-
-<p>KD=C*R/RC
-KD*RC=C*R</p>
-
+<h2 id="3rc的计算公式基于c与rtot">3.RC的计算公式(基于C与Rtot)</h2>
+<p>KD=C<em>R/RC
+KD</em>RC=C*R</p>
 <p>将R=Rtot-RC带入，得
 KD<em>RC=C</em>(Rtot-RC)
-KD*RC=C*Rtot-C*RC
-(KD+C)*RC=C*Rtot</p>
-
+KD<em>RC=C</em>Rtot-C*RC
+(KD+C)<em>RC=C</em>Rtot</p>
 <p><strong>RC=C*Rtot/(KD+C)</strong></p>
-
 <p>一般认为药物与受体结合后的复合物产生药效，即RC为药效E，则Rtot为最大药效Emax，由此上述方程可改写为：</p>
-
 <p><strong>E=Emax*C/(KD+C)</strong></p>
-
 <p>由此，我们得到了经典的Emax模型的方程！</p>
-
-<h2 id="4-受体结合率">4.受体结合率：</h2>
-
+<h2 id="4受体结合率">4.受体结合率：</h2>
 <p>定义RO=R/Rtot</p>
-
 <p>则有：
 RO=RC/Rtot</p>
-
-<p>将RC=C*Rtot/(KD+C)带入，得
-RO=C*Rtot/(KD+C)/Rtot
+<p>将RC=C<em>Rtot/(KD+C)带入，得
+RO=C</em>Rtot/(KD+C)/Rtot
 <strong>RO=C/(KD+C)</strong></p>
-
 <h3 id="推论">推论：</h3>
-
 <ol>
 <li>由上述公式可知，<strong>受体的占有率仅取决于游离的药物浓度C</strong>，和亲和力常数KD，而与R或者Rtot的浓度无关。</li>
 <li>除了受体占有率使用上述公式，可以发现，其实，药物被受体占有的占有率也使用该公式，即CO=R/(KD+R)，即<strong>药物的占有率仅取决于游离的受体浓度R</strong>，和亲和力常数KD，而<strong>与C或者Ctot的浓度无关</strong>。</li>
 <li>当受体占有率为50%时，有
 RO=RO50=0.5
 0.5=C/(KD+C)
-0.5*KD+0.5*C=C
-0.5*KD=0.5*C
+0.5<em>KD+0.5</em>C=C
+0.5<em>KD=0.5</em>C
 C=KD
 即，<strong>受体占有率为50%时，C=KD</strong>；
 类似的这也使用与药物，即药物占有率为50%时，R=KD；</li>
-
-<li><p>基于受体占率时计算C，有
+<li>基于受体占率时计算C，有
 RO=C/(KD+C)
 RO×(KD+C)=C
 RO×KD+RO×C=C
 RO×KD=C-RO×C
 RO×KD=(1-RO)×C
 <strong>C=RO×KD/(1-RO)</strong>
-比如，受体占有率RO=20%时，C=0.2×KD/(1-0.2)=4×KD</p>
-
-<h2 id="5-rc的计算公式-基于ctot-rtot">5.RC的计算公式(基于Ctot，Rtot)</h2></li>
+比如，受体占有率RO=20%时，C=0.2×KD/(1-0.2)=4×KD</li>
 </ol>
-
+<h2 id="5rc的计算公式基于ctotrtot">5.RC的计算公式(基于Ctot，Rtot)</h2>
 <p>C∗R∗kon=RC∗koff</p>
-
 <p>将Ctot=C+RC，Rtot=R+RC带入，有
-(Ctot-RC) *(Rtot-RC) *Kon=RC *koff
-(Ctot*Rtot -Ctot*RC -RC*Rtot +RC^2) *kon =RC*koff
-Ctot*Rtot -(Ctot+Rtot)*RC +RC^2=RC*koff/kon
-Ctot*Rtot -(Ctot+Rtot)*RC +RC^2 =RC*KD
+(Ctot-RC) <em>(Rtot-RC) <em>Kon=RC <em>koff
+(Ctot</em>Rtot -Ctot</em>RC -RC</em>Rtot +RC^2) <em>kon =RC</em>koff
+Ctot<em>Rtot -(Ctot+Rtot)<em>RC +RC^2=RC</em>koff/kon
+Ctot</em>Rtot -(Ctot+Rtot)<em>RC +RC^2 =RC</em>KD
 Ctot*Rtot-(Ctot+Rtot-KD)*RC +RC^2 =0</p>
-
 <p>利用一元二次方程求解公式，直接计算出RC的解为：
 <strong>RC=((Ctot+Rtot+KD)±√((Ctot+Rtot+KD)^2−4∗Rtot∗Ctot))/2</strong></p>
-
 <p>由此，我们就可以根据我们的给药量和受体的总量计算出药物-受体复合物的量了。</p>
-
 <p>(刚开是想到此公式时，觉得有些兴奋似乎发现了些什么，然，一看文章，此公式已经被文章中被使用了。)</p>
 
 
@@ -262,7 +233,7 @@ Ctot*Rtot-(Ctot+Rtot-KD)*RC +RC^2 =0</p>
   
 <nav class="post-nav">
   <span class="nav-prev">&larr; <a href="/cn/2022/09/%E5%88%B6%E8%8D%AF%E8%A1%8C%E4%B8%9A%E5%85%B3%E4%BA%8Er%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%92%8C%E5%8F%82%E4%B8%8E%E7%BB%84%E7%BB%87/">制药行业关于R的开源项目和参与组织</a></span>
-  <span class="nav-next"></span>
+  <span class="nav-next"><a href="/cn/2023/02/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA2_kd%E4%B8%8Ert/">有趣的受体结合学说与推论2_Kd与Rt</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -273,6 +244,8 @@ document.addEventListener('keyup', function(e) {
     url = '\/cn\/2022\/09\/%E5%88%B6%E8%8D%AF%E8%A1%8C%E4%B8%9A%E5%85%B3%E4%BA%8Er%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%92%8C%E5%8F%82%E4%B8%8E%E7%BB%84%E7%BB%87\/';
     
   } else if (e.which == 39) {  
+    
+    url = '\/cn\/2023\/02\/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA2_kd%E4%B8%8Ert\/';
     
   }
   if (url) window.location = url;
@@ -332,7 +305,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

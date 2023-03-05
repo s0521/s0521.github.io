@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -137,98 +137,41 @@ code.has-jax {
 
 
 
-
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#本文实现目标">本文实现目标：</a></li>
-<li><a href="#文献来源">文献来源：</a></li>
-<li><a href="#试验材料">试验材料：</a>
-<ul>
-<li><a href="#试验化合物">试验化合物：</a></li>
-<li><a href="#试验药物制剂">试验药物制剂：</a></li>
-<li><a href="#试验动物与设施">试验动物与设施：</a></li>
-<li><a href="#给药与采样方案">给药与采样方案：</a></li>
-<li><a href="#试验样品分析">试验样品分析：</a></li>
-</ul></li>
-<li><a href="#试验结果">试验结果：</a>
-<ul>
-<li><a href="#药时曲线-平均">药时曲线（平均）：</a></li>
-<li><a href="#血药浓度表">血药浓度表：</a></li>
-<li><a href="#药动学参数">药动学参数：</a></li>
-</ul></li>
-</ul>
-</nav>
-
+<!-- raw HTML omitted -->
 <h1 id="前言">前言</h1>
-
 <p>瑞德西韦(Remdesivir, GS-5734)是近期热点，在临床试验结束并获得预期结果前，它对目前的疫情没有任何帮助，但这不妨碍我们来从多个角度了解它，本文是从其临床前非人灵长类药动学试验这一视角对该化合物进行一次观察。</p>
-
 <h1 id="本文实现目标">本文实现目标：</h1>
-
 <p>通过文献报道信息，获取文中瑞德西韦(Remdesivir, GS-5734)的药代动力学特性。</p>
-
 <h1 id="文献来源">文献来源：</h1>
-
 <p>文献在线阅读网址：</p>
-
 <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5551389/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5551389/</a></p>
-
 <p>标题：Therapeutic Efficacy of the Small Molecule GS-5734 against Ebola Virus in Rhesus Monkeys</p>
-
 <p>中文标题：小分子GS-5734对恒河猴埃博拉病毒的治疗作用</p>
-
 <h1 id="试验材料">试验材料：</h1>
-
 <h2 id="试验化合物">试验化合物：</h2>
-
-<p><strong>名字：</strong>瑞德西韦(Remdesivir, GS-5734)</p>
-
-<p><strong>分子量：</strong>602.576</p>
-
+<p>**名字：**瑞德西韦(Remdesivir, GS-5734)</p>
+<p>**分子量：**602.576</p>
 <h2 id="试验药物制剂">试验药物制剂：</h2>
-
 <p>GS-5734与12％磺基丁基醚-β-环糊精（SBE-β-CD）在水中配制，使用HCl将pH调节至3.0。(GS-5734 was formulated in water with 12% sulfobutylether-β-cyclodextrin (SBE-β-CD), pH adjusted to 3.0 using HCl.)</p>
-
 <p>注射液的体积为2.0 mL / kg</p>
-
 <h2 id="试验动物与设施">试验动物与设施：</h2>
-
 <p>试验设施：科文斯，Covance, Inc. (Madison, WI)</p>
-
 <p>试验动物：恒河猴(Rhesus monkeys (Macaca maniculata))，3只，雄性</p>
-
 <h2 id="给药与采样方案">给药与采样方案：</h2>
-
-<p><strong>给药方案：</strong>10 mg /kg，静脉内推注(推注时长约1分钟)，大腿内测隐静脉（左/右）（right or left saphenous vein），动物麻醉状态下给予药物。</p>
-
-<p><strong>血液样品采集：</strong>从股静/动脉采集样品，</p>
-
-<p><strong>采样方案：</strong>给药前，给药后0.083, 0.25, 0.5, 1, 2, 4, 8, 24h。</p>
-
+<p>**给药方案：**10 mg /kg，静脉内推注(推注时长约1分钟)，大腿内测隐静脉（左/右）（right or left saphenous vein），动物麻醉状态下给予药物。</p>
+<p>**血液样品采集：**从股静/动脉采集样品，</p>
+<p>**采样方案：**给药前，给药后0.083, 0.25, 0.5, 1, 2, 4, 8, 24h。</p>
 <p><strong>额外在下列时间采集PBMC样品</strong>：2, 4, 8, 24h</p>
-
 <h2 id="试验样品分析">试验样品分析：</h2>
-
-<p><strong>分析方法：</strong>略，见原文。</p>
-
-<p><strong>样品来源：</strong>血液中的血浆和血中的单核细胞(peripheral blood mononuclear cells, PBMCs)</p>
-
-<p><strong>检测靶标：</strong>瑞德西韦和/或其代谢产物</p>
-
+<p>**分析方法：**略，见原文。</p>
+<p>**样品来源：**血液中的血浆和血中的单核细胞(peripheral blood mononuclear cells, PBMCs)</p>
+<p>**检测靶标：**瑞德西韦和/或其代谢产物</p>
 <h1 id="试验结果">试验结果：</h1>
-
-<h2 id="药时曲线-平均">药时曲线（平均）：</h2>
-
-<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image002.jpg" alt="img" /></p>
-
+<h2 id="药时曲线平均">药时曲线（平均）：</h2>
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E6%81%92%E6%B2%B3%E7%8C%B4%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/clip_image002.jpg" alt="img"></p>
 <p>健康恒河猴中，静脉内注射GS-5734（瑞德西韦）10 mg / kg ，给药后的药时曲线（平均值±SD，n = 3），其中：血浆GS-5734（黑色），Ala-Met（红色），Nuc（蓝色）; PBMC中的NTP（绿色）</p>
-
 <h2 id="血药浓度表">血药浓度表：</h2>
-
 <p>通过抠图获得浓度数据</p>
-
 <table>
 <thead>
 <tr>
@@ -239,7 +182,6 @@ code.has-jax {
 <th>NTP</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Time</td>
@@ -248,7 +190,6 @@ code.has-jax {
 <td>红色</td>
 <td>绿色</td>
 </tr>
-
 <tr>
 <td>0.083</td>
 <td>5.111</td>
@@ -256,7 +197,6 @@ code.has-jax {
 <td>1.361</td>
 <td>#N/A</td>
 </tr>
-
 <tr>
 <td>0.25</td>
 <td>1.8361</td>
@@ -264,7 +204,6 @@ code.has-jax {
 <td>1.5201</td>
 <td>#N/A</td>
 </tr>
-
 <tr>
 <td>0.5</td>
 <td>0.9507</td>
@@ -272,7 +211,6 @@ code.has-jax {
 <td>1.6452</td>
 <td>#N/A</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>0.3704</td>
@@ -280,7 +218,6 @@ code.has-jax {
 <td>0.9661</td>
 <td>#N/A</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>0.06402</td>
@@ -288,7 +225,6 @@ code.has-jax {
 <td>0.2447</td>
 <td>33.23</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>#N/A</td>
@@ -296,7 +232,6 @@ code.has-jax {
 <td>0.0255</td>
 <td>32.48</td>
 </tr>
-
 <tr>
 <td>8</td>
 <td>#N/A</td>
@@ -304,7 +239,6 @@ code.has-jax {
 <td>0.0109</td>
 <td>25.401</td>
 </tr>
-
 <tr>
 <td>24</td>
 <td>#N/A</td>
@@ -314,21 +248,13 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
-<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image004.jpg" alt="img" /></p>
-
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E6%81%92%E6%B2%B3%E7%8C%B4%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/clip_image004.jpg" alt="img"></p>
 <h2 id="药动学参数">药动学参数：</h2>
-
 <p><strong>文献报道参数:</strong></p>
-
-<p>t <sup>1</sup>&frasl;<sub>2</sub> = 0.39 h</p>
-
+<p>t 1/2 = 0.39 h</p>
 <p><strong>采用抠图数据计算所得参数：</strong></p>
-
 <p><strong>使用软件：Phoenix WinNonlin</strong></p>
-
 <p>瑞德西韦</p>
-
 <table>
 <thead>
 <tr>
@@ -339,7 +265,6 @@ code.has-jax {
 <th>中文参数名</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Remdesivir</td>
@@ -348,7 +273,6 @@ code.has-jax {
 <td>16.595417</td>
 <td>剂量</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>HL_Lambda_z</td>
@@ -356,7 +280,6 @@ code.has-jax {
 <td>0.38669607</td>
 <td>末端消除半衰期</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>AUClast</td>
@@ -364,7 +287,6 @@ code.has-jax {
 <td>2.0408235</td>
 <td>曲线下面积(0到最后一个可定量点)</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>AUCINF_obs</td>
@@ -372,7 +294,6 @@ code.has-jax {
 <td>2.0765393</td>
 <td>曲线下面积(0到无穷远)</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>Cl_obs</td>
@@ -380,7 +301,6 @@ code.has-jax {
 <td>7.9918627</td>
 <td>清除率</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>MRTlast</td>
@@ -388,7 +308,6 @@ code.has-jax {
 <td>0.32771554</td>
 <td>平均滞留时间</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>Vss_obs</td>
@@ -398,9 +317,7 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p>其他：</p>
-
 <table>
 <thead>
 <tr>
@@ -411,7 +328,6 @@ code.has-jax {
 <th>AUClast  (h*umol/L)</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Ala-Met</td>
@@ -420,7 +336,6 @@ code.has-jax {
 <td>1.6452</td>
 <td>2.2940649</td>
 </tr>
-
 <tr>
 <td>NTP</td>
 <td>13.380331</td>
@@ -428,7 +343,6 @@ code.has-jax {
 <td>33.23</td>
 <td>508.934</td>
 </tr>
-
 <tr>
 <td>Nuc</td>
 <td>8.4013504</td>
@@ -438,16 +352,11 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p><strong>数据分析软件截图：</strong></p>
-
 <p>瑞德西韦药动学参数：</p>
-
-<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image006.jpg" alt="img" /></p>
-
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E6%81%92%E6%B2%B3%E7%8C%B4%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/clip_image006.jpg" alt="img"></p>
 <p>数据分析工作流程图：</p>
-
-<p><img src="/images/瑞德西韦Remdesivir_在恒河猴体内的药动学试验与结果/clip_image008.jpg" alt="img" /></p>
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E6%81%92%E6%B2%B3%E7%8C%B4%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/clip_image008.jpg" alt="img"></p>
 
 
   <footer>
@@ -526,7 +435,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

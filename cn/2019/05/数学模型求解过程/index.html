@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -142,20 +142,17 @@ code.has-jax {
 
 
 
-
-
 <h1 id="如何估计模型中的参数">如何估计模型中的参数</h1>
-
 <h3 id="模型估计参数的前提条件">模型估计参数的前提条件：</h3>
-
 <ul>
-<li><p>估算的前提条件：自变量+给药方案+因变量+模型结构</p></li>
-
-<li><p>对于药动学模型，自变量为采样的时间，因变量为样品的血药浓度，给药方案就是给药的时刻+剂量，模型结构就是我们期望使用的模型的实现（内置模型库，代码实现等）</p></li>
+<li>
+<p>估算的前提条件：自变量+给药方案+因变量+模型结构</p>
+</li>
+<li>
+<p>对于药动学模型，自变量为采样的时间，因变量为样品的血药浓度，给药方案就是给药的时刻+剂量，模型结构就是我们期望使用的模型的实现（内置模型库，代码实现等）</p>
+</li>
 </ul>
-
 <h3 id="估计参数的工作的过程是">估计参数的工作的过程是：</h3>
-
 <pre><code>1.  猜测一组参数值
 
     -   初值
@@ -176,11 +173,8 @@ code.has-jax {
 
     -   Convergence criterion，收敛准则
 </code></pre>
-
-<p><img src="/images/20190530/shiyitu.png" alt="示意图" /></p>
-
+<p><img src="/images/20190530/shiyitu.png" alt="示意图"></p>
 <h4 id="参数初值">参数初值</h4>
-
 <pre><code>参数初值的来源多种多样，大体可以如此划分：
 
 -   既往研究获得的值
@@ -211,9 +205,7 @@ code.has-jax {
 
     -   由其他种属IVIVE得到的值
 </code></pre>
-
 <h4 id="ode">ODE</h4>
-
 <pre><code>此部用于计算因变量的预测值，方法由以下几种：
 
 -   已知因变量解析解
@@ -234,14 +226,10 @@ code.has-jax {
             用Adams方法（预测校正器），在刚性情况下使用后向分化公式（BDF）方法
             （Gear方法）。产生的线性系统通过直接方法（LU因子/求解）求解。
 </code></pre>
-
 <h4 id="预测值">预测值</h4>
-
 <pre><code>预测值就是因变量的预测值，没啥好说的
 </code></pre>
-
 <h4 id="构建目标函数">构建目标函数</h4>
-
 <pre><code>构建目标函数的方法由多种，大体可以划分为两种：
 
 -   最小二乘法，目标函数SSR
@@ -260,15 +248,11 @@ code.has-jax {
 
         -   类似扩展最小二乘的最大似然/限制性最大似然
 </code></pre>
-
 <h4 id="目标函数">目标函数</h4>
-
 <ul>
 <li>目标函数可用于判断模型的好坏，除了上述提及的两个直接的目标函数SSR与-2LL，还衍生出了基于他俩的一系列其他用于判断模型好坏的信息判据比如：AIC、SBC等等</li>
 </ul>
-
 <h4 id="最小化算法">最小化算法</h4>
-
 <pre><code>最小化算法是才是解决非线性问题的核心与灵魂，
 也是方法类别最为丰富的地方，可以分为以下这些：
 
@@ -300,9 +284,7 @@ code.has-jax {
 
     -   马尔可夫链蒙特卡罗
 </code></pre>
-
 <h4 id="退出迭代的条件">退出迭代的条件</h4>
-
 <pre><code>退出迭代的条件因软件而已，大致有下以下几种：
 
 -   找到了参数的最小值
@@ -321,9 +303,7 @@ code.has-jax {
 
 -   达到最大迭代次数
 </code></pre>
-
 <h3 id="winnonlin经典模型计算">WinNonlin经典模型计算</h3>
-
 <pre><code>估计参数的工作的过程是：
 
 1.  猜测一组参数值
@@ -356,9 +336,7 @@ code.has-jax {
 
     -   达到最大迭代次数
 </code></pre>
-
 <h3 id="phoenix-model个体模型计算">Phoenix Model个体模型计算</h3>
-
 <pre><code>估计参数的工作的过程是：
 
 1.  猜测一组参数值
@@ -387,9 +365,7 @@ code.has-jax {
 
     -   达到最大迭代次数
 </code></pre>
-
 <h3 id="phoenix-model群体模型计算">Phoenix Model群体模型计算</h3>
-
 <pre><code>估计参数的工作的过程是：
 
 1.  猜测一组参数值
@@ -523,7 +499,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

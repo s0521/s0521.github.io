@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -137,99 +137,41 @@ code.has-jax {
 
 
 
-
-
 <h1 id="前言">前言</h1>
-
 <p>瑞德西韦(Remdesivir, GS-5734)是近期热点，在临床试验结束并获得预期结果前，它对目前的疫情没有任何帮助，但这不妨碍我们来从多个角度了解它，本文是从其临床前啮齿类药动学试验这一视角对该化合物进行一次观察。</p>
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#本文实现目标">本文实现目标：</a></li>
-<li><a href="#文献来源">文献来源：</a></li>
-<li><a href="#试验材料">试验材料：</a>
-<ul>
-<li><a href="#试验化合物">试验化合物：</a></li>
-<li><a href="#试验药物制剂">试验药物制剂：</a></li>
-<li><a href="#试验动物与设施">试验动物与设施：</a></li>
-<li><a href="#给药与采样方案">给药与采样方案：</a></li>
-<li><a href="#试验样品分析">试验样品分析：</a></li>
-</ul></li>
-<li><a href="#试验结果">试验结果：</a>
-<ul>
-<li><a href="#药时曲线-平均-每个时间点3个样品">药时曲线（平均，每个时间点3个样品）：</a></li>
-<li><a href="#血药浓度表">血药浓度表：</a></li>
-<li><a href="#药动学参数">药动学参数：</a></li>
-</ul></li>
-<li><a href="#数据分析软件截图"><strong>数据分析软件截图：</strong></a></li>
-</ul>
-</nav>
-
+<!-- raw HTML omitted -->
 <h1 id="本文实现目标">本文实现目标：</h1>
-
 <p>通过文献报道信息，获取文中瑞德西韦(Remdesivir, GS-5734)的药代动力学特性。</p>
-
 <h1 id="文献来源">文献来源：</h1>
-
 <p>文献在线阅读网址：</p>
-
 <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5567817/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5567817/</a></p>
-
 <p>标题：Broad-spectrum antiviral GS-5734 inhibits both epidemic and zoonotic coronaviruses</p>
-
 <p>中文标题：广谱抗病毒GS-5734抑制流行和人畜共患的冠状病毒</p>
-
 <h1 id="试验材料">试验材料：</h1>
-
 <h2 id="试验化合物">试验化合物：</h2>
-
-<p><strong>名字：</strong>瑞德西韦(Remdesivir, GS-5734)</p>
-
-<p><strong>分子量：</strong>602.576</p>
-
+<p>**名字：**瑞德西韦(Remdesivir, GS-5734)</p>
+<p>**分子量：**602.576</p>
 <h2 id="试验药物制剂">试验药物制剂：</h2>
-
 <p>GS-5734与12％磺基丁基醚-β-环糊精（SBE-β-CD）在水(含HCl / NaOH)中配制，pH调节至5.0。</p>
-
 <p>(in vehicle containing 12% sulfobutylether-β-cyclodextin in water (with HCl/NaOH) at pH 5.0 for in vivo studies.)</p>
-
 <p>注射液的体积：未提及</p>
-
 <h2 id="试验动物与设施">试验动物与设施：</h2>
-
 <p>试验设施：animal biosafety level 3 (ABSL3) facilities at UNC Chapel Hill</p>
-
 <p>试验动物：缺失Ces1c（Ces1c -/-）基因的小鼠(mice genetically deleted for Ces1c (Ces1c−/−))</p>
-
 <p>只数：未明确提及</p>
-
 <p>性别：未明确提及</p>
-
 <h2 id="给药与采样方案">给药与采样方案：</h2>
-
-<p><strong>给药方案：</strong>皮下注射，25mg/kg</p>
-
-<p><strong>采样方案：</strong>0.25、0.5、1、2、4、6、8和12h。</p>
-
+<p>**给药方案：**皮下注射，25mg/kg</p>
+<p>**采样方案：**0.25、0.5、1、2、4、6、8和12h。</p>
 <h2 id="试验样品分析">试验样品分析：</h2>
-
-<p><strong>分析方法：</strong>略，见原文。</p>
-
-<p><strong>样品基质：</strong>血浆</p>
-
-<p><strong>检测靶标：</strong>瑞德西韦和其代谢产物</p>
-
+<p>**分析方法：**略，见原文。</p>
+<p>**样品基质：**血浆</p>
+<p>**检测靶标：**瑞德西韦和其代谢产物</p>
 <h1 id="试验结果">试验结果：</h1>
-
-<h2 id="药时曲线-平均-每个时间点3个样品">药时曲线（平均，每个时间点3个样品）：</h2>
-
-<p><img src="/images/瑞德西韦Remdesivir_在基因敲除小鼠体内的药动学试验与结果/image-20200225131744815.png" alt="image-20200225131744815" /></p>
-
+<h2 id="药时曲线平均每个时间点3个样品">药时曲线（平均，每个时间点3个样品）：</h2>
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E5%9F%BA%E5%9B%A0%E6%95%B2%E9%99%A4%E5%B0%8F%E9%BC%A0%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/image-20200225131744815.png" alt="image-20200225131744815"></p>
 <h2 id="血药浓度表">血药浓度表：</h2>
-
 <p>通过抠图，获得浓度数据</p>
-
 <table>
 <thead>
 <tr>
@@ -239,7 +181,6 @@ code.has-jax {
 <th>nucleoside   一磷酸核苷</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Time</td>
@@ -247,56 +188,48 @@ code.has-jax {
 <td>红色</td>
 <td>深蓝色</td>
 </tr>
-
 <tr>
 <td>0.25</td>
 <td>7.959</td>
 <td>9.122</td>
 <td>0.708</td>
 </tr>
-
 <tr>
 <td>0.5</td>
 <td>10.724</td>
 <td>9.231</td>
 <td>2.4587</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>6.817</td>
 <td>5.406</td>
 <td>4.2419</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>2.4294</td>
 <td>0.7937</td>
 <td>6.395</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>0.10935</td>
 <td>0.038547</td>
 <td>1.9965</td>
 </tr>
-
 <tr>
 <td>6</td>
 <td>0.033109</td>
 <td>0.02273</td>
 <td>1.5729</td>
 </tr>
-
 <tr>
 <td>8</td>
 <td>0.018715</td>
 <td>#N/A</td>
 <td>0.7786</td>
 </tr>
-
 <tr>
 <td>12</td>
 <td>0.017725</td>
@@ -305,21 +238,13 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
-<p><img src="/images/瑞德西韦Remdesivir_在基因敲除小鼠体内的药动学试验与结果/image-20200225131753585.png" alt="image-20200225131753585" /></p>
-
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E5%9F%BA%E5%9B%A0%E6%95%B2%E9%99%A4%E5%B0%8F%E9%BC%A0%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/image-20200225131753585.png" alt="image-20200225131753585"></p>
 <h2 id="药动学参数">药动学参数：</h2>
-
 <p><strong>文献报道参数:</strong></p>
-
-<p>t <sup>1</sup>&frasl;<sub>2</sub> = 0.42 h(~25min)</p>
-
+<p>t 1/2 = 0.42 h(~25min)</p>
 <p><strong>采用抠图数据计算所得参数：</strong></p>
-
 <p><strong>数据分析使用软件：Phoenix WinNonlin</strong></p>
-
 <p>瑞德西韦</p>
-
 <table>
 <thead>
 <tr>
@@ -330,7 +255,6 @@ code.has-jax {
 <th>中文参数名</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Remdesivir</td>
@@ -339,7 +263,6 @@ code.has-jax {
 <td>41.488543</td>
 <td>剂量</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>HL_Lambda_z</td>
@@ -347,7 +270,6 @@ code.has-jax {
 <td>0.62507987</td>
 <td>末端消除半衰期*</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>AUClast</td>
@@ -355,7 +277,6 @@ code.has-jax {
 <td>11.086999</td>
 <td>曲线下面积(0到最后一个可定量点)</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>AUCINF_obs</td>
@@ -363,7 +284,6 @@ code.has-jax {
 <td>11.107497</td>
 <td>曲线下面积(0到无穷远)</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>Vz_F_obs</td>
@@ -371,7 +291,6 @@ code.has-jax {
 <td>3.3683873</td>
 <td>分布容积</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>Cl_F_obs</td>
@@ -379,7 +298,6 @@ code.has-jax {
 <td>3.7351838</td>
 <td>清除率</td>
 </tr>
-
 <tr>
 <td>Remdesivir</td>
 <td>MRTlast</td>
@@ -389,11 +307,8 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <p>*基于药时曲线数字话所得到的平均血药浓度计算的末端消除半衰期与文献报道值差异较大，所以AUCINF_obs，Vz_F_obs，Cl_F_obs也会误差较大；当不使用最后一个观测浓度(6h时的浓度)拟合半衰期时，可得与文献相似的半衰期0.42h。</p>
-
 <p>其他：</p>
-
 <table>
 <thead>
 <tr>
@@ -404,7 +319,6 @@ code.has-jax {
 <th>AUClast  (h*umol/L)</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Ala-Met</td>
@@ -413,7 +327,6 @@ code.has-jax {
 <td>10.724</td>
 <td>15.144613</td>
 </tr>
-
 <tr>
 <td>Nucleoside</td>
 <td>4.9187603</td>
@@ -423,16 +336,11 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <h1 id="数据分析软件截图"><strong>数据分析软件截图：</strong></h1>
-
 <p>瑞德西韦NCA拟合的末端消除：</p>
-
-<p><img src="/images/瑞德西韦Remdesivir_在基因敲除小鼠体内的药动学试验与结果/image-20200225131808648.png" alt="image-20200225131808648" /></p>
-
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E5%9F%BA%E5%9B%A0%E6%95%B2%E9%99%A4%E5%B0%8F%E9%BC%A0%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/image-20200225131808648.png" alt="image-20200225131808648"></p>
 <p>数据分析工作流程图：</p>
-
-<p><img src="/images/瑞德西韦Remdesivir_在基因敲除小鼠体内的药动学试验与结果/image-20200225131818849.png" alt="image-20200225131818849" /></p>
+<p><img src="/images/%E7%91%9E%E5%BE%B7%E8%A5%BF%E9%9F%A6Remdesivir_%E5%9C%A8%E5%9F%BA%E5%9B%A0%E6%95%B2%E9%99%A4%E5%B0%8F%E9%BC%A0%E4%BD%93%E5%86%85%E7%9A%84%E8%8D%AF%E5%8A%A8%E5%AD%A6%E8%AF%95%E9%AA%8C%E4%B8%8E%E7%BB%93%E6%9E%9C/image-20200225131818849.png" alt="image-20200225131818849"></p>
 
 
   <footer>
@@ -511,7 +419,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

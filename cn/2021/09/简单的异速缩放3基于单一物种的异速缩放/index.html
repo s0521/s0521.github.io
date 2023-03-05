@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -135,94 +135,34 @@ code.has-jax {
 
 
 
-
-
 <h1 id="前言">前言：</h1>
-
 <p>由动物数据外推人体药代动力学参数（下文简称为“外推”）是药物开发的重要工具。异速缩放是外推方法中的一种，该方法拥有许多支持者，并且基于异速缩放，人们已经提出了许多不同的方法和技术来优化从动物到人类的药代动力学参数的预测。</p>
-
 <p>除了自己基于多物种的数据估算出异速缩放的方程中的参数然后开展其他物种数据的预测外，有时常常由于物种数据有限，不得不将将异速缩放的方程中的参数预先指定，然后开展其他物种的预测，本文介绍了“基于单一物种”+“预先指定缩放系数”的方法进行异速缩放预测。</p>
-
 <h1 id="目录">目录</h1>
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#前言">前言：</a></li>
-<li><a href="#目录">目录</a></li>
-<li><a href="#一-异速缩放公式">一、异速缩放公式</a></li>
-<li><a href="#二-异速缩放的一种特殊的应用场景">二、异速缩放的一种特殊的应用场景：</a>
-<ul>
-<li><a href="#问题文字描述">问题文字描述</a></li>
-<li><a href="#问题的数学描述">问题的数学描述</a></li>
-<li><a href="#求解推导">求解推导</a></li>
-</ul></li>
-<li><a href="#三-使用条件再次说明">三、使用条件再次说明</a></li>
-<li><a href="#四-指南中使用的系数">四、指南中使用的系数</a>
-<ul>
-<li><a href="#额外的剂量归一化">额外的剂量归一化</a></li>
-<li><a href="#指南中使用的系数">指南中使用的系数</a></li>
-<li><a href="#直接使用硬套公式推导出系数">直接使用硬套公式推导出系数</a></li>
-<li><a href="#指南为何-舍近求远-不直接异速缩放">指南为何“舍近求远”不直接异速缩放</a></li>
-</ul></li>
-<li><a href="#五-在phoenix中的实现">五、在Phoenix中的实现</a>
-<ul>
-<li><a href="#一个模板">一个模板</a>
-<ul>
-<li><a href="#1-编辑-1-body-weight-表格">1.编辑“1 Body Weight”表格</a></li>
-<li><a href="#2-编辑-2-source-parameter-表格">2.编辑“2 Source Parameter”表格</a></li>
-<li><a href="#3-编辑-3-target-object-set-表格">3.编辑“3 Target Object Set”表格</a></li>
-<li><a href="#4-执行工作流程">4.执行工作流程</a></li>
-<li><a href="#5-查看结果">5.查看结果</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#六-常用的缩放系数">六、常用的缩放系数</a></li>
-<li><a href="#七-小结">七、小结</a></li>
-<li><a href="#八-参考资料">八、参考资料</a></li>
-<li><a href="#九-下载链接">九、下载链接</a></li>
-</ul>
-</nav>
-
-<h1 id="一-异速缩放公式">一、异速缩放公式</h1>
-
+<!-- raw HTML omitted -->
+<h1 id="一异速缩放公式">一、异速缩放公式</h1>
 <p>对数尺度</p>
-
 <p>𝐿𝑛(𝑃𝑎𝑟𝑎𝑚𝑒𝑡𝑒𝑟)=𝐿𝑛(𝑖𝑛𝑡)+𝑏𝑒𝑡𝑎∗𝐿𝑛(𝑊𝑒𝑖𝑔ℎ𝑡)</p>
-
 <p>常数尺度</p>
-
 <p>𝑃𝑎𝑟𝑎𝑚𝑒𝑡𝑒𝑟=𝑖𝑛𝑡∗𝑊𝑒𝑖𝑔ℎ𝑡^𝑏𝑒𝑡𝑎</p>
-
 <p>其中:</p>
-
 <p>int→截距</p>
-
 <p>beta→斜率→缩放系数</p>
-
-<h1 id="二-异速缩放的一种特殊的应用场景">二、异速缩放的一种特殊的应用场景：</h1>
-
+<h1 id="二异速缩放的一种特殊的应用场景">二、异速缩放的一种特殊的应用场景：</h1>
 <h2 id="问题文字描述">问题文字描述</h2>
-
 <p>场景描述：</p>
-
 <p>已知：</p>
-
 <ul>
 <li>某一特定物种</li>
 <li>PK或PD参数</li>
 <li>体重</li>
 <li>并且已知或假定了“缩放系数”</li>
 </ul>
-
 <p>求算：</p>
-
 <p>其他物种的PK参数（通过异速缩放求算）</p>
-
 <h2 id="问题的数学描述">问题的数学描述</h2>
-
 <p>场景描述：</p>
-
 <p>已知：</p>
-
 <ul>
 <li>某一特定物种</li>
 <li>PK或PD参数</li>
@@ -232,168 +172,89 @@ code.has-jax {
 <li>并且已知或假定了“缩放系数”</li>
 <li>CL的缩放系数为0.75，V的缩放系数为1</li>
 </ul>
-
 <p>求算：</p>
-
 <p>其他物种的PK参数（通过异速缩放求算）</p>
-
 <p>假定目标物种的体重WT_b=70kg</p>
-
 <h2 id="求解推导">求解推导</h2>
-
 <p>通过上述信息，可以设立以下方程组</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image002.png" alt="img" /></p>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image002.png" alt="img"></p>
 <p>令方程①/②可得</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image004.png" alt="img" /></p>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image004.png" alt="img"></p>
 <p>由此可求得</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/image-20210916154755071.png" alt="image-20210916154755071" /></p>
-
-<p>（也可以写为<img src="/images/简单的异速缩放3基于单一物种的异速缩放/image-20210916154840407.png" alt="image-20210916154840407" />）</p>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/image-20210916154755071.png" alt="image-20210916154755071"></p>
+<p>（也可以写为<img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/image-20210916154840407.png" alt="image-20210916154840407">）</p>
 <p>带入数值得</p>
-
 <p>𝐶𝐿_𝑏=(𝐶𝐿_𝑎)/4^0.75 ∗70^0.75</p>
-
-<p>𝐶𝐿_𝑏= <sup>10</sup>&frasl;<sub>4</sub>^0.75 ∗70^0.75=175</p>
-
-<h1 id="三-使用条件再次说明">三、使用条件再次说明</h1>
-
+<p>𝐶𝐿_𝑏= 10/4^0.75 ∗70^0.75=175</p>
+<h1 id="三使用条件再次说明">三、使用条件再次说明</h1>
 <ul>
 <li>异速缩放是已经经验性的外推方法，这意味着结果的可靠性与适用性使用者需自行评估。</li>
 <li>通过“异速缩放”获得的“其他物种的药动学参数”并不是“该物种真实的药动学参数”，这两类参数之间可能差距非常巨大！</li>
 <li>“异速缩放”除了最简单的基于“体重”这一“大小概念” 的变量外，又有基于其他“大小概念” 的变量的校正或缩放方法。</li>
 <li>“异速缩放”既可用于PK也可用于PD，具体该如何使用依赖于所假设的机制。</li>
 </ul>
-
-<h1 id="四-指南中使用的系数">四、指南中使用的系数</h1>
-
+<h1 id="四指南中使用的系数">四、指南中使用的系数</h1>
 <p>如何使用异速缩放算剂量</p>
-
 <p>•    基本原理假设：</p>
-
 <p>–   Dose=AUC*CL</p>
-
 <p>–   不同物种间AUC相同</p>
-
 <p>•    由此，则</p>
-
-<p>–    <img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image012.png" alt="img" /></p>
-
+<p>–    <img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image012.png" alt="img"></p>
 <p>•    显而易见</p>
-
-<p>–    <img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image014.png" alt="img" /></p>
-
+<p>–    <img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image014.png" alt="img"></p>
 <p>•    这是一个异速缩放</p>
-
-<p>–    <img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image016.png" alt="img" /></p>
-
+<p>–    <img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image016.png" alt="img"></p>
 <h2 id="额外的剂量归一化">额外的剂量归一化</h2>
-
-<p>–    <img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image018.png" alt="img" /></p>
-
-<p>–     <img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image020.png" alt="img" /></p>
-
+<p>–    <img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image018.png" alt="img"></p>
+<p>–     <img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image020.png" alt="img"></p>
 <h2 id="指南中使用的系数">指南中使用的系数</h2>
-
 <p><strong>2012,中国CDE，《健康成年志愿者首次临床试验药物最大推荐起始剂量的估算指导原则》</strong></p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image021.png" alt="手机屏幕截图  描述已自动生成" /></p>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image021.png" alt="手机屏幕截图  描述已自动生成"></p>
 <h2 id="直接使用硬套公式推导出系数">直接使用硬套公式推导出系数</h2>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image023.png" alt="img" /></p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image025.png" alt="img" /></p>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image023.png" alt="img"></p>
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image025.png" alt="img"></p>
 <p><strong>beta = 0.698</strong></p>
-
 <p><strong>beta-1 = -0.302</strong></p>
-
-<h2 id="指南为何-舍近求远-不直接异速缩放">指南为何“舍近求远”不直接异速缩放</h2>
-
+<h2 id="指南为何舍近求远不直接异速缩放">指南为何“舍近求远”不直接异速缩放</h2>
 <p>因为指南明确说，他们基于“体表面积归一化方法”。</p>
-
 <p>但是，由于体表面积估算测量困难，额外提供了通过体重异速缩放估算体表面积的公式；</p>
-
 <p>进而导致，变相等于基于体重的异速缩放法；所以，如果存在更好的估计体表面积的方法，则未来两者可能不等。</p>
-
-<h1 id="五-在phoenix中的实现">五、在Phoenix中的实现</h1>
-
+<h1 id="五在phoenix中的实现">五、在Phoenix中的实现</h1>
 <p>可直接使用“数据向导（Data Wizard）”操作对象的“转换（Transformation）”步骤实现：</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image027.jpg" alt="图形用户界面, 应用程序  描述已自动生成" /></p>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image027.jpg" alt="图形用户界面, 应用程序  描述已自动生成"></p>
 <h2 id="一个模板">一个模板</h2>
-
 <p>为了方便大家使用，作者制作了一个Phoenix项目文件供读者便捷的进行异速缩放使用。</p>
-
 <p>使用步骤：</p>
-
-<h3 id="1-编辑-1-body-weight-表格">1.编辑“1 Body Weight”表格</h3>
-
+<h3 id="1编辑1-body-weight表格">1.编辑“1 Body Weight”表格</h3>
 <p>在“Value”列中录入多个期望使用的体重数据，并“Name”列中定义该体重的名称。</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image029.jpg" alt="图形用户界面, 应用程序  描述已自动生成" /></p>
-
-<h3 id="2-编辑-2-source-parameter-表格">2.编辑“2 Source Parameter”表格</h3>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image029.jpg" alt="图形用户界面, 应用程序  描述已自动生成"></p>
+<h3 id="2编辑2-source-parameter表格">2.编辑“2 Source Parameter”表格</h3>
 <p>在ParameterName列中录入计划进行异速缩放的参数的名称，在ParameterValue列中录入参数对应的数值，在Beta_Value中录入缩放系数，在Name列中录入名称，此名称用于从“1 Body Weight”表格中获取已知药动学参数的物种的体重数据。</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image031.jpg" alt="图形用户界面, 应用程序  描述已自动生成" /></p>
-
-<h3 id="3-编辑-3-target-object-set-表格">3.编辑“3 Target Object Set”表格</h3>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image031.jpg" alt="图形用户界面, 应用程序  描述已自动生成"></p>
+<h3 id="3编辑3-target-object-set表格">3.编辑“3 Target Object Set”表格</h3>
 <p>在Name列中录入名称，此名称用于从“1 Body Weight”表格中获取目标种属的体重数据。</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image033.jpg" alt="图形用户界面, 应用程序  描述已自动生成" /></p>
-
-<h3 id="4-执行工作流程">4.执行工作流程</h3>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image035.jpg" alt="图示  描述已自动生成" /></p>
-
-<h3 id="5-查看结果">5.查看结果</h3>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image033.jpg" alt="图形用户界面, 应用程序  描述已自动生成"></p>
+<h3 id="4执行工作流程">4.执行工作流程</h3>
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image035.jpg" alt="图示  描述已自动生成"></p>
+<h3 id="5查看结果">5.查看结果</h3>
 <p>查看“Allometric Scale of Single Species with Ffixed Scale Coefficient→Workflow→7 Result Table→Data”工作表，了解异速缩放的结果。</p>
-
-<p><img src="/images/简单的异速缩放3基于单一物种的异速缩放/clip_image037.jpg" alt="图形用户界面, 应用程序  描述已自动生成" /></p>
-
-<h1 id="六-常用的缩放系数">六、常用的缩放系数</h1>
-
+<p><img src="/images/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE3%E5%9F%BA%E4%BA%8E%E5%8D%95%E4%B8%80%E7%89%A9%E7%A7%8D%E7%9A%84%E5%BC%82%E9%80%9F%E7%BC%A9%E6%94%BE/clip_image037.jpg" alt="图形用户界面, 应用程序  描述已自动生成"></p>
+<h1 id="六常用的缩放系数">六、常用的缩放系数</h1>
 <p>体积, 器官重量, Vss</p>
-
 <p>1</p>
-
 <p>新陈代谢能力, Cl ,血流量, 周转率</p>
-
 <p>0.75，（0.698）</p>
-
 <p>生理时间, 寿命, 呼吸, t1/2</p>
-
 <p>0.25</p>
-
 <p>频率, 速率常数</p>
-
 <p>-0.25</p>
-
-<h1 id="七-小结">七、小结</h1>
-
+<h1 id="七小结">七、小结</h1>
 <p>本文介绍了基于单一物种进行异速缩放的基本原理，并介绍了在Phoenix中的具体实现。</p>
-
-<h1 id="八-参考资料">八、参考资料</h1>
-
+<h1 id="八参考资料">八、参考资料</h1>
 <p>PML系列（4）——简单的异速缩放</p>
-
 <p>PML系列（5）——简单的异速缩放（2）</p>
-
 <p>2012,中国CDE，《健康成年志愿者首次临床试验药物最大推荐起始剂量的估算指导原则》</p>
-
-<h1 id="九-下载链接">九、下载链接</h1>
-
+<h1 id="九下载链接">九、下载链接</h1>
 <p><a href="https://wwa.lanzoui.com/islriu30azi">https://wwa.lanzoui.com/islriu30azi</a></p>
 
 
@@ -473,7 +334,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

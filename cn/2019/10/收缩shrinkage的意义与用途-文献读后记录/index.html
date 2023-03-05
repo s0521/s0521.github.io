@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -140,23 +140,14 @@ PMID: &amp;hellip;">
 
 
 <p>文献名字：Importance of Shrinkage in Empirical Bayes Estimates for Diagnostics: Problems and Solutions</p>
-
 <p>中文直译：诊断经验贝叶斯估计中收缩的重要性：问题与解决方案</p>
-
-<p>网址连接：<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2758126/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2758126/</a></p>
-
+<p>网址连接：https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2758126/</p>
 <p>PMID: 19649712</p>
-
 <p>名词解释：</p>
-
-<p>收缩&rdquo;Shrinkage&rdquo;，是指在包含随机效应的模型中，由模型可以估计得到随机效应的标准偏差值(ω)，另外由模型和观测值还可通过贝叶斯反馈（Empirical Bayes (“post hoc”) estimates (EBEs)）估计得到具体的每一个个体(i)的个体参数的值ηEBE，然后对所有ηi进行描述性统计可以得到SD(η)，则该随机效应的参数值的收缩值计算公式为：</p>
-
-<p><img src="/images/收缩Shrinkage的意义与用途-文献读后记录/clip_image001.png" alt="img" /></p>
-
+<p>收缩&quot;Shrinkage&rdquo;，是指在包含随机效应的模型中，由模型可以估计得到随机效应的标准偏差值(ω)，另外由模型和观测值还可通过贝叶斯反馈（Empirical Bayes (“post hoc”) estimates (EBEs)）估计得到具体的每一个个体(i)的个体参数的值ηEBE，然后对所有ηi进行描述性统计可以得到SD(η)，则该随机效应的参数值的收缩值计算公式为：</p>
+<p><img src="/images/%E6%94%B6%E7%BC%A9Shrinkage%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E7%94%A8%E9%80%94-%E6%96%87%E7%8C%AE%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/clip_image001.png" alt="img"></p>
 <p>收缩值可以反应当前数据所包含的信息是否足以支持对于该随机效应估计，越小越好，当收缩值过大时，提示当前数据并不足以估计该随机效应，有该随机效应所预测的EBE个体值也是失真的，不能发挥诊断和协变量搜索的作用。</p>
-
 <p>一般：</p>
-
 <ul>
 <li>Shrinkage的值在0~1之间，</li>
 <li>当Shrinkage取负值时，则提示经验贝叶斯估计的参数分布方差比估计的方差值大，模型对该随机效应的方差指定可能存在错误。</li>
@@ -166,18 +157,12 @@ PMID: &amp;hellip;">
 <li>当该随机效应估计得到的方差很小，收缩值很大时，提示当前的数据不足以估计该参数的随机效应，可取消对改参数的随机效应的估计，即不估计改参数的随机效应。</li>
 <li>对于个体内残差的收缩值计算公式也是采用上述公式，但有时会做一些变形：</li>
 </ul>
-
-<p><img src="/images/收缩Shrinkage的意义与用途-文献读后记录/clip_image002-1570843748541.png" alt="img" /></p>
-
+<p><img src="/images/%E6%94%B6%E7%BC%A9Shrinkage%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E7%94%A8%E9%80%94-%E6%96%87%E7%8C%AE%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/clip_image002-1570843748541.png" alt="img"></p>
 <p>文献综述的图表：</p>
-
 <p>Eta对Eta相关性图表，在不同收缩值情况下的展示。</p>
-
-<p><img src="/images/收缩Shrinkage的意义与用途-文献读后记录/clip_image003-1570843761413.png" alt="计算机生成了可选文字" /></p>
-
+<p><img src="/images/%E6%94%B6%E7%BC%A9Shrinkage%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E7%94%A8%E9%80%94-%E6%96%87%E7%8C%AE%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/clip_image003-1570843761413.png" alt="计算机生成了可选文字"></p>
 <p>Eta对协变量图，无相关在高收缩情况下出现相关。</p>
-
-<p><img src="/images/收缩Shrinkage的意义与用途-文献读后记录/clip_image004-1570843861591.png" alt="计算机生成了可选文" /></p>
+<p><img src="/images/%E6%94%B6%E7%BC%A9Shrinkage%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E7%94%A8%E9%80%94-%E6%96%87%E7%8C%AE%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/clip_image004-1570843861591.png" alt="计算机生成了可选文"></p>
 
 
   <footer>
@@ -256,7 +241,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

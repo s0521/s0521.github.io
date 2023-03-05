@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -141,30 +141,19 @@ code.has-jax {
 
 
 
-
-
 <p>今天我在测试自动化部署hugo，这是我书写的一篇用于测试是否被正常自动化部署的文章。</p>
-
 <p>在进行自动部署时，参考了一下案例：</p>
-
 <h4 id="hugo博客构建案例">hugo博客构建案例</h4>
-
-<p><a href="https://tonybai.com/2015/09/23/intro-of-gohugo/">https://tonybai.com/2015/09/23/intro-of-gohugo/</a><br />
+<p><a href="https://tonybai.com/2015/09/23/intro-of-gohugo/">https://tonybai.com/2015/09/23/intro-of-gohugo/</a><br>
 使用hugo搭建静态页面的中文参考说明</p>
-
 <h4 id="hugo自动化部署案例1">hugo自动化部署案例1</h4>
-
-<p><a href="https://gohugo.io/hosting-and-deployment/deployment-with-wercker/">https://gohugo.io/hosting-and-deployment/deployment-with-wercker/</a><br />
+<p><a href="https://gohugo.io/hosting-and-deployment/deployment-with-wercker/">https://gohugo.io/hosting-and-deployment/deployment-with-wercker/</a><br>
 官方的自动化部署说明。</p>
-
 <h4 id="hugo自动化部署案例2">hugo自动化部署案例2</h4>
-
-<p><a href="https://axionl.me/2017/12/25/wercker-%E8%A9%A6%E6%B0%B4/">https://axionl.me/2017/12/25/wercker-%E8%A9%A6%E6%B0%B4/</a><br />
+<p><a href="https://axionl.me/2017/12/25/wercker-%E8%A9%A6%E6%B0%B4/">https://axionl.me/2017/12/25/wercker-%E8%A9%A6%E6%B0%B4/</a><br>
 按照官方操作进行不下去的时候，参考了该案例来排除了一些疑问</p>
-
 <h4 id="最终网站形态样式">最终网站形态样式</h4>
-
-<p><a href="https://yihui.name/cn/about/">https://yihui.name/cn/about/</a><br />
+<p><a href="https://yihui.name/cn/about/">https://yihui.name/cn/about/</a><br>
 这是一个活跃的R包作者（Xie Yihui）的个人博客网站，因为其公开了源代码，风格也不错，我大量参考了其网站实现了本博客。</p>
 
 
@@ -242,7 +231,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>

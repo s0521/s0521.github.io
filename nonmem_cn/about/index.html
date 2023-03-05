@@ -9,7 +9,7 @@
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
@@ -130,122 +130,76 @@ code.has-jax {
 
 
 
-
-
 <p>This extension implements basic <strong>language features</strong> of <strong>NONMEM</strong> for <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
-
 <p>这个扩展在<a href="https://code.visualstudio.com/">Visual Studio Code</a>实现了<strong>NONMEM</strong>的一些基础的<strong>语言功能</strong>。</p>
-
 <h1 id="content-目录">Content 目录</h1>
-
-<nav id="TableOfContents">
-<ul>
-<li><a href="#content-目录">Content 目录</a></li>
-<li><a href="#features-功能">Features 功能</a>
-<ul>
-<li><a href="#extension-settings-扩展设置">Extension Settings 扩展设置</a></li>
-<li><a href="#known-issues-已知问题">Known Issues 已知问题</a></li>
-<li><a href="#future-planning-feature-未来计划功能">Future Planning feature 未来计划功能</a></li>
-</ul></li>
-<li><a href="#purpose-目的">Purpose 目的</a></li>
-<li><a href="#participate-and-contribute-参与并贡献">participate and contribute 参与并贡献</a></li>
-<li><a href="#more-nonmem-learning-resources-更多nonmem学习资源">More NONMEM Learning Resources 更多NONMEM学习资源</a>
-<ul>
-<li><a href="#pirana">Pirana:</a></li>
-<li><a href="#perl-speaks-nonmem">Perl speaks NONMEM:</a></li>
-<li><a href="#introduction-of-common-nonmem-models-常见nonmem模型介绍">Introduction of common NONMEM models(常见NONMEM模型介绍)：</a></li>
-</ul></li>
-</ul>
-</nav>
-
+<!-- raw HTML omitted -->
 <h1 id="features-功能">Features 功能</h1>
-
 <ul>
 <li>Syntax highlighting 语法高亮</li>
 </ul>
-
-<p><img src="/images/nonmem_cn/Highlight.png" alt="" /></p>
-
+<p><img src="/images/nonmem_cn/Highlight.png" alt=""></p>
 <ul>
 <li>Completion (snippets) 自动补全(片段)</li>
 </ul>
-
-<p><img src="/images/nonmem_cn/snippets.gif" alt="" /></p>
-
+<p><img src="/images/nonmem_cn/snippets.gif" alt=""></p>
 <ul>
 <li>Code block folding 代码块折叠</li>
 </ul>
-
-<p><img src="/images/nonmem_cn/Folding.gif" alt="" /></p>
-
+<p><img src="/images/nonmem_cn/Folding.gif" alt=""></p>
 <h2 id="extension-settings-扩展设置">Extension Settings 扩展设置</h2>
-
 <p>If you expect the suggested auto-completion to appear at the top of the suggestion list, you need to make the following settings:</p>
-
 <p>Search for editor.snippetSuggestions in the settings, there are four options top, bottom, inline, none four options, select top.</p>
-
 <p>如果你期望建议的自动补全出现在建议列表的最上方，则你需要进行如下设置：</p>
-
 <p>在设置中搜索到editor.snippetSuggestions这个设置，其中有四个选项top、bottom、inline、none四个选项，选择top即可。</p>
-
 <h2 id="known-issues-已知问题">Known Issues 已知问题</h2>
-
 <p>It is recommended that the ordering of completed content is not very appropriate, and it takes a lot of time to modify the sorting. So is temporarily abandoned for the time being.</p>
-
 <p>建议补全的内容排序不是很恰当，修改排序需要花费大量的时间深入学习VSCode，目前暂时放弃。</p>
-
 <h2 id="future-planning-feature-未来计划功能">Future Planning feature 未来计划功能</h2>
-
 <ul>
-<li><p>Outline 代码大纲</p></li>
-
-<li><p>Hover 悬停提示</p></li>
+<li>
+<p>Outline 代码大纲</p>
+</li>
+<li>
+<p>Hover 悬停提示</p>
+</li>
 </ul>
-
 <h1 id="purpose-目的">Purpose 目的</h1>
-
 <p>At present, the existing syntax aids for writing NONMEM control files are too weak to provide users with a good environment for getting started, and there are no tools for Chinese annotations, so this tool is developed. Another purpose of developing this tool is to make some contribution to the community so that people have better tools to use.</p>
-
 <p>目前NONMEM控制文件编写的语法辅助工具都太弱了，没有提供给用户一个好的上手环境，而且也没有提供中文注释说明的工具，所以开发了此工具，为社区做出一些贡献，让大家有更好的工具可供供使用。</p>
-
 <h1 id="participate-and-contribute-参与并贡献">participate and contribute 参与并贡献</h1>
-
 <p>The implementation of completion hints, hover hints, syntax highlighting, etc., needs to be done by traversing all enumerations, which is a time-consuming task, and you can participate and contribute your knowledge to make the tool better.</p>
-
 <p>In this extended github repository <a href="https://github.com/s0521/nonmem_cn">https://github.com/s0521/nonmem_cn</a>, I provide two CSV files &ldquo;Highlight.csv&rdquo; and &ldquo;snippets.csv&rdquo;, which can add new lines to the existing content to add content.</p>
-
 <p>I can add your supplementary content directly to the corresponding JOSN file by merging it into JSON format through Excel formula.</p>
-
 <p>补全提示、悬停提示、语法高亮等的实现需要通过遍历所有枚举的方式来完成，这是一个很耗时的工作，你可以参与进来，贡献你的知识使得该工具变的更好。</p>
-
 <p>在此扩展的github仓库 <a href="https://github.com/s0521/nonmem_cn">https://github.com/s0521/nonmem_cn</a>中我提供了两个CSV文件“Highlight.csv”、“snippets.csv”，其可以参照已有的内容补充新的行，来增加内容。</p>
-
 <p>你补充的内容我可以通过Excel公式合并为JSON格式直接添加到对用的JOSN文件中。</p>
-
 <h1 id="more-nonmem-learning-resources-更多nonmem学习资源">More NONMEM Learning Resources 更多NONMEM学习资源</h1>
-
 <h2 id="pirana">Pirana:</h2>
-
 <ul>
-<li><p>NONMEM&rsquo;s perfect partner. NONMEM的绝佳好搭档。</p></li>
-
-<li><p><a href="http://www.tri-ibiotech.com/pkpd/product_112.html">http://www.tri-ibiotech.com/pkpd/product_112.html</a></p></li>
-
-<li><p><a href="https://www.certara.com/software/pirana-modeling-workbench/">https://www.certara.com/software/pirana-modeling-workbench/</a></p></li>
-
-<li><p>QQ群：563236369</p></li>
+<li>
+<p>NONMEM&rsquo;s perfect partner. NONMEM的绝佳好搭档。</p>
+</li>
+<li>
+<p><a href="http://www.tri-ibiotech.com/pkpd/product_112.html">http://www.tri-ibiotech.com/pkpd/product_112.html</a></p>
+</li>
+<li>
+<p><a href="https://www.certara.com/software/pirana-modeling-workbench/">https://www.certara.com/software/pirana-modeling-workbench/</a></p>
+</li>
+<li>
+<p>QQ群：563236369</p>
+</li>
 </ul>
-
 <h2 id="perl-speaks-nonmem">Perl speaks NONMEM:</h2>
-
 <ul>
-<li><p>Common function combination toolkit. 常用功能组合工具包。</p></li>
-
-<li><p><a href="https://uupharmacometrics.github.io/PsN/">https://uupharmacometrics.github.io/PsN/</a></p></li>
+<li>
+<p>Common function combination toolkit. 常用功能组合工具包。</p>
+</li>
+<li>
+<p><a href="https://uupharmacometrics.github.io/PsN/">https://uupharmacometrics.github.io/PsN/</a></p>
+</li>
 </ul>
-
-<h2 id="introduction-of-common-nonmem-models-常见nonmem模型介绍">Introduction of common NONMEM models(常见NONMEM模型介绍)：</h2>
-
+<h2 id="introduction-of-common-nonmem-models常见nonmem模型介绍">Introduction of common NONMEM models(常见NONMEM模型介绍)：</h2>
 <ul>
 <li><a href="https://support.certara.com/forums/forum/35-nlme-nonmem-model-comparisons/">https://support.certara.com/forums/forum/35-nlme-nonmem-model-comparisons/</a></li>
 </ul>
@@ -323,7 +277,7 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">&copy; <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2020</div>
   
   </footer>
   </article>
