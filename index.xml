@@ -12,42 +12,42 @@
     
     
     <item>
-      <title>有趣的受体结合学说与推论2_Kd与Rt</title>
-      <link>https://s0521.github.io/cn/2023/02/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA2_kd%E4%B8%8Ert/</link>
+      <title>有趣的受体结合学说与推论2非线性分布与Kd、Rt的计算</title>
+      <link>https://s0521.github.io/cn/2023/02/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA2%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%88%86%E5%B8%83%E4%B8%8Ekdrt%E7%9A%84%E8%AE%A1%E7%AE%97/</link>
       <pubDate>Wed, 22 Feb 2023 23:19:01 +0800</pubDate>
       
-      <guid>https://s0521.github.io/cn/2023/02/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA2_kd%E4%B8%8Ert/</guid>
+      <guid>https://s0521.github.io/cn/2023/02/%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%97%E4%BD%93%E7%BB%93%E5%90%88%E5%AD%A6%E8%AF%B4%E4%B8%8E%E6%8E%A8%E8%AE%BA2%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%88%86%E5%B8%83%E4%B8%8Ekdrt%E7%9A%84%E8%AE%A1%E7%AE%97/</guid>
       <description>受体结合假说的一些基础公式关系 已知药物的剂量与Cmax浓度求Kd
 基于首次假说，存在以下公式
-$$ C*R/RC=Kd \
-$$ $$ Rt=R+RC \
-Ct=C+RC \
-$$ $$ RO=RC/Rt\
-RO=C/(C+Kd)\
-$$ $$ CO=RC/Ct\
+$$ C*R/RC=Kd \\
+$$ $$ Rt=R+RC \\
+Ct=C+RC \\
+$$ $$ RO=RC/Rt\\
+RO=C/(C+Kd)\\
+$$ $$ CO=RC/Ct\\
 CO=R/(R+Kd) $$
 一、仅通过血药浓度(C)与剂量，估算受体-药物结合复合物（RC）的浓度 Ct的估计 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显的吸收与消除过程，将吸收、分布、消除暂时忽略，认为$C0=Cmax$，这是一个近似的假设并不是，因为此推论用于估计一个粗略的值而不是求算精确的值，所以这种近似在这里时可行的）
 此处将通过公式计算出的Cmax认为是Ctot→Ct。
-C的估计 另外通过试验测得了一个Cmax的数值，此数值显著小于Ctot，假设这时怀疑药物并不是进入了周边室，而是仍在中央室中，此时解释药物浓观测值显著低于Ctot的原因是因为药物与中央是中的受体发生了大量的结合，而检测得到的血药浓度仅是中央室中游离的药物浓度（比如药物与血细胞表面受体大量结合，而检测的基质是血清，血清中不含血细胞）
+C的估计 另外通过试验测得了一个Cmax的数值，此数值显著小于Ctot，假设这时怀疑药物并不是进入了周边室，而是仍在中央室中，此时解释药物浓观测值显著低于Ctot的一种原因是药物与中央是中的受体发生了大量的结合，而检测得到的血药浓度仅是中央室中游离的药物浓度（比如药物与血细胞表面受体大量结合，而检测的基质是血清，血清中不含血细胞）
 此时认为观测得到的Cmax为Cfree→C。
 RC的估计 则有
 $$ RC=Ct-C $$
 二、基于Ct、C以及衍生出的受体占有率（RO）的比值，计算Kd、Rt 基于Ct、C计算Kd的推导 由
 $$ RO=RC/Rt $$ 可知
-$$ RO1/RO2=(RC1/Rt)/(RC2/Rt)\
+$$ RO1/RO2=(RC1/Rt)/(RC2/Rt)\\
 RO1/RO2=RC1/RC2 $$
 即
 RO的比值与RC的比值在数值上是一致的。
 此处令X为RO的比值，即
 $X=RO1/RO2$ ①
-($X=RO1/RO2=RC1/RC2$ )
+$X=RO1/RO2=RC1/RC2$
 又已知
-$RO=C/(C+Kd)$②
+$RO=C/(C+Kd)$ ②
 即
 $RO1/RO2=( C1/(C1+Kd) )/( C2/(C2+Kd) )$③
 则将③带入①可得
-$$ X=( C1/(C1+Kd) )/( C2/(C2+Kd) )​ $$
-$$ C1/( C1+Kd ) = X*C2 / ( C2+Kd )\</description>
+$$ X=( C1/(C1+Kd) )/( C2/(C2+Kd) ) $$
+$$\begin{align} C1/( C1+Kd ) &amp;amp;= X*C2 / ( C2+Kd ) \\ C1*C2 + C1*Kd&amp;amp; = X*C1*C2 + X*C2*Kd \\ C1*Kd - X*C2*Kd &amp;amp;= X*C1*C2 - C1*C2 \\ Kd*( C1 - X*C2 ) &amp;amp;= C1*C2( X-1 ) \\ Kd &amp;amp;= C1*C2*( X-1 ) / ( C1 - X*C2 ) ④ \end{align}$$ 由此就可以基于已有得观测数据计算Kd了</description>
     </item>
     
     <item>
