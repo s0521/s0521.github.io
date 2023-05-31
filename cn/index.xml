@@ -12,12 +12,39 @@
     
     
     <item>
+      <title>mrgsolve用户指南第二章：模型描述</title>
+      <link>https://s0521.github.io/cn/2023/05/mrgsolve%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%A8%A1%E5%9E%8B%E6%8F%8F%E8%BF%B0/</link>
+      <pubDate>Wed, 31 May 2023 19:41:32 +0800</pubDate>
+      
+      <guid>https://s0521.github.io/cn/2023/05/mrgsolve%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%A8%A1%E5%9E%8B%E6%8F%8F%E8%BF%B0/</guid>
+      <description>原文链接：https://mrgsolve.org/user-guide/specification.html#seCLcode-blocks
+原文作者：Kyle Baron
+译者说：当希望将定量药理学模型以可访问可交互的方式面向非专业用户公开发布时，可以免费商业使用的非线性混合效应程序包就变得非常必要，因此本文翻译了mrgsolve——&amp;ldquo;一个可以实现非线性混合效应模型并可基于模型进行模拟的，基于R语言的，采用GPL开源协议的R添加包&amp;quot;的用户指南的第二章的内容，以使读者可以学习和了解此程序包的基本语法规则，以便未来需要时可以基于此程序包公开发布定量药理学模型的结果，提高模型的影响力。由于&amp;quot;定量药理学&amp;quot;相关中文的资料非常少，也希望此文能够拓展一些中文中关于&amp;quot;定量药理学&amp;quot;内容。本文所翻译第二章主要介绍了mrgsolve模型描述文件的语法，这些语法是非常重要的基础内容，其他更多的关于mrgsolve的使用说明可参见其用户指南以及其代码仓库。
+标题：mrgsolve用户指南第二章：模型描述
+2 模型指定 本章详细介绍了mrgsolve模型描述文件(model specification)【译者注：类似于NONMEM的控制文件，Phoenix的PML语言】的格式。
+2.1如何编写一个模型 有两种方法可以编写模型：
+ 描述模型的代码储存在一个单独的文件，并将其载入到你的 R 脚本中 描述模型的代码作为字符串文本内联(inline)在你的R 脚本中  我们建议对任何重要的建模工作使用方法1(单独的文件)。方法2对于快速编写模型代码非常方便，您还将看到我们在演示如何使用mrgsolve时经常使用该方法。
+2.1.1 单独的文件 对于大多数应用，您需要将模型代码放在一个独立的文件中。此文件可以具有任何扩展名，但是当您使用 .cpp 扩展名时，存在一些特殊行为。我们将在这里向您展示&amp;quot;任意扩展名&amp;quot;或&amp;rdquo;.cpp扩展名&amp;quot;这两者。
+2.1.1.1 使用&amp;rdquo;.cpp&amp;quot;文件扩展名 打开文本编辑器，将模型代码键入到名称为&amp;rdquo;&amp;lt;model-name&amp;gt;.cpp&amp;quot;的文件中。此文件名格式标识模型的&amp;quot;名称&amp;rdquo;( &amp;ldquo;&amp;lt;model-name&amp;gt;.cpp&amp;rdquo; 字符中的&amp;rdquo;&amp;lt;model-name&amp;gt;&amp;quot;字符串可以为任意符合名称要求的字符串，这些字符在此处被视为是此模型的名称)。注意：整个文件将被读取和解析，因此其中的所有内容都必须是有效的&amp;quot;mrgsolve&amp;quot;模型描述元素。
+使用 &amp;ldquo;mread()&amp;rdquo; 函数读取和解析此文件。对于保存在 &amp;ldquo;mymodel.cpp&amp;rdquo; (在当前工作目录中的&amp;quot;mymodel.cpp&amp;quot;文件) 中的名为 &amp;ldquo;mymodel&amp;rdquo; 的模型，发出以下命令：
+mod &amp;lt;- mread(&amp;#34;mymodel&amp;#34;) &amp;ldquo;mread()&amp;rdquo; 返回一个模型对象，您可以使用该对象进行模拟。
+2.1.1.2 使用任意文件扩展名 您可以使用任意文件扩展名来保存&amp;quot;mrgsolve&amp;quot;模型。与其使用&amp;rdquo;.cpp&amp;rdquo;，不如使用&amp;rdquo;.mod&amp;rdquo;。使用&amp;rdquo;.cpp&amp;quot;以外的扩展名时，传入完整的文件名，包括文件名和扩展名。如果你有模型代码保存在&amp;quot;mymodel.mod&amp;quot;中，那么你应使用以下代码
+mod &amp;lt;- mread(&amp;#34;mymodel.mod&amp;#34;) 以加载该模型。
+2.1.1.3 模型项目目录 &amp;ldquo;mread()&amp;ldquo;的第二个参数是&amp;quot;project&amp;rdquo;。当存在第二个参数时，&amp;ldquo;mrgsolve&amp;quot;将在第二个参数对应的目录中查找模型文件(模型文件名作为第一个参数传递给&amp;quot;mread()&amp;quot;)。
+如果你的&amp;quot;myproject.mod&amp;quot;文件位于&amp;quot;models&amp;quot;目录中，那么你可以使用以下代码
+mod &amp;lt;- mread(&amp;#34;mymodel.mod&amp;#34;, project = &amp;#34;models&amp;#34;) 或者，您可以将整个路径传递到模型文件
+2.1.2 内联/代码 通常，直接在&amp;quot;R&amp;quot;脚本中编写模型更方便。该模型可能如下所示：
+code &amp;lt;- &amp;#39; $PARAM CL = 1, VC = 20 $PKModel ncmt=1 &amp;#39; 在这里，我们创建了一个长度为 1 的字符向量，并将其保存到名为&amp;quot;code&amp;quot;的&amp;quot;R&amp;quot;对象中。此对象的名称无关紧要。但是&amp;quot;code&amp;quot;将作为模型描述传递到&amp;quot;mrgsolve&amp;quot;中。当&amp;quot;mrgsolve&amp;quot;获得这样的模型以及模型的&amp;quot;名称&amp;quot;时，mrgsolve会将代码写入一个名为&amp;lt;model-name&amp;gt;.</description>
+    </item>
+    
+    <item>
       <title>文献：为药物开发中基于临床终点的暴露_反应分析建立的良好实践</title>
       <link>https://s0521.github.io/cn/2023/05/%E6%96%87%E7%8C%AE%E4%B8%BA%E8%8D%AF%E7%89%A9%E5%BC%80%E5%8F%91%E4%B8%AD%E5%9F%BA%E4%BA%8E%E4%B8%B4%E5%BA%8A%E7%BB%88%E7%82%B9%E7%9A%84%E6%9A%B4%E9%9C%B2_%E5%8F%8D%E5%BA%94%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8B%E7%9A%84%E8%89%AF%E5%A5%BD%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Sun, 21 May 2023 22:03:52 +0800</pubDate>
       
       <guid>https://s0521.github.io/cn/2023/05/%E6%96%87%E7%8C%AE%E4%B8%BA%E8%8D%AF%E7%89%A9%E5%BC%80%E5%8F%91%E4%B8%AD%E5%9F%BA%E4%BA%8E%E4%B8%B4%E5%BA%8A%E7%BB%88%E7%82%B9%E7%9A%84%E6%9A%B4%E9%9C%B2_%E5%8F%8D%E5%BA%94%E5%88%86%E6%9E%90%E5%BB%BA%E7%AB%8B%E7%9A%84%E8%89%AF%E5%A5%BD%E5%AE%9E%E8%B7%B5/</guid>
       <description>原文链接：https://ascpt.onlinelibrary.wiley.com/doi/10.1002/psp4.12015
+原文作者：RV Overgaard, SH Ingwersen, CW Tornøe
 译者注：主要有Edge浏览器自带的网页翻译功能翻译，译者额外校对了部分词汇的中文翻译比如“dropout”在本文应翻译为“脱落”，而不是“辍学”
  抽象 本教程旨在推广药物开发中基于临床终点的暴露-反应（E-R）分析的良好实践。重点是E-R分析的实际方面，以帮助建模科学家以一致的方式跨个人和项目执行此类分析，并根据典型的临床药物开发决策量身定制。这包括规划、执行和可视化 E-R 分析的一般注意事项，以及这些分析如何与关键问题相关联。
  在过去的几十年里，暴露-反应（E-R）分析已成为临床药物开发和监管决策不可或缺的一部分。然而，在更成熟的领域（如群体药代动力学（PK）和药代动力学/药效学（PK / PD）建模分析）之后，仍然缺乏E-R的监管指南和行业建议。群体PK分析是一门成熟的学科，关于模型构建、协变量选择和模型诊断的方法论论文众多篇;另一方面，PK / PD建模在后期开始发展，但迅速发展成为一个具有专用期刊（JPKPD）的既定研究领域。PK/PD建模涉及将浓度时间过程（包括给药间隔的变化）与药物动力学反应的时间过程联系起来。
