@@ -146,6 +146,7 @@ code.has-jax {
 <p>原文作者：<a href="https://github.com/kylebaron">Kyle Baron</a></p>
 <p>译者说：当希望将定量药理学<strong>模型</strong>以<strong>可访问可交互</strong>的方式面向非专业用户<strong>公开发布</strong>时，可以<strong>免费商业使用</strong>的非线性混合效应程序包就变得非常必要，因此本文翻译了<a href="https://mrgsolve.org/">mrgsolve</a>——&ldquo;一个可以实现非线性混合效应模型并可基于模型进行模拟的，基于R语言的，采用GPL开源协议的R添加包&quot;的用户指南的第二章的内容，以使读者可以学习和了解此程序包的基本语法规则，以便未来需要时可以基于此程序包公开发布定量药理学模型的结果，提高模型的影响力。由于&quot;定量药理学&quot;相关中文的资料非常少，也希望此文能够拓展一些中文中关于&quot;定量药理学&quot;内容。本文所翻译第二章主要介绍了mrgsolve模型描述文件的语法，这些语法是非常重要的基础内容，其他更多的关于mrgsolve的使用说明可参见其<a href="https://mrgsolve.org/user-guide/">用户指南</a>以及其<a href="https://github.com/metrumresearchgroup/mrgsolve">代码仓库</a>。</p>
 <p>标题：mrgsolve用户指南第二章：模型描述</p>
+<!-- raw HTML omitted -->
 <h1 id="2-模型指定">2 模型指定</h1>
 <p>本章详细介绍了mrgsolve模型描述文件(model specification)【译者注：类似于NONMEM的控制文件，Phoenix的PML语言】的格式。</p>
 <h2 id="21如何编写一个模型">2.1如何编写一个模型</h2>
@@ -1050,7 +1051,7 @@ project <span style="color:#f92672">=</span> here<span style="color:#f92672">::<
 <h3 id="231id">2.3.1&quot;ID&rdquo;</h3>
 <p>当前个体标识符。&ldquo;ID&quot;是&quot;self.id&quot;的别名。</p>
 <h3 id="232time">2.3.2&quot;TIME&rdquo;</h3>
-<p>给出当前数据集记录中的时间。这通常仅用于&quot;<code>$MAIN</code>&quot;或&quot;<code>$TABLE</code>&rdquo;。&ldquo;TIME&quot;是&quot;self. time&quot;的别名。与&quot;SOLVERTIME&quot;形成对比。</p>
+<p>给出当前数据集记录中的时间。这通常仅用于&quot;<code>$MAIN</code>&quot;或&quot;<code>$TABLE</code>&rdquo;。&ldquo;TIME&quot;是&quot;self.time&quot;的别名。与&quot;SOLVERTIME&quot;形成对比。</p>
 <h3 id="233solvertime">2.3.3&quot;SOLVERTIME&rdquo;</h3>
 <p>给出求解器当前时间步长的时间。这只能在&quot;<code>$ODE</code>&quot;中使用。与&quot;TIME&quot;形成对比。</p>
 <p>从1.0.0版本开始，当您调用nm-vars插件(<a href="https://mrgsolve.org/user-guide/plugins.html#seCLplugin-nm-vars">第9.2节</a>)时，变量T在$ODE中作为SOLVERTIME的同义词提供。</p>
@@ -1078,7 +1079,7 @@ project <span style="color:#f92672">=</span> here<span style="color:#f92672">::<
 <p>8=替换</p>
 </li>
 </ul>
-<p>&ldquo;EVID&quot;是&quot;self. evid&quot;的别名。</p>
+<p>&ldquo;EVID&quot;是&quot;self.evid&quot;的别名。</p>
 <h3 id="236cmt">2.3.6&quot;CMT&rdquo;</h3>
 <p>&ldquo;CMT&quot;是当前的房室编号。在这种情况下，&ldquo;CMT&quot;是字面意思(不是房室名称的替代品)。例如：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#f92672">$</span>CMT GUT CENT PERIPH
@@ -1089,10 +1090,10 @@ project <span style="color:#f92672">=</span> here<span style="color:#f92672">::<
  <span style="color:#f92672">//</span> ....
 }
 </code></pre></div><p>在该示例中，&ldquo;GUT&rdquo;、&ldquo;CENT&quot;和&quot;PERIPH&quot;是各自房室中的量，而&quot;CMT&quot;是指数据记录/数据集中的&quot;CMT&quot;值。</p>
-<p>&ldquo;CMT&quot;是&quot;self. cmt&quot;的别名。</p>
+<p>&ldquo;CMT&quot;是&quot;self.cmt&quot;的别名。</p>
 <h3 id="237amt">2.3.7&quot;AMT&rdquo;</h3>
 <p>&ldquo;AMT&quot;是剂量药量的当前值。</p>
-<p>&ldquo;AMT&quot;是&quot;self. amt&quot;的别名。</p>
+<p>&ldquo;AMT&quot;是&quot;self.amt&quot;的别名。</p>
 <h3 id="238newind">2.3.8&quot;NEWIND&rdquo;</h3>
 <p>&ldquo;NEWIND&quot;是一个新个体指示器，采用以下值：</p>
 <ul>
@@ -1114,7 +1115,7 @@ int counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</
 <span style="color:#a6e22e">if</span>(NEWIND <span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">1</span>) {
  counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
 }
-</code></pre></div><p>&ldquo;NEWIND&quot;是&quot;self. newind&quot;的别名。</p>
+</code></pre></div><p>&ldquo;NEWIND&quot;是&quot;self.newind&quot;的别名。</p>
 <h3 id="239ss_advance">2.3.9&quot;SS_ADVANCE&rdquo;</h3>
 <p>这是一个&quot;bool&quot;数据项(要么&quot;true&quot;要么&quot;false&rdquo;)，它总是&quot;false&rdquo;，除非&quot;mrgsolve&quot;当前正在将系统推进到稳态(<a href="https://mrgsolve.org/user-guide/steady-state.html">第8章</a>)；那么它将是&quot;true&rdquo;。此变量仅在&quot;<code>$ODE</code>&rdquo;(或&quot;<code>$DES</code>&rdquo;)块中可用。</p>
 <p>当系统进入稳态时，使用此变量修改模型微分方程的计算。一个用例是，当您有一个累积房室来计算&quot;AUC&rdquo;，但您想在系统向稳态工作时停止累积</p>
@@ -1149,7 +1150,7 @@ dxdt_AUC <span style="color:#f92672">=</span> CENT<span style="color:#f92672">/<
 <p>self.stop_id()</p>
 </li>
 <li>
-<p>self. stop_id_cf()</p>
+<p>self.stop_id_cf()</p>
 </li>
 </ul>
 <p>&ldquo;self&quot;数据成员包括</p>
@@ -1185,7 +1186,7 @@ dxdt_AUC <span style="color:#f92672">=</span> CENT<span style="color:#f92672">/<
 <p>self.nrow</p>
 </li>
 <li>
-<p>self. envir(见下面的注释)</p>
+<p>self.envir(见下面的注释)</p>
 </li>
 </ul>
 <p>提供此信息是为了透明，并非详尽无遗。我们通过具有更简单名称的预处理器指令为这些数据项提供接口(例如&quot;EVID&quot;将转换为&quot;self.evid&rdquo;)，并鼓励用户使用更简单的API名称。</p>
@@ -1212,13 +1213,13 @@ double last_dose <span style="color:#f92672">=</span> <span style="color:#ae81ff
 </code></pre></div><h3 id="2316-selfnid">2.3.16 &ldquo;self.nid&rdquo;</h3>
 <p>数据集中的ID数。</p>
 <h3 id="2317-selfidn">2.3.17 &ldquo;self.idn&rdquo;</h3>
-<p>当前的ID号。数字从0开始，增加1到&quot;self. nid-1&rdquo;。因此，如果要测试输出数据集中的最后一个ID，您将编写：</p>
+<p>当前的ID号。数字从0开始，增加1到&quot;self.nid-1&rdquo;。因此，如果要测试输出数据集中的最后一个ID，您将编写：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">[ table ]
 
 <span style="color:#a6e22e">if</span>(self.idn <span style="color:#f92672">==</span> (self.nid<span style="color:#ae81ff">-1</span>)) {
  <span style="color:#f92672">//</span> do something ....
 }
-</code></pre></div><h3 id="2318self-nrow">2.3.18&quot;self. nrow&rdquo;</h3>
+</code></pre></div><h3 id="2318selfnrow">2.3.18&quot;self.nrow&rdquo;</h3>
 <p>输出数据集中的总行数。</p>
 <h3 id="2319-selfrown">2.3.19 &ldquo;self.rown&rdquo;</h3>
 <p>当前行号。数字从0开始，增加1到&quot;self.rod-1&rdquo;。因此，如果要测试输出数据集中的最后一行，您将编写：</p>
@@ -1244,7 +1245,7 @@ double TAD <span style="color:#f92672">=</span> <span style="color:#a6e22e">self
 </code></pre></div><p>不要让这个计算依赖于任何测试或条件；每次调用&quot;<code>$MAIN</code>&quot;时都必须调用它才能看到每一次剂量。</p>
 <h3 id="2322-selfmtimetime">2.3.22 self.mtime(&lt;time&gt;)</h3>
 <p>这是一个创建建模偶数时间的函数。唯一的参数是当前个体未来的数字时间，它指示何时应该在模拟中包含不连续性。</p>
-<p>当调用&quot;self. mtime()&ldquo;时，一个新的记录被添加到当前个人的记录集中，&ldquo;EVID&quot;设置为2。这意味着当系统前进到这个记录(这次)时，微分方程求解器将重置并重新启动，从而产生不连续性。该函数返回这个事件的时间，以便用户可以在后续代码中使用它。</p>
+<p>当调用&quot;self.mtime()&ldquo;时，一个新的记录被添加到当前个人的记录集中，&ldquo;EVID&quot;设置为2。这意味着当系统前进到这个记录(这次)时，微分方程求解器将重置并重新启动，从而产生不连续性。该函数返回这个事件的时间，以便用户可以在后续代码中使用它。</p>
 <p>比如说，</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#f92672">$</span>PARAM change_point <span style="color:#f92672">=</span> <span style="color:#ae81ff">5.13</span>;
 
@@ -1256,7 +1257,7 @@ double mt1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">self
 
 <span style="color:#a6e22e">if</span>(TIME <span style="color:#f92672">&gt;=</span> mt1) KA <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.1</span>; 
 </code></pre></div><h3 id="2323-selfmeventtime-evid">2.3.23 self.mevent(&lt;time&gt;, &lt;evid&gt;)</h3>
-<p>与&quot;self. mtime()&quot;(<a href="https://mrgsolve.org/user-guide/specification.html#seCLself.mtime">第2.3.22节</a>)相关，除了您可以为此干预设置特定的&quot;EVID&rdquo;，并且您可以通过&quot;EVID&quot;而不是时间跟踪更改时间。如果您想在未来锚定多个事件并确保能够区分它们，您可以使用它。示例：</p>
+<p>与&quot;self.mtime()&quot;(<a href="https://mrgsolve.org/user-guide/specification.html#seCLself.mtime">第2.3.22节</a>)相关，除了您可以为此干预设置特定的&quot;EVID&rdquo;，并且您可以通过&quot;EVID&quot;而不是时间跟踪更改时间。如果您想在未来锚定多个事件并确保能够区分它们，您可以使用它。示例：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">[ main ] 
 <span style="color:#a6e22e">self.mevent</span>(change_point1, <span style="color:#ae81ff">33</span>);
 <span style="color:#a6e22e">self.mevent</span>(change_point2, <span style="color:#ae81ff">34</span>);
@@ -1267,11 +1268,11 @@ double mt1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">self
 <h3 id="2325-selfstop_id">2.3.25&rdquo; self.stop_id()&rdquo;</h3>
 <p>可以从&quot;<code>$PREAMBLE</code>&rdquo;、&ldquo;<code>$MAIN</code>&quot;和&quot;<code>$TABLE</code>&quot;调用此&quot;self&quot;函数。调用此函数时，停止当前个体的处理，并为剩余房室&rsquo;填写缺失值(&ldquo;NA_real&rdquo;)并捕获输出。</p>
 <p>当当前个体达到某种条件，表明其余输出无关紧要或该特定个体有问题时，可以调用此项。</p>
-<p>另请参见&quot;self.stop_id()&ldquo;和&quot;self. stop()&quot;。</p>
-<h3 id="2326self-stop_id_cf">2.3.26&quot;self. stop_id_cf()&rdquo;</h3>
+<p>另请参见&quot;self.stop_id()&ldquo;和&quot;self.stop()&quot;。</p>
+<h3 id="2326selfstop_id_cf">2.3.26&quot;self.stop_id_cf()&rdquo;</h3>
 <p>可以从&quot;<code>$PREAMBLE</code>&rdquo;、&ldquo;<code>$MAIN</code>&quot;和&quot;<code>$TABLE</code>&quot;调用此&quot;self&quot;函数。调用此函数时，停止当前个体的处理，并将当前值结转(&ldquo;cf&rdquo;, carried forward)用于该个体的剩余输出记录。</p>
 <p>当当前个体达到某种条件，表明其余输出无关紧要或该特定个体有问题时，可以调用此项。</p>
-<p>另请参见&quot;self.stop_id_cf()&ldquo;和&quot;self. stop()&quot;。</p>
+<p>另请参见&quot;self.stop_id_cf()&ldquo;和&quot;self.stop()&quot;。</p>
 <h3 id="2327thetan">2.3.27&quot;THETA(n)&rdquo;</h3>
 <p>&ldquo;THETA(n)&ldquo;在NONMEM控制流中无处不在，表示估计的固定效应参数。mrgsolve没有为&quot;THETA(n)&ldquo;附加任何特殊含义，但从1.0.0版开始，它将&quot;THETA(n)&ldquo;翻译为&quot;THETAn&rdquo;。这在使用&quot;<code>$NMXML</code>&quot;或&quot;<code>$NMEXT</code>&quot;导入NONMEM估计时很有用，其中&quot;THETA&quot;作为参数导入，名称为&quot;THETA1&rdquo;、&ldquo;THETA2&rdquo;、&ldquo;THETA3&quot;等(参见<a href="https://mrgsolve.org/user-guide/specification.html#seCLblock-nmxml">第2.2.23节</a>和<a href="https://mrgsolve.org/user-guide/specification.html#seCLblock-nmext">第2.2.24节</a>)。&ldquo;THETA(n)&ldquo;只是一种面向NONMEM的风格，用于指代&quot;THETAn&rdquo;。</p>
 <h3 id="2328预计到达时间n">2.3.28&quot;预计到达时间(n)&rdquo;</h3>
