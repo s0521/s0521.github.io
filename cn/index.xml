@@ -12,6 +12,23 @@
     
     
     <item>
+      <title>文献_定量药理学中的协变量建模_需要考虑的一般要点</title>
+      <link>https://s0521.github.io/cn/2024/06/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E4%B8%80%E8%88%AC%E8%A6%81%E7%82%B9/</link>
+      <pubDate>Sun, 23 Jun 2024 14:43:05 +0800</pubDate>
+      
+      <guid>https://s0521.github.io/cn/2024/06/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E4%B8%80%E8%88%AC%E8%A6%81%E7%82%B9/</guid>
+      <description>文献：定量药理学中的协变量建模：需要考虑的一般要点 原文链接：https://ascpt.onlinelibrary.wiley.com/doi/10.1002/psp4.13115
+原文作者：Kinjal Sanghavi, Jakob Ribbing, James A. Rogers, Mariam A. Ahmed, Mats O. Karlsson, Nick Holford, Estelle Chasseloup, Malidi Ahamadi, Kenneth G. Kowalski, Susan Cole, Essam Kerwash, Janet R. Wade, Chao Liu, Yaning Wang, Mirjam N. Trame, Hao Zhu, Justin J. Wilkins, for the ISoP Standards &amp;amp; Best Practices Committee
+原文协议：CC BY-NC 4.0
+译者注：主要由Edge浏览器自带的网页翻译功能翻译，译者额外校对了部分词汇的中文翻译比如“pharmacodynamics”在本文应翻译为“药效动力学”，而不是“药效学”。
+抽象 对协变量和药理学模型参数之间的关系进行建模是药理学分析的核心特征。从协变量建模中获得的信息可用于剂量选择、剂量个体化或不同人群亚组的临床研究计划。药理计量学文献已经积累了与协变量建模相关的多种多样、复杂且不断发展的方法和解释指南。随着技术数量和复杂性的增加，对最新技术进行概述的需求已经出现。在本文中，国际药理计量学会（ISoP）标准和最佳实践委员会介绍了有关规划、执行、报告和解释协变量分析的最佳实践的观点，以指导学术、行业和监管环境中的药理计量学决策。
+背景 协变量或预测变量通常用于药理计量模型中，以识别和描述可预测的变异性来源，从而改进模型拟合和/或基于模型的预测。内在和外在患者变量通常用作协变量，以了解模型参数的受试者间变异性，例如药代动力学（PK）模型中的清除率（CL）和分布容积（V），偶尔也使用受试者内和残差变异性。参数-协变量关联本身的存在并不一定意味着协变量和参数之间存在因果关系，但这种关联可用于生成因果假设，并可能证实或反驳先前的因果假设。通常需要外部知识来确定关系在多大程度上可以被分配为因果关系或机械解释。
+根据应用领域的不同，某些公认的协变量值得常规考虑。在PK应用中，常见的预测因子包括体型和组成，器官功能成熟，肝脏标志物和肾功能，以及与基因型和伴随用药相关的代谢途径的差异。表 1 提供了通常与评估人类剂量调整需求相关的协变量列表。
+表 1. 用于预测人类剂量的常见协变量
+   协变量类型 协变量分布范围 与协变量范围相关的倍数变化（参数） 评论     大小 0.</description>
+    </item>
+    
+    <item>
       <title>FDA：2022：指南翻译：基于药代动力学获批PD 1或PD- 1新给药方案的行业指南</title>
       <link>https://s0521.github.io/cn/2023/08/fda2022%E6%8C%87%E5%8D%97%E7%BF%BB%E8%AF%91%E5%9F%BA%E4%BA%8E%E8%8D%AF%E4%BB%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E8%8E%B7%E6%89%B9pd-1%E6%88%96pd-1%E6%96%B0%E7%BB%99%E8%8D%AF%E6%96%B9%E6%A1%88%E7%9A%84%E8%A1%8C%E4%B8%9A%E6%8C%87%E5%8D%97/</link>
       <pubDate>Wed, 02 Aug 2023 21:50:16 +0800</pubDate>
