@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>简单的异速缩放3基于单一物种的异速缩放 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="简单的异速缩放3基于单一物种的异速缩放 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -134,12 +108,50 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="前言">前言：</h1>
 <p>由动物数据外推人体药代动力学参数（下文简称为“外推”）是药物开发的重要工具。异速缩放是外推方法中的一种，该方法拥有许多支持者，并且基于异速缩放，人们已经提出了许多不同的方法和技术来优化从动物到人类的药代动力学参数的预测。</p>
 <p>除了自己基于多物种的数据估算出异速缩放的方程中的参数然后开展其他物种数据的预测外，有时常常由于物种数据有限，不得不将将异速缩放的方程中的参数预先指定，然后开展其他物种的预测，本文介绍了“基于单一物种”+“预先指定缩放系数”的方法进行异速缩放预测。</p>
 <h1 id="目录">目录</h1>
-<!-- raw HTML omitted -->
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言：</a></li>
+    <li><a href="#目录">目录</a></li>
+    <li><a href="#一异速缩放公式">一、异速缩放公式</a></li>
+    <li><a href="#二异速缩放的一种特殊的应用场景">二、异速缩放的一种特殊的应用场景：</a>
+      <ul>
+        <li><a href="#问题文字描述">问题文字描述</a></li>
+        <li><a href="#问题的数学描述">问题的数学描述</a></li>
+        <li><a href="#求解推导">求解推导</a></li>
+      </ul>
+    </li>
+    <li><a href="#三使用条件再次说明">三、使用条件再次说明</a></li>
+    <li><a href="#四指南中使用的系数">四、指南中使用的系数</a>
+      <ul>
+        <li><a href="#额外的剂量归一化">额外的剂量归一化</a></li>
+        <li><a href="#指南中使用的系数">指南中使用的系数</a></li>
+        <li><a href="#直接使用硬套公式推导出系数">直接使用硬套公式推导出系数</a></li>
+        <li><a href="#指南为何舍近求远不直接异速缩放">指南为何“舍近求远”不直接异速缩放</a></li>
+      </ul>
+    </li>
+    <li><a href="#五在phoenix中的实现">五、在Phoenix中的实现</a>
+      <ul>
+        <li><a href="#一个模板">一个模板</a>
+          <ul>
+            <li><a href="#1编辑1-body-weight表格">1.编辑“1 Body Weight”表格</a></li>
+            <li><a href="#2编辑2-source-parameter表格">2.编辑“2 Source Parameter”表格</a></li>
+            <li><a href="#3编辑3-target-object-set表格">3.编辑“3 Target Object Set”表格</a></li>
+            <li><a href="#4执行工作流程">4.执行工作流程</a></li>
+            <li><a href="#5查看结果">5.查看结果</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#六常用的缩放系数">六、常用的缩放系数</a></li>
+    <li><a href="#七小结">七、小结</a></li>
+    <li><a href="#八参考资料">八、参考资料</a></li>
+    <li><a href="#九下载链接">九、下载链接</a></li>
+  </ul>
+</nav>
 <h1 id="一异速缩放公式">一、异速缩放公式</h1>
 <p>对数尺度</p>
 <p>𝐿𝑛(𝑃𝑎𝑟𝑎𝑚𝑒𝑡𝑒𝑟)=𝐿𝑛(𝑖𝑛𝑡)+𝑏𝑒𝑡𝑎∗𝐿𝑛(𝑊𝑒𝑖𝑔ℎ𝑡)</p>
@@ -299,48 +311,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

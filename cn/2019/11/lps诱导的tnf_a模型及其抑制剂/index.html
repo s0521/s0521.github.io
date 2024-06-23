@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>LPS诱导的TNF_a模型及其抑制剂 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="LPS诱导的TNF_a模型及其抑制剂 - Yongchao Fu | 付永超">
@@ -58,9 +35,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
 
@@ -137,7 +111,6 @@ code.has-jax {
       </header>
 
 
-
 <p>半年前在阅读PKPD杂志的在线版时阅读到了其中一篇文章《Challenge model of TNFα turnover at varying LPS and drug provocations》，这是一个涉及到3种物质的一篇PKPD分析文章，文献数据的来源来自于“Grünenthal GmbH”，一家德国公司，中文名格兰泰，他家公司曾有一款药物登上过“初中/高中”的课本，非常著名~~，另外该公司的数据所对应的试验是在睿智化学公司进行的，我以前所在的公司。。</p>
 <p>扯远了，我们回归正题关注下该文献本身的内容。</p>
 <h1 id="该研究主要完成了以下工作">该研究主要完成了以下工作：</h1>
@@ -185,66 +158,66 @@ code.has-jax {
 <p><img src="/images/LPS%E8%AF%B1%E5%AF%BC%E7%9A%84TNF_a%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%85%B6%E6%8A%91%E5%88%B6%E5%89%82/clip_image004-1573148433354.png" alt="计算机"></p>
 <p>通过这种“图形化”+“代码”的方式可以完美的实现该模型。</p>
 <p>3.最后我也使用代码的方式实现了该模型，一通的折腾下来，最后发现其实还是代码的方式最简单直接。。。：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">test</span>(){
-	<span style="color:#75715e">#A</span>
-	<span style="color:#a6e22e">deriv</span>(A1 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (VMax <span style="color:#f92672">*</span> C <span style="color:#f92672">/</span> (C <span style="color:#f92672">+</span> Km)) <span style="color:#f92672">+</span> (Aa <span style="color:#f92672">*</span> Ka))
-	<span style="color:#a6e22e">urinecpt</span>(A0 <span style="color:#f92672">=</span> (VMax <span style="color:#f92672">*</span> C <span style="color:#f92672">/</span> (C <span style="color:#f92672">+</span> Km)))
-	<span style="color:#a6e22e">deriv</span>(Aa <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (Aa <span style="color:#f92672">*</span> Ka))
-	C <span style="color:#f92672">=</span> A1 <span style="color:#f92672">/</span> V
-	
-	<span style="color:#75715e">#LPS</span>
-	<span style="color:#a6e22e">deriv</span>(A_LPS <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (A_LPS <span style="color:#f92672">*</span> K_LPS))
-	<span style="color:#a6e22e">urinecpt</span>(A0_LPS <span style="color:#f92672">=</span> (A_LPS <span style="color:#f92672">*</span> K_LPS))
-	<span style="color:#a6e22e">deriv</span>(s1 <span style="color:#f92672">=</span> ks <span style="color:#f92672">*</span>((A_LPS <span style="color:#f92672">/</span> (Km_LPS <span style="color:#f92672">+</span> A_LPS))<span style="color:#f92672">-</span>s1))
-	<span style="color:#a6e22e">deriv</span>(s2 <span style="color:#f92672">=</span> ks <span style="color:#f92672">*</span> (s1<span style="color:#f92672">-</span>s2))
-	<span style="color:#a6e22e">deriv</span>(s3 <span style="color:#f92672">=</span> ks <span style="color:#f92672">*</span> (s2<span style="color:#f92672">-</span>s3))
-	
-	<span style="color:#75715e">#TNF-a</span>
-	<span style="color:#a6e22e">deriv</span>(R <span style="color:#f92672">=</span> E_s3<span style="color:#f92672">*</span>I_Cp <span style="color:#f92672">-</span>R<span style="color:#f92672">*</span>Kout <span style="color:#f92672">+</span>(Rt<span style="color:#f92672">-</span>R)<span style="color:#f92672">*</span>kt)
-	E_s3 <span style="color:#f92672">=</span> (Smax <span style="color:#f92672">*</span> s3^Gam <span style="color:#f92672">/</span> (SC50^Gam <span style="color:#f92672">+</span> s3^Gam))
-	I_Cp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> (Imax <span style="color:#f92672">*</span> C) <span style="color:#f92672">/</span> (IC50 <span style="color:#f92672">+</span> C)
-	<span style="color:#a6e22e">deriv</span>(Rt <span style="color:#f92672">=</span> (R<span style="color:#f92672">-</span>Rt)<span style="color:#f92672">*</span>kt)
-	
-	<span style="color:#75715e">#Dose</span>
-	<span style="color:#a6e22e">dosepoint</span>(Aa)
-	<span style="color:#a6e22e">dosepoint</span>(A_LPS,tlag <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
-	<span style="color:#75715e">#dosepoint(R)</span>
-	<span style="color:#75715e">#sequence{R = 0}</span>
-	
-	<span style="color:#75715e">#Obs</span>
-	<span style="color:#a6e22e">observe</span>(CObs <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> CEps)
-	<span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-	
-	<span style="color:#a6e22e">observe</span>(A_LPSObs <span style="color:#f92672">=</span> A_LPS <span style="color:#f92672">+</span> A_LPSEps)
-	<span style="color:#a6e22e">error</span>(A_LPSEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-	
-	<span style="color:#a6e22e">observe</span>(RObs <span style="color:#f92672">=</span> R <span style="color:#f92672">+</span> REps)
-	<span style="color:#a6e22e">error</span>(REps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-	
-	<span style="color:#75715e">#Initial</span>
-	<span style="color:#75715e">#A</span>
-	V<span style="color:#f92672">=</span><span style="color:#ae81ff">3.3</span>
-	VMax<span style="color:#f92672">=</span><span style="color:#ae81ff">32.2</span>
-	Km<span style="color:#f92672">=</span><span style="color:#ae81ff">18.2</span>
-	Ka<span style="color:#f92672">=</span><span style="color:#ae81ff">1.72</span>
-	
-	<span style="color:#75715e">#LPS</span>
-	K_LPS<span style="color:#f92672">=</span><span style="color:#ae81ff">8.36</span>
-	ks<span style="color:#f92672">=</span><span style="color:#ae81ff">3.28</span>
-	Km_LPS<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0789</span>
-	
-	<span style="color:#75715e">#TNF</span>
-	Smax<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span><span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#a6e22e">^</span>(<span style="color:#ae81ff">5</span>)
-	SC50<span style="color:#f92672">=</span><span style="color:#ae81ff">0.469</span>
-	Gam<span style="color:#f92672">=</span><span style="color:#ae81ff">3.79</span>
-	
-	Imax<span style="color:#f92672">=</span><span style="color:#ae81ff">0.675</span>
-	IC50<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0231</span>
-
-	Kout<span style="color:#f92672">=</span><span style="color:#ae81ff">5.65</span>
-	kt<span style="color:#f92672">=</span><span style="color:#ae81ff">0.419</span>
-}
-</code></pre></div><h1 id="给药方案">给药方案</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#A</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(A1 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (VMax <span style="color:#f92672">*</span> C <span style="color:#f92672">/</span> (C <span style="color:#f92672">+</span> Km)) <span style="color:#f92672">+</span> (Aa <span style="color:#f92672">*</span> Ka))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">urinecpt</span>(A0 <span style="color:#f92672">=</span> (VMax <span style="color:#f92672">*</span> C <span style="color:#f92672">/</span> (C <span style="color:#f92672">+</span> Km)))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(Aa <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (Aa <span style="color:#f92672">*</span> Ka))
+</span></span><span style="display:flex;"><span>	C <span style="color:#f92672">=</span> A1 <span style="color:#f92672">/</span> V
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#LPS</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(A_LPS <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> (A_LPS <span style="color:#f92672">*</span> K_LPS))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">urinecpt</span>(A0_LPS <span style="color:#f92672">=</span> (A_LPS <span style="color:#f92672">*</span> K_LPS))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(s1 <span style="color:#f92672">=</span> ks <span style="color:#f92672">*</span>((A_LPS <span style="color:#f92672">/</span> (Km_LPS <span style="color:#f92672">+</span> A_LPS))<span style="color:#f92672">-</span>s1))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(s2 <span style="color:#f92672">=</span> ks <span style="color:#f92672">*</span> (s1<span style="color:#f92672">-</span>s2))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(s3 <span style="color:#f92672">=</span> ks <span style="color:#f92672">*</span> (s2<span style="color:#f92672">-</span>s3))
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#TNF-a</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(R <span style="color:#f92672">=</span> E_s3<span style="color:#f92672">*</span>I_Cp <span style="color:#f92672">-</span>R<span style="color:#f92672">*</span>Kout <span style="color:#f92672">+</span>(Rt<span style="color:#f92672">-</span>R)<span style="color:#f92672">*</span>kt)
+</span></span><span style="display:flex;"><span>	E_s3 <span style="color:#f92672">=</span> (Smax <span style="color:#f92672">*</span> s3^Gam <span style="color:#f92672">/</span> (SC50^Gam <span style="color:#f92672">+</span> s3^Gam))
+</span></span><span style="display:flex;"><span>	I_Cp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> (Imax <span style="color:#f92672">*</span> C) <span style="color:#f92672">/</span> (IC50 <span style="color:#f92672">+</span> C)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">deriv</span>(Rt <span style="color:#f92672">=</span> (R<span style="color:#f92672">-</span>Rt)<span style="color:#f92672">*</span>kt)
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#Dose</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dosepoint</span>(Aa)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dosepoint</span>(A_LPS,tlag <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#dosepoint(R)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#sequence{R = 0}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#Obs</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">observe</span>(CObs <span style="color:#f92672">=</span> C <span style="color:#f92672">+</span> CEps)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">observe</span>(A_LPSObs <span style="color:#f92672">=</span> A_LPS <span style="color:#f92672">+</span> A_LPSEps)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">error</span>(A_LPSEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">observe</span>(RObs <span style="color:#f92672">=</span> R <span style="color:#f92672">+</span> REps)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">error</span>(REps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#Initial</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#A</span>
+</span></span><span style="display:flex;"><span>	V<span style="color:#f92672">=</span><span style="color:#ae81ff">3.3</span>
+</span></span><span style="display:flex;"><span>	VMax<span style="color:#f92672">=</span><span style="color:#ae81ff">32.2</span>
+</span></span><span style="display:flex;"><span>	Km<span style="color:#f92672">=</span><span style="color:#ae81ff">18.2</span>
+</span></span><span style="display:flex;"><span>	Ka<span style="color:#f92672">=</span><span style="color:#ae81ff">1.72</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#LPS</span>
+</span></span><span style="display:flex;"><span>	K_LPS<span style="color:#f92672">=</span><span style="color:#ae81ff">8.36</span>
+</span></span><span style="display:flex;"><span>	ks<span style="color:#f92672">=</span><span style="color:#ae81ff">3.28</span>
+</span></span><span style="display:flex;"><span>	Km_LPS<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0789</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#TNF</span>
+</span></span><span style="display:flex;"><span>	Smax<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span><span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#a6e22e">^</span>(<span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>	SC50<span style="color:#f92672">=</span><span style="color:#ae81ff">0.469</span>
+</span></span><span style="display:flex;"><span>	Gam<span style="color:#f92672">=</span><span style="color:#ae81ff">3.79</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	Imax<span style="color:#f92672">=</span><span style="color:#ae81ff">0.675</span>
+</span></span><span style="display:flex;"><span>	IC50<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0231</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	Kout<span style="color:#f92672">=</span><span style="color:#ae81ff">5.65</span>
+</span></span><span style="display:flex;"><span>	kt<span style="color:#f92672">=</span><span style="color:#ae81ff">0.419</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="给药方案">给药方案</h1>
 <p><img src="/images/LPS%E8%AF%B1%E5%AF%BC%E7%9A%84TNF_a%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%85%B6%E6%8A%91%E5%88%B6%E5%89%82/image-20200831212145556.png" alt="image-20200831212145556"></p>
 <h1 id="结果">结果：</h1>
 <p>对文献中提出的场景进行模拟重现，结果如下，</p>
@@ -302,26 +275,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
@@ -344,23 +297,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

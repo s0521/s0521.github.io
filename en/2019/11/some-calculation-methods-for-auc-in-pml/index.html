@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>Some calculation methods for AUC in PML - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="Some calculation methods for AUC in PML - Yongchao Fu | 付永超">
@@ -58,9 +35,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
 
@@ -132,7 +106,6 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="scenarios">Scenarios:</h1>
 <p>One of the operations that is often required to create a model using the Phoenix Modeling Language (PML) is to calculate the AUC. There are two main methods for calculating the AUC in PML, formulas-based and based on integrals-based.</p>
 <p>Key words: Phoenix WinNonlin, Phoenix NLME, PML, Phoenix Modeling Language, AUC, AUClast, AUCinf, pAUC, Secondary parameter, Pharmacokinetic, PK/PD, Pharmacometrics</p>
@@ -140,7 +113,7 @@ code.has-jax {
 <p>The AUC calculated based on the formula is equivalent to AUCinf because it is an analytical solution. It can be subdivided into two categories when calculating the AUC based on the formula.</p>
 <h2 id="implementation-1-methods-for-defining-secondary-parameters">Implementation 1: &ldquo;Methods for defining secondary parameters&rdquo;</h2>
 <p>Use the &ldquo;Secondary(二级参数)&rdquo; statement to define the AUC, such as secondary (AUC=A1Dose/Cl), and then view the value of this parameter in the &ldquo;Secondary&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
-<pre><code>test(){
+<pre tabindex="0"><code>test(){
 deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
 urinecpt(A0 = (Cl * C))
 deriv(A2 = (Cl2 * (C - C2)))
@@ -162,7 +135,7 @@ secondary(AUC = A1Dose/Cl)
 </code></pre><p><img src="/images/PML%E4%B8%ADAUC%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/1574156746005.png" alt="1574156746005"></p>
 <h2 id="implementation-2-methods-for-directly-defining-formulas">Implementation 2: &ldquo;Methods for directly defining formulas&rdquo;</h2>
 <p>Define the calculation formula of the parameter directly in the model, such as AUC=A1Dose/Cl, and then add the table under the “Run Options(运行选项)” tab (if it is the simulation mode, you can specify the parameter directly in the model table). Specify &ldquo;AUC&rdquo; as the output &ldquo;Varirables(变量)&rdquo; in the table, and finally you can see the value of this parameter in the &ldquo;Table01&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
-<pre><code>test(){
+<pre tabindex="0"><code>test(){
 deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
 urinecpt(A0 = (Cl * C))
 deriv(A2 = (Cl2 * (C - C2)))
@@ -194,7 +167,7 @@ fixef(tvCl2 = c(, 1, ))
 <p>In addition to the above formula-based method for calculating AUC, Phoenix also allows users to  integrals-based method for calculating AUC. This method is a way of definite integration. So the calculated AUC is equivalent to AUClast or part of the area under the specified time period &ldquo;Partial Areas AUC(部分曲线下面积)&rdquo; or AUCall.</p>
 <h2 id="implementation-methods-for-integrals-based">Implementation: “Methods for Integrals-based“</h2>
 <p>Write a differential equation for calculating AUC in the model, such as deriv (AUC = C), and then add the table under the “Run Options(运行选项)” tab (if it is the simulation mode, you can specify the parameter directly in the model table). Specify &ldquo;AUC&rdquo; as the output &ldquo;Varirables(变量)&rdquo; in the table, and the time required to report the AUC is specified in &ldquo;Times&rdquo;, and finally you can see the value of this parameter in the &ldquo;Table01&rdquo; worksheet under the &ldquo;Results(结果)&rdquo; subtab.</p>
-<pre><code>test(){
+<pre tabindex="0"><code>test(){
 deriv(A1 = - (Cl * C)- (Cl2 * (C - C2)))
 urinecpt(A0 = (Cl * C))
 deriv(A2 = (Cl2 * (C - C2)))
@@ -265,26 +238,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
@@ -307,23 +260,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

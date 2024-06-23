@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>有趣的受体结合学说与推论2非线性分布与Kd、Rt的计算 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="有趣的受体结合学说与推论2非线性分布与Kd、Rt的计算 - Yongchao Fu | 付永超">
@@ -52,33 +29,18 @@ code.has-jax {
       
       <meta property="description" content="已知药物的剂量与Cmax浓度求Kd
 基于首次假说，存在以下公式
-$$ C*R/RC=Kd \\
-$$ $$ Rt=R&#43;RC \\
-Ct=C&#43;RC \\
-$$ $$ RO=RC/Rt\\
-RO=C/(C&#43;Kd)\\
-$$ $$ CO=RC/Ct\\
-CO=R/(R&#43;Kd) $$
-[&amp;hellip;] 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平 &amp;hellip;">
+[&amp;hellip;] 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显的吸收与消除过程，将吸收、分布、消除暂时忽略，认为$C0=Cmax$，这是一个近似的假设并不是，因为此推论用于估计一个粗略的值而不是求算精确的值，所以这种近似在这里时可行的）
+此处将通过公式计算出 &amp;hellip;">
       <meta property="og:description" content="已知药物的剂量与Cmax浓度求Kd
 基于首次假说，存在以下公式
-$$ C*R/RC=Kd \\
-$$ $$ Rt=R&#43;RC \\
-Ct=C&#43;RC \\
-$$ $$ RO=RC/Rt\\
-RO=C/(C&#43;Kd)\\
-$$ $$ CO=RC/Ct\\
-CO=R/(R&#43;Kd) $$
-[&amp;hellip;] 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平 &amp;hellip;">
+[&amp;hellip;] 当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显的吸收与消除过程，将吸收、分布、消除暂时忽略，认为$C0=Cmax$，这是一个近似的假设并不是，因为此推论用于估计一个粗略的值而不是求算精确的值，所以这种近似在这里时可行的）
+此处将通过公式计算出 &amp;hellip;">
       
     
 
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -150,25 +112,24 @@ CO=R/(R&#43;Kd) $$
       </header>
 
 
-
 <h1 id="受体结合假说的一些基础公式关系">受体结合假说的一些基础公式关系</h1>
 <p>已知药物的剂量与Cmax浓度求Kd</p>
 <p>基于首次假说，存在以下公式</p>
-<p>$$
-C*R/RC=Kd \\<br>
+$$
+C*R/RC=Kd \\\\
 $$
 $$
-Rt=R+RC \\<br>
-Ct=C+RC \\<br>
+Rt=R+RC \\\\
+Ct=C+RC \\\\
 $$
 $$
-RO=RC/Rt\\<br>
-RO=C/(C+Kd)\\<br>
+RO=RC/Rt\\\\
+RO=C/(C+Kd)\\\\
 $$
 $$
-CO=RC/Ct\\<br>
+CO=RC/Ct\\\\
 CO=R/(R+Kd)
-$$</p>
+$$
 <h1 id="一仅通过血药浓度c与剂量估算受体-药物结合复合物rc的浓度">一、仅通过血药浓度(C)与剂量，估算受体-药物结合复合物（RC）的浓度</h1>
 <h2 id="ct的估计">Ct的估计</h2>
 <p>当已知药物剂量与分布容积时，可知$Cmax=AMT/V$。（此处假设药物进入体内后迅速在中央室分布平衡，且无明显的吸收与消除过程，将吸收、分布、消除暂时忽略，认为$C0=Cmax$，这是一个近似的假设并不是，因为此推论用于估计一个粗略的值而不是求算精确的值，所以这种近似在这里时可行的）</p>
@@ -178,20 +139,21 @@ $$</p>
 <p>此时认为观测得到的Cmax为Cfree→C。</p>
 <h2 id="rc的估计">RC的估计</h2>
 <p>则有</p>
-<p>$$
+$$
 RC=Ct-C
-$$</p>
+$$
 <h1 id="二基于ctc以及衍生出的受体占有率ro的比值计算kdrt">二、基于Ct、C以及衍生出的受体占有率（RO）的比值，计算Kd、Rt</h1>
 <h2 id="基于ctc计算kd的推导">基于Ct、C计算Kd的推导</h2>
 <p><strong>由</strong></p>
-<p>$$
+$$
 RO=RC/Rt
 $$
+<p>
 <strong>可知</strong></p>
-<p>$$
-RO1/RO2=(RC1/Rt)/(RC2/Rt)\\<br>
+$$
+RO1/RO2=(RC1/Rt)/(RC2/Rt)\\\\
 RO1/RO2=RC1/RC2
-$$</p>
+$$
 <p>即</p>
 <p><strong>RO</strong>的比值与RC的比值<strong>在数值上是</strong>一致的。</p>
 <p>此处令<strong>X为RO的比值，即</strong></p>
@@ -202,9 +164,9 @@ $$</p>
 <p>即</p>
 <p>$RO1/RO2=( C1/(C1+Kd) )/( C2/(C2+Kd) )$③</p>
 <p>则将③带入①可得</p>
-<p>$$
+$$
 X=( C1/(C1+Kd) )/( C2/(C2+Kd) )
-$$</p>
+$$
 <p><code>$$\begin{align} C1/( C1+Kd ) &amp;= X*C2 / ( C2+Kd ) \\ C1*C2 + C1*Kd&amp; = X*C1*C2 + X*C2*Kd \\ C1*Kd - X*C2*Kd &amp;= X*C1*C2 - C1*C2 \\ Kd*( C1 - X*C2 ) &amp;= C1*C2( X-1 ) \\ Kd &amp;= C1*C2*( X-1 ) / ( C1 - X*C2 )  ④ \end{align}$$</code>
 由此就可以基于已有得观测数据计算Kd了</p>
 <p>因为$X=RC1/RC2$，可以由$Rt-R$计算出</p>
@@ -495,16 +457,17 @@ $$</p>
 <p>得</p>
 <p>$Ctot = RC*( Rtot+KD-RC )/( Rtot-RC )$ ①</p>
 <p>又有</p>
-<p>$$
+$$
 RC = Rtot - KD*( 1/[ (1-CO) / CO] ) -RC )
 $$
+<p>
 令$Y = 1/[ (1-CO)/CO ]$ ②，</p>
 <p>则</p>
 <p>$RC = Rtot - KD*Y$ ③</p>
 <p>将③带入①得</p>
-<p>$$
+$$
 Ctot = Rt*( 1+1/Y) - KD*( 1+Y)
-$$</p>
+$$
 <p>将常见得一些数值带入可得：</p>
 <table>
 <thead>
@@ -673,14 +636,14 @@ $$</p>
 <p>因为RO只可能接近于1，而不能是以，所以RC只能无限接近Rt。</p>
 <p>具体推到极限值是可以推导得，我没有推到，取以下作为近似</p>
 <p>$CO极限≈1-Kd/Ct$</p>
-<p>即当前得表格中得CO极限约为，$1-1/14≈93.2 %$</p>
+<p>即当前得表格中得CO极限约为，$1-1/14≈93.2 \%$</p>
 <p>由此也就想到了传统得小分子药物经常检测得游离分数，或称之为血浆蛋白结合率。</p>
 <h1 id="四讨论">四、讨论</h1>
 <h2 id="药物开发中常见到的与此相关的现象非线性分布">药物开发中常见到的与此相关的现象：非线性分布</h2>
 <h3 id="1小分子药物的血浆蛋白结合率">1.小分子药物的血浆蛋白结合率</h3>
 <p>一般，小分子药物的血浆蛋白结合率很多都在90%以上，</p>
 <p>由此，可知</p>
-<p>CO占比大（$(Ct-C)/Ct$ 大，$C/Ct$ 小），$R&raquo;Kd$。</p>
+<p>CO占比大（$(Ct-C)/Ct$ 大，$C/Ct$ 小），$R>>Kd$。</p>
 <p>即，在血浆中“可与药物结合受体”大都处于游离状态，只有较少的“药物受体复合物”。</p>
 <h3 id="2大分子药物在血液中的可检测浓度cmax相对于理论血浆浓度ct的占比">2.大分子药物在血液中的可检测浓度Cmax，相对于理论血浆浓度Ct的占比</h3>
 <p>前提假设：</p>
@@ -694,7 +657,7 @@ $$</p>
 <p>药物占有率$CO=(Ct-C)/C$</p>
 </blockquote>
 <p>一般，大分子药物在血液中很少与其他受体结合，其分布容积一般接近理论的分布容积。即，我们观测的血药浓度C一般等于理论的血药浓度Ct。</p>
-<p>此时，可以认为CO占比小（$(Ct-C)/Ct$ 小，$C/Ct$ 大），$R&laquo;Kd$。</p>
+<p>此时，可以认为CO占比小（$(Ct-C)/Ct$ 小，$C/Ct$ 大），$R<<Kd$。</p>
 <p>即，在血浆中“可与药物结合受体”大都处于结合状态，只有较少的“游离受体”。
 （大分子药物如果CO占比较大在90~20%，就容易观察到非线性分布）</p>
 <h2 id="一些特例">一些特例</h2>
@@ -761,50 +724,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
-<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

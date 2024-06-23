@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>标准误步骤($COV)的计算方法 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="标准误步骤($COV)的计算方法 - Yongchao Fu | 付永超">
@@ -62,9 +39,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -136,7 +110,6 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="rs矩阵httpsmpweixinqqcomsg7c3rwrd14weei8mtxltnw">R、S矩阵^[https://mp.weixin.qq.com/s/g7C3RwRD14wEEi8MTXlTnw]</h1>
 <h2 id="r矩阵">R矩阵</h2>
 <p><strong>R矩阵是目标函数在最终参数估计值处的二阶导数矩阵</strong>(即<strong>黑塞Hessian矩阵</strong>，大名鼎鼎的费雪信息矩阵就是负的黑塞矩阵)。它刻画的是目标函数空间在最终参数估计处的曲率。曲率越大，参数估计的精确度越高。</p>
@@ -146,21 +119,21 @@ code.has-jax {
 <p>2）S矩阵<strong>是R 矩阵的近似</strong>，在随机效应服从正态分布的前提下，随着样本量增大，两者趋于一致。</p>
 <h2 id="理解">理解：</h2>
 <p>R矩阵即Hessian矩阵，原函数的二阶导数，</p>
-<p>S矩阵即雅可比矩阵与自身转置的乘积，雅可比矩阵原函数的一阶导数，高斯牛顿法中，使用J<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->J近似Hessian矩阵。</p>
+<p>S矩阵即雅可比矩阵与自身转置的乘积，雅可比矩阵原函数的一阶导数，高斯牛顿法中，使用J<sup>-1</sup>J近似Hessian矩阵。</p>
 <h1 id="协方差矩阵的计算">协方差矩阵的计算：</h1>
 <p>最大似然法计算协方差矩阵的方法有4种^[这些结论概念参考自《计量经济理论与方法》，译者沈根祥，343页， 第十章 极大似然方法，10.4 ML估计量的协方差矩阵，节中的介绍]，</p>
-<h2 id="1基于hessian矩阵计算-hsup-1sup">1.基于Hessian矩阵计算，-H<!-- raw HTML omitted -->-1<!-- raw HTML omitted --></h2>
+<h2 id="1基于hessian矩阵计算-hsup-1sup">1.基于Hessian矩阵计算，-H<sup>-1</sup></h2>
 <h3 id="nonmem">NONMEM</h3>
-<p>在MATRIX=R的情况下，输出方差-协方差矩阵为2R<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->；</p>
-<p>以下计算类似，参考资料中估计的是LL（Log likelihood ），NONMEM估计的是-2LL（-2Log likelihood ），所以-2 (-H<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->)=2H<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->。</p>
+<p>在MATRIX=R的情况下，输出方差-协方差矩阵为2R<sup>-1</sup>；</p>
+<p>以下计算类似，参考资料中估计的是LL（Log likelihood ），NONMEM估计的是-2LL（-2Log likelihood ），所以-2 (-H<sup>-1</sup>)=2H<sup>-1</sup>。</p>
 <h3 id="nlme">NLME</h3>
 <p>猜测，在将“Stderr Method（标准误计算方法）”设定为“Hessian（黑森）”的情况下，采用该方法完成标准误的计算。（下图为Phoenix8.1中的截图）</p>
 <p><img src="/images/%E6%A0%87%E5%87%86%E8%AF%AF%E6%AD%A5%E9%AA%A4%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/p.png" alt="p"></p>
-<h2 id="2基于费雪fisher信息矩阵计算isup-1sup">2.基于费雪(Fisher)信息矩阵计算，I<!-- raw HTML omitted -->-1<!-- raw HTML omitted --></h2>
-<h2 id="3基于梯度矩阵雅可比矩阵计算gsuptsupgsup-1sup">3.基于梯度矩阵（雅可比矩阵）计算,(G<!-- raw HTML omitted -->t<!-- raw HTML omitted -->G)<!-- raw HTML omitted -->-1<!-- raw HTML omitted --></h2>
+<h2 id="2基于费雪fisher信息矩阵计算isup-1sup">2.基于费雪(Fisher)信息矩阵计算，I<sup>-1</sup></h2>
+<h2 id="3基于梯度矩阵雅可比矩阵计算gsuptsupgsup-1sup">3.基于梯度矩阵（雅可比矩阵）计算,(G<sup>t</sup>G)<sup>-1</sup></h2>
 <h3 id="nonmem-1">NONMEM</h3>
-<p>而在MATRIX=S的情况下输出方差-协方差矩阵为4S<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->。</p>
-<p>参考资料中估计的是LL（Log likelihood ），NONMEM估计的是-2LL（-2Log likelihood ），(瞎猜下)所以（-2*-2）(G<!-- raw HTML omitted -->t<!-- raw HTML omitted -->G)<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->=4(G<!-- raw HTML omitted -->t<!-- raw HTML omitted -->G)<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->。</p>
+<p>而在MATRIX=S的情况下输出方差-协方差矩阵为4S<sup>-1</sup>。</p>
+<p>参考资料中估计的是LL（Log likelihood ），NONMEM估计的是-2LL（-2Log likelihood ），(瞎猜下)所以（-2*-2）(G<sup>t</sup>G)<sup>-1</sup>=4(G<sup>t</sup>G)<sup>-1</sup>。</p>
 <h3 id="nlme-1">NLME</h3>
 <p>Phoenix拥有一个以F开头的第三种标准误计算方法“Fisher Score（费雪评分）”，我不知道该方法具体指的怎样的计算方法，但猜测可能是采用费雪信息矩阵计算，但暂且也归类到基于梯度矩阵计算的方法中。</p>
 <blockquote>
@@ -170,10 +143,10 @@ code.has-jax {
 <p><a href="https://support.certara.com/forums/topic/1350-what-does-fisher-score-mean/">https://support.certara.com/forums/topic/1350-what-does-fisher-score-mean/</a></p>
 <p>Certara官方回复说“Fisher Score（费雪评分）”是指与NONMEM一样的基于S矩阵的算法。</p>
 </blockquote>
-<h2 id="4基于三明治矩阵计算hsup-1supgsuptsupghsup-1sup">4.基于三明治矩阵计算，H<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->G<!-- raw HTML omitted -->t<!-- raw HTML omitted -->GH<!-- raw HTML omitted -->-1<!-- raw HTML omitted --></h2>
+<h2 id="4基于三明治矩阵计算hsup-1supgsuptsupghsup-1sup">4.基于三明治矩阵计算，H<sup>-1</sup>G<sup>t</sup>GH<sup>-1</sup></h2>
 <h3 id="nonmem-2">NONMEM</h3>
-<p>在默认设定下，NONMEM计算的方差-协方差矩阵是 R<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->SR<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->（被形象的称为三明治矩阵）。在偏离正态分布假设的情况下，三明治矩阵更鲁棒（robust,健壮）更能反映真实的方差-协方差矩阵，这也是它被设定为NONMEM默认输出的原因。在$COV模块下，也提供了其他方差-协方差矩阵的计算方法。</p>
-<p>参考资料中估计的是LL（Log likelihood ），NONMEM估计的是-2LL（-2Log likelihood ），所以（(-2)(4<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->)(-2)）H<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->G<!-- raw HTML omitted -->t<!-- raw HTML omitted -->GH<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->=H<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->G<!-- raw HTML omitted -->t<!-- raw HTML omitted -->GH<!-- raw HTML omitted -->-1<!-- raw HTML omitted -->。</p>
+<p>在默认设定下，NONMEM计算的方差-协方差矩阵是 R<sup>-1</sup>SR<sup>-1</sup>（被形象的称为三明治矩阵）。在偏离正态分布假设的情况下，三明治矩阵更鲁棒（robust,健壮）更能反映真实的方差-协方差矩阵，这也是它被设定为NONMEM默认输出的原因。在$COV模块下，也提供了其他方差-协方差矩阵的计算方法。</p>
+<p>参考资料中估计的是LL（Log likelihood ），NONMEM估计的是-2LL（-2Log likelihood ），所以（(-2)(4<sup>-1</sup>)(-2)）H<sup>-1</sup>G<sup>t</sup>GH<sup>-1</sup>=H<sup>-1</sup>G<sup>t</sup>GH<sup>-1</sup>。</p>
 <h3 id="nlme-2">NLME</h3>
 <p>Phoenix8.2默认情况下也是采用Sandwich算法。</p>
 <h2 id="参考资料">参考资料：</h2>
@@ -224,50 +197,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
-<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

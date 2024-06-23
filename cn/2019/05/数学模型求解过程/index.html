@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>数学模型求解过程 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="数学模型求解过程 - Yongchao Fu | 付永超">
@@ -62,9 +39,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
 
@@ -141,7 +115,6 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="如何估计模型中的参数">如何估计模型中的参数</h1>
 <h3 id="模型估计参数的前提条件">模型估计参数的前提条件：</h3>
 <ul>
@@ -155,23 +128,23 @@ code.has-jax {
 <h3 id="估计参数的工作的过程是">估计参数的工作的过程是：</h3>
 <pre><code>1.  猜测一组参数值
 
-    -   初值
+	-   初值
 
 2.  使用这组参数和自变量，预测因变量的值
 
-    -   使用ODE求解器计算（矩阵指数法，刚性，非刚性求解器）
+	-   使用ODE求解器计算（矩阵指数法，刚性，非刚性求解器）
 
 3.  评估因变量预测值和观测值的接近程度
 
-    -   最小二乘法（残差值），最大似然法（似然函数的值）
+	-   最小二乘法（残差值），最大似然法（似然函数的值）
 
 4.  猜测一组将接近观测值的新参数值
 
-    -   Newton’s Method; Nelder-Mead Simplex Method;
+	-   Newton’s Method; Nelder-Mead Simplex Method;
 
 5.  回到步骤2，或者如果我们“足够近(close enough)”则完成
 
-    -   Convergence criterion，收敛准则
+	-   Convergence criterion，收敛准则
 </code></pre>
 <p><img src="/images/20190530/shiyitu.png" alt="示意图"></p>
 <h4 id="参数初值">参数初值</h4>
@@ -222,9 +195,9 @@ code.has-jax {
             Model用于刚性/非刚性常微分方程的求解器
 
             -   在刚性的情况下，它将雅可比矩阵df/dy视为密集（完整）或带状矩阵，
-            并且可以是用户提供的，也可以用差异商在内部近似。它在非刚性情况下使
-            用Adams方法（预测校正器），在刚性情况下使用后向分化公式（BDF）方法
-            （Gear方法）。产生的线性系统通过直接方法（LU因子/求解）求解。
+			并且可以是用户提供的，也可以用差异商在内部近似。它在非刚性情况下使
+			用Adams方法（预测校正器），在刚性情况下使用后向分化公式（BDF）方法
+			（Gear方法）。产生的线性系统通过直接方法（LU因子/求解）求解。
 </code></pre>
 <h4 id="预测值">预测值</h4>
 <pre><code>预测值就是因变量的预测值，没啥好说的
@@ -258,31 +231,31 @@ code.has-jax {
 
 -   搜索法
 
-    -   网格搜索
+	-   网格搜索
 
-    -   改良单纯形
+	-   改良单纯形
 
 -   数值解析法
 
-    -   高斯牛顿
+	-   高斯牛顿
 
-        -   Hartley改良
+		-   Hartley改良
 
-        -   Levenberg and Hartley改良（猜测是阻尼牛顿）
+		-   Levenberg and Hartley改良（猜测是阻尼牛顿）
 
-    -   拟牛顿
+	-   拟牛顿
 
-        -   DFP
+		-   DFP
 
-        -   BFGS改良（Phoenix Model使用的方法）
+		-   BFGS改良（Phoenix Model使用的方法）
 
-    -   退火法
+	-   退火法
 
-    -   遗传算法
+	-   遗传算法
 
 -   采样法
 
-    -   马尔可夫链蒙特卡罗
+	-   马尔可夫链蒙特卡罗
 </code></pre>
 <h4 id="退出迭代的条件">退出迭代的条件</h4>
 <pre><code>退出迭代的条件因软件而已，大致有下以下几种：
@@ -447,26 +420,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
@@ -489,23 +442,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

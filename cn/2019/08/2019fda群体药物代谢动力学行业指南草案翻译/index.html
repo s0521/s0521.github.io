@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>2019FDA群体药物代谢动力学行业指南草案翻译 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="2019FDA群体药物代谢动力学行业指南草案翻译 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ Guidance for Industry》指南草案的中文翻译，采用机翻与人工翻�
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -132,7 +106,6 @@ Guidance for Industry》指南草案的中文翻译，采用机翻与人工翻�
 
 
       </header>
-
 
 
 <p>**译者注：**本文是对美国FDA于2019年7月发布的《Population Pharmacokinetics</p>
@@ -444,7 +417,7 @@ Guidance for Industry》指南草案的中文翻译，采用机翻与人工翻�
 </tr>
 <tr>
 <td><strong>DV</strong></td>
-<td><strong>因变量</strong>**(****观测值****)**</td>
+<td><strong>因变量</strong>**(<strong><strong>观测值</strong></strong>)**</td>
 <td>Dependent variable (e.g., drug plasma concentrations)</td>
 <td>因变量（例如，药物血浆浓度）</td>
 </tr>
@@ -474,13 +447,13 @@ Guidance for Industry》指南草案的中文翻译，采用机翻与人工翻�
 </tr>
 <tr>
 <td><strong>Model evaluation</strong></td>
-<td><strong>模型评估</strong>**/****验证**</td>
+<td><strong>模型评估</strong>**/**<strong>验证</strong></td>
 <td>The use of various methods to evaluate model performance</td>
 <td>使用各种方法来评估模型性能</td>
 </tr>
 <tr>
 <td><strong>Model qualification</strong></td>
-<td><strong>模型评估</strong>**/****验证**</td>
+<td><strong>模型评估</strong>**/**<strong>验证</strong></td>
 <td>The use of various methods to evaluate model performance for a   specific purpose</td>
 <td>使用各种方法来评估特定目的的模型性能</td>
 </tr>
@@ -686,48 +659,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>中国CDE_2020年_群体药代动力学研究技术指导原则 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="中国CDE_2020年_群体药代动力学研究技术指导原则 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -134,7 +108,6 @@ code.has-jax {
       </header>
 
 
-
 <p><strong>前言：</strong></p>
 <p>在2020年的最后一天，中国CDE(Center for Drug Evaluation, 药品审评中心)发布了国内首份“群体药代动力学”指南。比较有趣的是，2019年美国FDA更早的发布了《群体药物代谢动力学行业指南》草案，但至今还在修订中，可以在此处找到该“指南草案”的<a href="/cn/2019/08/2019fda%E7%BE%A4%E4%BD%93%E8%8D%AF%E7%89%A9%E4%BB%A3%E8%B0%A2%E5%8A%A8%E5%8A%9B%E5%AD%A6%E8%A1%8C%E4%B8%9A%E6%8C%87%E5%8D%97%E8%8D%89%E6%A1%88%E7%BF%BB%E8%AF%91/">中文翻译版</a> 。为使更多更广泛的科研工作者可以了解“群体药代动力学”这门学科，促进发展，我将新发布的群体指南文字搬运至了我的博客上，并对参考文献的英文名称做了些翻译，以使内容更容易传播。</p>
 <p><strong>正文：</strong></p>
@@ -168,7 +141,7 @@ code.has-jax {
 <p>附录2.中英文术语对照表</p>
 <p>参考文献</p>
 <p><strong>自动生成的目录</strong></p>
-<!-- raw HTML omitted -->
+<!---toc--->
 <h1 id="一概述">一、概述</h1>
 <p>药物在人体内的药代动力学（Pharmacokinetics, PK）行为普遍存在个体间变异。这种变异可由内在因素和外在因素导致，当其具有临床意义时，需要根据患者个体情况调整给药方案。因此，合理、定量分析内在因素和外在因素对药物暴露等体内PK行为的影响，是药物临床研究的重要部分。通常有两种PK分析方法，一种为标准两步法（Standard Two Stage），首先获得个体PK参数，之后采用统计学方法考察这些参数的统计学特征及其与潜在因素的相关性；另一种为群体PK分析（Population Pharmacokinetics Analysis），当前主要采用非线性混合效应模型方法（Nonlinear Mixed-effects Modeling Approach），在获得PK参数群体典型值的同时，可识别并量化影响群体PK参数的协变量因素。相较于标准两步法，群体PK分析可有效整合多个临床研究数据，在表述药物体内PK行为的同时，获取PK参数的群体典型值及其变异，并诠释和量化药物在个体间PK差异的影响因素和随机效应等，是目前应用广泛的定量分析方法。</p>
 <p>通常通过独立的临床药理学研究对可能影响药物暴露的内在因素和外在因素进行考察。合理设计、良好实施的独立临床研究，可为考察内在因素和外在因素的影响提供较为可靠的评估。但独立临床研究通常通过事先判断和设计对最有可能影响药物暴露的内外因素进行评估，可能造成一些潜在影响因素的遗漏，采用群体PK分析方法可在一定程度上予以补充。相较于独立临床研究，群体PK分析可整合临床研究各阶段中健康受试者和患者在不同剂量下单次和多次给药后密集和稀疏采集的PK相关信息，有助于研究未在独立临床研究中考察过的其他影响药物暴露的潜在因素。群体PK分析中纳入了相对较大样本量受试者的PK信息，可提高影响药物暴露的协变量参数估算的可靠性，也有助于识别、确认对药物暴露影响较小的内外因素。</p>
@@ -585,48 +558,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

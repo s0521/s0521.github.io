@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>制药行业关于R的开源项目和参与组织 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="制药行业关于R的开源项目和参与组织 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -134,7 +108,6 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="前言">前言：</h1>
 <h2 id="制药行业">制药行业</h2>
 <p>广义的制药行业包括早期的信号通路发现、基因测序与分析、分子对接、分子合成、生产放大、制剂，体外理化试验，体外ADMET试验，体内试验的PK、PD、TOX试验，转化医学，医学写作，临床试验设计，临床试验实施，临床试验监察，药物警戒，临床试验数据统计，临床试验数据分析，药物经济学，药品营销，上市后监测，依从性与个体化用药。</p>
@@ -148,7 +121,111 @@ code.has-jax {
 基于上述的基本能力，R使用者衍生出了一系列的添加包，使得R进一步的被广泛的传播与应用。</p>
 <h2 id="此文目的">此文目的：</h2>
 <p>我想记录下当前我所观察到的关于R语言在工业界的开源项目，便于以后翻找，也便于读者以我的视角了解当前R语言在制药行业的应用。</p>
-<!-- raw HTML omitted -->
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言：</a>
+      <ul>
+        <li><a href="#制药行业">制药行业</a></li>
+        <li><a href="#r程序语言">R程序语言</a></li>
+        <li><a href="#r所拥有的基本的功能">R所拥有的基本的功能：</a></li>
+        <li><a href="#此文目的">此文目的：</a></li>
+      </ul>
+    </li>
+    <li><a href="#参与r语言社区贡献的组织">参与R语言社区贡献的组织</a>
+      <ul>
+        <li><a href="#1r语言在制药行业会议组织">1.“R语言在制药行业”会议组织</a>
+          <ul>
+            <li><a href="#英文名称">英文名称：</a></li>
+            <li><a href="#中文名称">中文名称：</a></li>
+            <li><a href="#网址">网址：</a></li>
+            <li><a href="#组织自述">组织自述：</a></li>
+            <li><a href="#笔者概述">笔者概述：</a></li>
+            <li><a href="#主要成果">主要成果：</a></li>
+            <li><a href="#笔者点评">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#2诺华生物医学研究所开源清单">2.诺华生物医学研究所开源清单</a>
+          <ul>
+            <li><a href="#英文名称-1">英文名称：</a></li>
+            <li><a href="#中文名称-1">中文名称：</a></li>
+            <li><a href="#网址-1">网址：</a></li>
+            <li><a href="#组织自述-1">组织自述：</a></li>
+            <li><a href="#笔者概述-1">笔者概述：</a></li>
+            <li><a href="#主要内容">主要内容：</a></li>
+            <li><a href="#笔者点评-1">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#3默沙东的开源清单">3.默沙东的开源清单</a>
+          <ul>
+            <li><a href="#英文名称-2">英文名称：</a></li>
+            <li><a href="#中文名称-2">中文名称：</a></li>
+            <li><a href="#网址-2">网址：</a></li>
+            <li><a href="#组织自述-2">组织自述：</a></li>
+            <li><a href="#笔者概述-2">笔者概述：</a></li>
+            <li><a href="#主要内容-1">主要内容：</a></li>
+            <li><a href="#笔者点评-2">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#4辉瑞研发的开源清单">4.辉瑞研发的开源清单</a>
+          <ul>
+            <li><a href="#英文名称-3">英文名称：</a></li>
+            <li><a href="#中文名称-3">中文名称：</a></li>
+            <li><a href="#网址-3">网址：</a></li>
+            <li><a href="#组织自述-3">组织自述：</a></li>
+            <li><a href="#笔者概述-3">笔者概述：</a></li>
+            <li><a href="#主要内容-2">主要内容：</a></li>
+            <li><a href="#笔者点评-3">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#5罗氏开源项目清单">5.罗氏开源项目清单</a>
+          <ul>
+            <li><a href="#英文名称-4">英文名称：</a></li>
+            <li><a href="#中文名称-4">中文名称：</a></li>
+            <li><a href="#网址-4">网址：</a></li>
+            <li><a href="#组织自述-4">组织自述：</a></li>
+            <li><a href="#笔者概述-4">笔者概述：</a></li>
+            <li><a href="#主要内容-3">主要内容：</a></li>
+            <li><a href="#笔者点评-4">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#6atorus-research开源清单">6.Atorus Research开源清单</a>
+          <ul>
+            <li><a href="#英文名称-5">英文名称：</a></li>
+            <li><a href="#中文名称-5">中文名称：</a></li>
+            <li><a href="#网址-5">网址：</a></li>
+            <li><a href="#组织自述-5">组织自述：</a></li>
+            <li><a href="#笔者概述-5">笔者概述：</a></li>
+            <li><a href="#主要内容-4">主要内容：</a></li>
+            <li><a href="#笔者点评-5">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#7metrum-research-group开源项目清单">7.Metrum Research Group开源项目清单</a>
+          <ul>
+            <li><a href="#英文名称-6">英文名称：</a></li>
+            <li><a href="#中文名称-6">中文名称：</a></li>
+            <li><a href="#网址-6">网址：</a></li>
+            <li><a href="#组织自述-6">组织自述：</a></li>
+            <li><a href="#笔者概述-6">笔者概述：</a></li>
+            <li><a href="#主要内容-5">主要内容：</a></li>
+            <li><a href="#笔者点评-6">笔者点评：</a></li>
+          </ul>
+        </li>
+        <li><a href="#8瑞典乌普萨拉大学开源项目清单">8.瑞典乌普萨拉大学开源项目清单</a>
+          <ul>
+            <li><a href="#英文名称-7">英文名称：</a></li>
+            <li><a href="#中文名称-7">中文名称：</a></li>
+            <li><a href="#网址-7">网址：</a></li>
+            <li><a href="#组织自述-7">组织自述：</a></li>
+            <li><a href="#笔者概述-7">笔者概述：</a></li>
+            <li><a href="#主要内容-6">主要内容：</a></li>
+            <li><a href="#笔者点评-7">笔者点评：</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#后记">后记</a></li>
+  </ul>
+</nav>
 <h1 id="参与r语言社区贡献的组织">参与R语言社区贡献的组织</h1>
 <h2 id="1r语言在制药行业会议组织">1.“R语言在制药行业”会议组织</h2>
 <h3 id="英文名称">英文名称：</h3>
@@ -320,48 +397,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

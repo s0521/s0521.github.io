@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>使用非线性混合效应模型做BE数据分析 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="使用非线性混合效应模型做BE数据分析 - Yongchao Fu | 付永超">
@@ -50,17 +27,14 @@ code.has-jax {
 
     
       
-      <meta property="description" content="BE数据分析使用的是&amp;quot;线性混合效应模型&amp;rdquo;，Pop PK使用的是&amp;quot;非线性混合效应模型&amp;rdquo;，显然&amp;quot;线性混合效应模型&amp;quot;和&amp;quot;非线性混合效应模型&amp;quot;是由关系的，且&amp;quot;非线性混合效应模型&amp;quot;似乎应比&amp;quot;线性混合效应模型&amp;quot;更灵活，那可否使用&amp;quot;非线性混合效应模型&amp;quot;对常见的BE数据进 &amp;hellip;">
-      <meta property="og:description" content="BE数据分析使用的是&amp;quot;线性混合效应模型&amp;rdquo;，Pop PK使用的是&amp;quot;非线性混合效应模型&amp;rdquo;，显然&amp;quot;线性混合效应模型&amp;quot;和&amp;quot;非线性混合效应模型&amp;quot;是由关系的，且&amp;quot;非线性混合效应模型&amp;quot;似乎应比&amp;quot;线性混合效应模型&amp;quot;更灵活，那可否使用&amp;quot;非线性混合效应模型&amp;quot;对常见的BE数据进 &amp;hellip;">
+      <meta property="description" content="BE数据分析使用的是&amp;quot;线性混合效应模型&amp;quot;，Pop PK使用的是&amp;quot;非线性混合效应模型&amp;quot;，显然&amp;quot;线性混合效应模型&amp;quot;和&amp;quot;非线性混合效应模型&amp;quot;是由关系的，且&amp;quot;非线性混合效应模型&amp;quot;似乎应比&amp;quot;线性混合效应模型&amp;quot;更灵活，那可否使用&amp;quot;非线性混合效应模型&amp;quot;对常见的BE数据进行分 &amp;hellip;">
+      <meta property="og:description" content="BE数据分析使用的是&amp;quot;线性混合效应模型&amp;quot;，Pop PK使用的是&amp;quot;非线性混合效应模型&amp;quot;，显然&amp;quot;线性混合效应模型&amp;quot;和&amp;quot;非线性混合效应模型&amp;quot;是由关系的，且&amp;quot;非线性混合效应模型&amp;quot;似乎应比&amp;quot;线性混合效应模型&amp;quot;更灵活，那可否使用&amp;quot;非线性混合效应模型&amp;quot;对常见的BE数据进行分 &amp;hellip;">
       
     
 
     
     
 
-    
-
-    
     
 
 
@@ -137,10 +111,59 @@ code.has-jax {
       </header>
 
 
-
-<!-- raw HTML omitted -->
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一前言">一、前言：</a></li>
+    <li><a href="#二摘要">二、摘要：</a></li>
+    <li><a href="#三作者目的">三、作者目的：</a></li>
+    <li><a href="#四正文">四、正文：</a>
+      <ul>
+        <li><a href="#a背景">A、背景：</a>
+          <ul>
+            <li><a href="#相关链接">相关链接：</a></li>
+            <li><a href="#统计学模型">统计学模型：</a></li>
+            <li><a href="#所使用的数据">所使用的数据：</a></li>
+          </ul>
+        </li>
+        <li><a href="#b使用phoenix的bioequivalence操作对象对数据进行分析">B、使用Phoenix的Bioequivalence操作对象对数据进行分析</a>
+          <ul>
+            <li><a href="#固定效应的估计值">固定效应的估计值</a></li>
+            <li><a href="#随机效应方差的估计值">随机效应方差的估计值</a></li>
+          </ul>
+        </li>
+        <li><a href="#c使用spss的线性混合效应模型对数据进行分析reml">C、使用SPSS的&quot;线性混合效应模型&quot;对数据进行分析（REML）</a>
+          <ul>
+            <li><a href="#1导入数据">1.导入数据</a></li>
+            <li><a href="#2计算lnauc">2.计算LN(AUC)</a></li>
+            <li><a href="#3发送至线性混合效应模型分析">3.发送至线性混合效应模型分析</a></li>
+            <li><a href="#4配置线性混合效应模型对象">4.配置“线性混合效应模型”对象</a></li>
+            <li><a href="#5执行">5.执行</a></li>
+            <li><a href="#6结果">6.结果</a></li>
+          </ul>
+        </li>
+        <li><a href="#d使用spss的线性混合效应模型对数据进行分析ml">D、使用SPSS的&quot;线性混合效应模型&quot;对数据进行分析（ML）</a>
+          <ul>
+            <li><a href="#1与上一节设置的差异">1、与上一节设置的差异</a></li>
+            <li><a href="#2结果">2、结果</a></li>
+          </ul>
+        </li>
+        <li><a href="#两种方法差异">两种方法差异：</a></li>
+        <li><a href="#e使用phoenix的phoenix-model对数据进行分析mlfoce-l-b">E、使用Phoenix的&quot;Phoenix Model&quot;对数据进行分析（ML，FOCE L-B）</a>
+          <ul>
+            <li><a href="#1数据准备">1.数据准备</a></li>
+            <li><a href="#2phoenix-model对象的设置">2.Phoenix Model对象的设置</a></li>
+            <li><a href="#3执行模型">3执行模型</a></li>
+            <li><a href="#4模型结果">4模型结果</a></li>
+          </ul>
+        </li>
+        <li><a href="#f结果对比">F、结果对比</a></li>
+        <li><a href="#g以上就是使用phoenix-model实现对22试验设计生物等效性数据分析的过程大家可以帮忙看下上述过程可有疏漏之处">G、以上就是使用Phoenix Model实现对2*2试验设计生物等效性数据分析的过程，大家可以帮忙看下，上述过程可有疏漏之处~</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 <h1 id="一前言">一、前言：</h1>
-<p>BE数据分析使用的是&quot;线性混合效应模型&rdquo;，Pop PK使用的是&quot;非线性混合效应模型&rdquo;，显然&quot;线性混合效应模型&quot;和&quot;非线性混合效应模型&quot;是由关系的，且&quot;非线性混合效应模型&quot;似乎应比&quot;线性混合效应模型&quot;更灵活，那可否使用&quot;非线性混合效应模型&quot;对常见的BE数据进行分析呢？</p>
+<p>BE数据分析使用的是&quot;线性混合效应模型&quot;，Pop PK使用的是&quot;非线性混合效应模型&quot;，显然&quot;线性混合效应模型&quot;和&quot;非线性混合效应模型&quot;是由关系的，且&quot;非线性混合效应模型&quot;似乎应比&quot;线性混合效应模型&quot;更灵活，那可否使用&quot;非线性混合效应模型&quot;对常见的BE数据进行分析呢？</p>
 <p>这个问题一直萦绕在我脑海里，一直在思考怎么实现，这两天有些眉目了，以实现了一些结果，大家一起来欣赏下吧。</p>
 <h1 id="二摘要">二、摘要：</h1>
 <p>实现了使用Phoenix软件钟用于进行“非线性混合效应模型”建模的操作对象“Phoenix Model”对BE数据的分析，不进行最终的假设检验结果，仅在获取统计模型中的个固定效应与随机效应的估计值，获得其中：对2<em>2试验设计的数据分析出的结果与&quot;线性混合效应模型&quot;的最大似然估计结果一致，参数估算值的前5位都是一致的；对于2</em>4试验设计的数据，应用“非线性混合效应模型”无法直接获得对应于&quot;线性混合效应模型&quot;结果中的随机效应的方差值，需要额外的手工进行变换与运算，转换所得结果与线性混合效应模型&quot;的最大似然估计结果一致，但仅参数估算值的前3位都是一致的。对比两种模型的结果，固定效应部分一般估计都是一致的，使用“非线性混合效应模型”对随机效应部分的处理较为麻烦，且由于Phoenix对同一事物的观测仅能包含一个随机误差，导致实现2*4对应的模型困难，需额外进行一些假设与转换。</p>
@@ -173,7 +196,7 @@ code.has-jax {
 <h3 id="4配置线性混合效应模型对象">4.配置“线性混合效应模型”对象</h3>
 <p>4.1指定</p>
 <p>主体：Subject</p>
-<p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image012.jpg" alt="计算机生成了可选文字: 0 线性混台模型：指定主体和重 对于具有无泪关!莫型，请单击续。 对于具有相关白》机敲果的模型，旨定主体变里。 在应门使用相关残余项为型指定重复式里。 Sequence &》Period Formulation 》AUClast 主体（鈔 Subject 重复E 重复协方差类型（0对线 @到@到@心@的"></p>
+<p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image012.jpg" alt="计算机生成了可选文字: 0 线性混台模型：指定主体和重 对于具有无泪关!莫型，请单击续。 对于具有相关白》机敲果的模型，旨定主体变里。 在应门使用相关残余项为型指定重复式里。 Sequence &amp;》Period Formulation 》AUClast 主体（鈔 Subject 重复E 重复协方差类型（0对线 @到@到@心@的"></p>
 <p>4.2指定</p>
 <p>因变量：LNAUC</p>
 <p>因子：Sequence，Period，Formulation</p>
@@ -209,9 +232,9 @@ code.has-jax {
 <h2 id="e使用phoenix的phoenix-model对数据进行分析mlfoce-l-b">E、使用Phoenix的&quot;Phoenix Model&quot;对数据进行分析（ML，FOCE L-B）</h2>
 <h3 id="1数据准备">1.数据准备</h3>
 <p>1.1额外新增一个辅助列</p>
-<p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image030.jpg" alt="计算机生成了可选文字: ；，BEUsePhoeni&rsquo;：Model14〉>Workflow〉>tWizard SetupResultsVerification FinalResuIts 」Result 」Summary Options Remove ExecutePnor MO&rsquo;已《地 MoveDown 1 2 3 4 5 6 7 8 9 10 11 12 S«urence Tabcap TabCap CapTab CapTab CapTab CapTab TabCap TabCap CapTab CapTab TabCap TabCap Subject PHST-OI PHST-OI PHST-02 PHST-02 PHST-03 PHST-03 PHST-04 PHST-04 PHST-05 PHST-05 PHST-06 PHST-06 DestinationArea Formulation 1Tablet 2：Capsule 1Capsule 2：Tablet 1Capsu尾 2Tablet 1Tablet 2Capsule 1Capsu爬 2Tablet 1Tablet 2Capsule FunctionList Name asinh AUClast 087跹55： 0．579635： 09577& 1．03104 1．7131& 2．43867》 1．247》 0．gg4157： L04979： 1．31007 0．78248b 0．6g0144 Descnpton bo 1 1 1 1 囗RetamhtemediateResuRs Custom Transkx•rr*m Cu<omFd01v NewColumn，祀 F“妇 1 Returnstheabsolutevalueoftt Retumstheinversecosinep Calculatestheinverse Calculatestheinversesineofp Calculatestheinverse Calculatestheinversetangent&rsquo;"></p>
+<p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image030.jpg" alt="计算机生成了可选文字: ；，BEUsePhoeni&rsquo;：Model14〉&gt;Workflow〉&gt;tWizard SetupResultsVerification FinalResuIts 」Result 」Summary Options Remove ExecutePnor MO&rsquo;已《地 MoveDown 1 2 3 4 5 6 7 8 9 10 11 12 S«urence Tabcap TabCap CapTab CapTab CapTab CapTab TabCap TabCap CapTab CapTab TabCap TabCap Subject PHST-OI PHST-OI PHST-02 PHST-02 PHST-03 PHST-03 PHST-04 PHST-04 PHST-05 PHST-05 PHST-06 PHST-06 DestinationArea Formulation 1Tablet 2：Capsule 1Capsule 2：Tablet 1Capsu尾 2Tablet 1Tablet 2Capsule 1Capsu爬 2Tablet 1Tablet 2Capsule FunctionList Name asinh AUClast 087跹55： 0．579635： 09577&amp; 1．03104 1．7131&amp; 2．43867》 1．247》 0．gg4157： L04979： 1．31007 0．78248b 0．6g0144 Descnpton bo 1 1 1 1 囗RetamhtemediateResuRs Custom Transkx•rr*m Cu&lt;omFd01v NewColumn，祀 F“妇 1 Returnstheabsolutevalueoftt Retumstheinversecosinep Calculatestheinverse Calculatestheinversesineofp Calculatestheinverse Calculatestheinversetangent&rsquo;"></p>
 <p>1.2计算LNAUC</p>
-<p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image032.jpg" alt="计算机生成了可选文字: SetupResultsVerification FinalResuIts 」Result 」summary Options Ranove ExectnePnor Exect-te& Moveup 1 2 3 4 5 6 7 8 9 10 11 12 S«urence Tabcap TabCap CapTab CapTab CapTab CapTab Tabcap TabCap CapTab CapTab TabCap TabCap Subject PHST-OI PHST-OI PHST-02 PHST-02 PHST-03 PHST-03 PHST-04 PHST-04 PHST-05 PHST-05 PHST-06 PHST-06 DestinationArea Oa Formulation 1Tablet 2：Capsule 1Capsule 2：Tablet 1Capsule 2：Tablet 1Tablet 2Capsule 1Capsu爬 2Tablet 1Tablet 2Capsule AUClast 0871055： 0．579635： 09577& 1．03104 1．7131& 2．43867》 1．247》 0．gg4157： L04979： 1．31007！ 0．78四8 0．6g0144 bo LNAUC ．0、13805015 1： ．0．54535668 1：还．043137172： 1： 0．030568002： 053835129 于 0．89145281 0．22031555 1．0．0058601371 0刀485901 0．27008057 1 ．0．四527925 1 ．37085501 囗RetamhtemediateResuhs Functions Transkx•rr*m LNCx) NewColumn"></p>
+<p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image032.jpg" alt="计算机生成了可选文字: SetupResultsVerification FinalResuIts 」Result 」summary Options Ranove ExectnePnor Exect-te&amp; Moveup 1 2 3 4 5 6 7 8 9 10 11 12 S«urence Tabcap TabCap CapTab CapTab CapTab CapTab Tabcap TabCap CapTab CapTab TabCap TabCap Subject PHST-OI PHST-OI PHST-02 PHST-02 PHST-03 PHST-03 PHST-04 PHST-04 PHST-05 PHST-05 PHST-06 PHST-06 DestinationArea Oa Formulation 1Tablet 2：Capsule 1Capsule 2：Tablet 1Capsule 2：Tablet 1Tablet 2Capsule 1Capsu爬 2Tablet 1Tablet 2Capsule AUClast 0871055： 0．579635： 09577&amp; 1．03104 1．7131&amp; 2．43867》 1．247》 0．gg4157： L04979： 1．31007！ 0．78四8 0．6g0144 bo LNAUC ．0、13805015 1： ．0．54535668 1：还．043137172： 1： 0．030568002： 053835129 于 0．89145281 0．22031555 1．0．0058601371 0刀485901 0．27008057 1 ．0．四527925 1 ．37085501 囗RetamhtemediateResuhs Functions Transkx•rr*m LNCx) NewColumn"></p>
 <p>1.3使用“Enumerate（枚举）”对象将分类变量转换为整数</p>
 <p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/image-20200219092051173.png" alt="image-20200219092051173"></p>
 <p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/clip_image036.jpg" alt="images036"></p>
@@ -251,38 +274,38 @@ code.has-jax {
 <p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/image-20200219092322683.png" alt="image-20200219092322683"></p>
 <p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/image-20200219092326734.png" alt="image-20200219092326734"></p>
 <p>2.7.2当前模型的代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
-<span style="color:#a6e22e">covariate</span>(C)
-E <span style="color:#f92672">=</span> Alpha
-<span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-<span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(C) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
-<span style="color:#a6e22e">stparm</span>(Alpha <span style="color:#f92672">=</span> tvAlpha <span style="color:#f92672">+</span> (Formulationcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadFormulationcode1 <span style="color:#f92672">+</span> (Periodcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadPeriodcode1 <span style="color:#f92672">+</span> nAlphax0<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> nAlphax1<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>))
-<span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Formulationcode</span>())
-<span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Periodcode</span>())
-<span style="color:#a6e22e">fcovariate</span>(Sequencecode)
-<span style="color:#a6e22e">fixef</span>(tvAlpha <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
-<span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadFormulationcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
-<span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadPeriodcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
-<span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nAlphax0) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">same</span>(nAlphax1))
-}
-</code></pre></div><p>2.7.2模型代码修改</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">covariate</span>(C)
+</span></span><span style="display:flex;"><span>E <span style="color:#f92672">=</span> Alpha
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(C) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Alpha <span style="color:#f92672">=</span> tvAlpha <span style="color:#f92672">+</span> (Formulationcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadFormulationcode1 <span style="color:#f92672">+</span> (Periodcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadPeriodcode1 <span style="color:#f92672">+</span> nAlphax0<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> nAlphax1<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Formulationcode</span>())
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Periodcode</span>())
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(Sequencecode)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvAlpha <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadFormulationcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadPeriodcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nAlphax0) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">same</span>(nAlphax1))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>2.7.2模型代码修改</p>
 <p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/image-20200219092356797.png" alt="image-20200219092356797"></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
-<span style="color:#a6e22e">covariate</span>(C)
-E <span style="color:#f92672">=</span> Alpha
-<span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-<span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(C) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
-<span style="color:#a6e22e">stparm</span>(Alpha <span style="color:#f92672">=</span> tvAlpha <span style="color:#f92672">+</span> (Formulationcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadFormulationcode1 <span style="color:#f92672">+</span> (Periodcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadPeriodcode1 <span style="color:#f92672">+</span> nAlphax0<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> nAlphax1<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span> (Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadSequencecode1)
-<span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Formulationcode</span>())
-<span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Periodcode</span>())
-<span style="color:#a6e22e">fcovariate</span>(Sequencecode)
-<span style="color:#a6e22e">fixef</span>(tvAlpha <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
-<span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadFormulationcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
-<span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadPeriodcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
-<span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadSequencecode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
-<span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nAlphax0) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">same</span>(nAlphax1))
-}
-</code></pre></div><p>2.8“Run Options（运行选项）”选项卡的设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">covariate</span>(C)
+</span></span><span style="display:flex;"><span>E <span style="color:#f92672">=</span> Alpha
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(C) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Alpha <span style="color:#f92672">=</span> tvAlpha <span style="color:#f92672">+</span> (Formulationcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadFormulationcode1 <span style="color:#f92672">+</span> (Periodcode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadPeriodcode1 <span style="color:#f92672">+</span> nAlphax0<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> nAlphax1<span style="color:#f92672">*</span>(Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span> (Sequencecode<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>dAlphadSequencecode1)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Formulationcode</span>())
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(<span style="color:#a6e22e">Periodcode</span>())
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(Sequencecode)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvAlpha <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">1</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadFormulationcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadPeriodcode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(<span style="color:#a6e22e">dAlphadSequencecode1</span>(enable<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span>)) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(, <span style="color:#ae81ff">0</span>, ))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nAlphax0) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">same</span>(nAlphax1))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>2.8“Run Options（运行选项）”选项卡的设置</p>
 <p><img src="/images/%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%B7%B7%E5%90%88%E6%95%88%E5%BA%94%E6%A8%A1%E5%9E%8B%E5%81%9ABE%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/image-20200219092527178.png" alt="image-20200219092527178"></p>
 <h3 id="3执行模型">3执行模型</h3>
 <h3 id="4模型结果">4模型结果</h3>
@@ -339,26 +362,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
@@ -381,23 +384,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

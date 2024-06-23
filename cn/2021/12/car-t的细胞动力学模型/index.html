@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>CAR T的细胞动力学模型 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="CAR T的细胞动力学模型 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
 
@@ -139,12 +113,86 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="car-t的细胞动力学模型">CAR-T的细胞动力学模型</h1>
 <h1 id="引言">引言</h1>
 <p>CAR-T细胞是最近的一个研发热点，但对该类产品所对应的细胞动力学模型并不多，但也有相关发表报道的模型，今天选取其中一篇，将其中提到的模型在Phoenix软件中通过“ML Model操作对象(Phoenix Model操作对象)”使用的“PML”语言实现一遍，以供各位同仁方便使用。</p>
 <h1 id="目录">目录</h1>
-<!-- raw HTML omitted -->
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#car-t的细胞动力学模型">CAR-T的细胞动力学模型</a></li>
+    <li><a href="#引言">引言</a></li>
+    <li><a href="#目录">目录</a></li>
+    <li><a href="#文献来源">文献来源</a></li>
+    <li><a href="#模型背景">模型背景</a>
+      <ul>
+        <li><a href="#car-t疗法">CAR-T疗法：</a></li>
+        <li><a href="#描述car-t的难点">描述CAR-T的难点：</a></li>
+        <li><a href="#与传统pk模型的区别">与传统PK模型的区别</a></li>
+      </ul>
+    </li>
+    <li><a href="#文献所提及的模型">文献所提及的模型</a></li>
+    <li><a href="#几个模型之间的演化关系">几个模型之间的演化关系</a>
+      <ul>
+        <li><a href="#总体演化过程">总体演化过程</a></li>
+        <li><a href="#模型1基础模型">模型1：基础模型</a></li>
+        <li><a href="#模型2a一种半机制模型">模型2A：一种半机制模型</a></li>
+        <li><a href="#模型3重新参数化的基础模型">模型3：重新参数化的基础模型</a></li>
+        <li><a href="#模型4最终模型模型3协变量">模型4：最终模型（模型3+协变量）</a></li>
+      </ul>
+    </li>
+    <li><a href="#在phoenix中的实现">在Phoenix中的实现</a></li>
+    <li><a href="#模型1">模型1</a>
+      <ul>
+        <li><a href="#模型的方程">模型的方程：</a></li>
+        <li><a href="#对应的典型曲线">对应的典型曲线：</a></li>
+        <li><a href="#pml代码">PML代码</a>
+          <ul>
+            <li><a href="#其中">其中：</a></li>
+          </ul>
+        </li>
+        <li><a href="#注意事项">注意事项</a></li>
+        <li><a href="#典型曲线图">典型曲线图</a></li>
+        <li><a href="#讨论">讨论，</a></li>
+      </ul>
+    </li>
+    <li><a href="#模型2b">模型2B</a>
+      <ul>
+        <li><a href="#模型方程">模型方程：</a></li>
+        <li><a href="#模型对应的结构示意图">模型对应的结构示意图：</a>
+          <ul>
+            <li><a href="#其中-1">其中：</a></li>
+            <li><a href="#fold_xpcmaxtmax间的关系">Fold_x、p、Cmax、Tmax间的关系：</a></li>
+            <li><a href="#k的推导公式">k的推导公式：</a></li>
+            <li><a href="#从而得到完整的方程">从而得到完整的方程：</a></li>
+          </ul>
+        </li>
+        <li><a href="#pml代码-1">PML代码</a></li>
+        <li><a href="#注意事项-1">注意事项</a></li>
+      </ul>
+    </li>
+    <li><a href="#模型3">模型3</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#模型的方程-1">模型的方程</a></li>
+            <li><a href="#pml代码-2">PML代码</a></li>
+          </ul>
+        </li>
+        <li><a href="#模型4包含协变量的最终模型">模型4：包含协变量的最终模型</a>
+          <ul>
+            <li><a href="#模型的方程-2">模型的方程</a></li>
+            <li><a href="#pml代码-3">PML代码</a></li>
+          </ul>
+        </li>
+        <li><a href="#注意事项-2">注意事项</a></li>
+        <li><a href="#vpc图">VPC图</a></li>
+      </ul>
+    </li>
+    <li><a href="#文献所报道的参数值">文献所报道的参数值：</a></li>
+    <li><a href="#讨论-1">讨论：</a></li>
+    <li><a href="#小结">小结：</a></li>
+  </ul>
+</nav>
 <h1 id="文献来源">文献来源</h1>
 <p>Model-Based Cellular Kinetic Analysis of Chimeric Antigen Receptor-T Cells in Humans（基于模型的人嵌合抗原受体-T细胞的细胞动力学分析）</p>
 <p><a href="https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2040">https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2040</a></p>
@@ -246,36 +294,36 @@ code.has-jax {
 <h2 id="对应的典型曲线">对应的典型曲线：</h2>
 <p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image023.jpg" alt="图表, 折线图  描述已自动生成"></p>
 <h2 id="pml代码">PML代码</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
-     <span style="color:#a6e22e">covariate</span>(tt)
-
-     E<span style="color:#f92672">=</span>(
-          (tt<span style="color:#f92672">&lt;</span>Tmax)<span style="color:#f92672">?</span>
-              Ro<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(p<span style="color:#f92672">*</span>tt)
-          <span style="color:#f92672">:</span>
-              A<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))<span style="color:#f92672">+</span>B<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
-     )
-
-     <span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.66295001310029</span>)
-     <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(tt) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
- 
-<span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax)
-<span style="color:#a6e22e">stparm</span>(Ro<span style="color:#f92672">=</span>tvRo)
-<span style="color:#a6e22e">stparm</span>(p<span style="color:#f92672">=</span>tvp)
-<span style="color:#a6e22e">stparm</span>(A<span style="color:#f92672">=</span>tvA)
-<span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha)
-<span style="color:#a6e22e">stparm</span>(B<span style="color:#f92672">=</span>tvB)
-<span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta)
-
-<span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">19.8649961319143</span>,))
-<span style="color:#a6e22e">fixef</span>(tvRo<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">6.43092405192262</span>,))
-<span style="color:#a6e22e">fixef</span>(tvp<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0421269627420855</span>,))
-<span style="color:#a6e22e">fixef</span>(tvA<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1.73947096587749</span>,))
-<span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.109143920526125</span>,))
-<span style="color:#a6e22e">fixef</span>(tvB<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.05116731581526</span>,))
-<span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.002539845458873</span>,))
-}
-</code></pre></div><h3 id="其中">其中：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">covariate</span>(tt)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     E<span style="color:#f92672">=</span>(
+</span></span><span style="display:flex;"><span>          (tt<span style="color:#f92672">&lt;</span>Tmax)<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>              Ro<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(p<span style="color:#f92672">*</span>tt)
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>              A<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))<span style="color:#f92672">+</span>B<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
+</span></span><span style="display:flex;"><span>     )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.66295001310029</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(tt) <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Ro<span style="color:#f92672">=</span>tvRo)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(p<span style="color:#f92672">=</span>tvp)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(A<span style="color:#f92672">=</span>tvA)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(B<span style="color:#f92672">=</span>tvB)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">19.8649961319143</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvRo<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">6.43092405192262</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvp<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0421269627420855</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvA<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1.73947096587749</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.109143920526125</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvB<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.05116731581526</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.002539845458873</span>,))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="其中">其中：</h3>
 <ul>
 <li>
 <p>F(t)，随时间变化的细胞在体内的数量</p>
@@ -373,142 +421,142 @@ code.has-jax {
 <h3 id="从而得到完整的方程">从而得到完整的方程：</h3>
 <p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image046.png" alt="img"></p>
 <h2 id="pml代码-1">PML代码</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
-<span style="color:#a6e22e">deriv</span>(E<span style="color:#f92672">=</span>t<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>p<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span>E<span style="color:#f92672">:-</span>Alpha<span style="color:#f92672">*</span>E)
-<span style="color:#a6e22e">deriv</span>(M<span style="color:#f92672">=</span>t<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>k<span style="color:#f92672">*</span>E<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>M)
- 
-p<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
-k<span style="color:#f92672">=</span>F_b<span style="color:#f92672">*</span>(Alpha<span style="color:#f92672">-</span>Beta)
-
-sequence{
-     E<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span>fold_x;
-<span style="color:#a6e22e">sleep</span>(Tmax);
-     E<span style="color:#f92672">=</span>Cmax
-     M<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
-}
-
-<span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-<span style="color:#a6e22e">observe</span>(EObs <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
-
-<span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
-<span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
-<span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
-<span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
-<span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
-<span style="color:#a6e22e">stparm</span>(F_b<span style="color:#f92672">=</span>tvF_b<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nF_b))
-
-<span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
-<span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
-<span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
-<span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
-<span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
-<span style="color:#a6e22e">fixef</span>(tvF_b<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
-
-<span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>))
-}
-</code></pre></div><h2 id="注意事项-1">注意事项</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">deriv</span>(E<span style="color:#f92672">=</span>t<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>p<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span>E<span style="color:#f92672">:-</span>Alpha<span style="color:#f92672">*</span>E)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">deriv</span>(M<span style="color:#f92672">=</span>t<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>k<span style="color:#f92672">*</span>E<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>M)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
+</span></span><span style="display:flex;"><span>k<span style="color:#f92672">=</span>F_b<span style="color:#f92672">*</span>(Alpha<span style="color:#f92672">-</span>Beta)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sequence{
+</span></span><span style="display:flex;"><span>     E<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span>fold_x;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sleep</span>(Tmax);
+</span></span><span style="display:flex;"><span>     E<span style="color:#f92672">=</span>Cmax
+</span></span><span style="display:flex;"><span>     M<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">observe</span>(EObs <span style="color:#f92672">=</span> E <span style="color:#f92672">+</span> EEps)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(F_b<span style="color:#f92672">=</span>tvF_b<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nF_b))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvF_b<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="注意事项-1">注意事项</h2>
 <p>文献未报告参数估计值</p>
 <h1 id="模型3">模型3</h1>
 <p>模型3是在模型1的基础上，利用模型2对原有的参数进行重新参数化后得到的。</p>
 <h3 id="模型的方程-1">模型的方程</h3>
 <p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image048.png" alt="img"></p>
 <h3 id="pml代码-2">PML代码</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
-     <span style="color:#a6e22e">covariate</span>(tt)
-     
-     rho<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
-
-     Ro<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>Tmax)
-     AA<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>FB)<span style="color:#f92672">*</span>Cmax
-
-     BB<span style="color:#f92672">=</span>FB<span style="color:#f92672">*</span>Cmax
-
-     E<span style="color:#f92672">=</span>
-     tt<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
-          Ro<span style="color:#f92672">:</span>
-     tt<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>
-          Ro<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>tt)<span style="color:#f92672">:</span>
-     AA<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))<span style="color:#f92672">+</span>BB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
-
-     logE<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(E)
-
-     <span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.56</span>)
-     <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(tt)<span style="color:#f92672">=</span>logE<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>EEps))
-
-     <span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
-     <span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
-     <span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
-     <span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
-     <span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
-     <span style="color:#a6e22e">stparm</span>(FB<span style="color:#f92672">=</span>tvFB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nFB))
-
-     <span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
-     <span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
-     <span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
-     <span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
-     <span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
-     <span style="color:#a6e22e">fixef</span>(tvFB<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
-
-     <span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nFB)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.38</span>,<span style="color:#ae81ff">0.65</span>,<span style="color:#ae81ff">2.4</span>,<span style="color:#ae81ff">0.91</span>,<span style="color:#ae81ff">0.86</span>,<span style="color:#ae81ff">0.8</span>))
-}
-</code></pre></div><h2 id="模型4包含协变量的最终模型">模型4：包含协变量的最终模型</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">covariate</span>(tt)
+</span></span><span style="display:flex;"><span>     
+</span></span><span style="display:flex;"><span>     rho<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     Ro<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>Tmax)
+</span></span><span style="display:flex;"><span>     AA<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>FB)<span style="color:#f92672">*</span>Cmax
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     BB<span style="color:#f92672">=</span>FB<span style="color:#f92672">*</span>Cmax
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     E<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>     tt<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>          Ro<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>     tt<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>          Ro<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>tt)<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>     AA<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))<span style="color:#f92672">+</span>BB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>Beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     logE<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(E)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">error</span>(EEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.56</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">EObs</span>(tt)<span style="color:#f92672">=</span>logE<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>EEps))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">stparm</span>(Alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">stparm</span>(Beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">stparm</span>(FB<span style="color:#f92672">=</span>tvFB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nFB))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">fixef</span>(tvFB<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nFB)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.38</span>,<span style="color:#ae81ff">0.65</span>,<span style="color:#ae81ff">2.4</span>,<span style="color:#ae81ff">0.91</span>,<span style="color:#ae81ff">0.86</span>,<span style="color:#ae81ff">0.8</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="模型4包含协变量的最终模型">模型4：包含协变量的最终模型</h2>
 <h3 id="模型的方程-2">模型的方程</h3>
 <p><img src="/images/CAR-T%E7%9A%84%E7%BB%86%E8%83%9E%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/clip_image050.png" alt="img"></p>
 <h3 id="pml代码-3">PML代码</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">test</span>(){
-
-<span style="color:#a6e22e">covariate</span>(tt)
-<span style="color:#a6e22e">fcovariate</span>(TOCI1T)
-<span style="color:#a6e22e">fcovariate</span>(STERSTT)
-
-t1_TOC_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(TOCI1T,Tmax)
-t1_STE_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(STERSTT,Tmax)
-t2_TOC_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(TOCI1T,Tmax)
-t2_STE_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(STERSTT,Tmax)
-t1<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>t1_TOC_OR_Tmax<span style="color:#f92672">:</span>t1_STE_OR_Tmax
-t2<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>t2_STE_OR_Tmax<span style="color:#f92672">:</span>t2_TOC_OR_Tmax
-
-F1<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>Ftoci<span style="color:#f92672">:</span>Fster
-F2<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>Fster<span style="color:#f92672">:</span>Ftoci
-
-rho<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
-R0<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>Tmax)
-R1<span style="color:#f92672">=</span>R0<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>t1)
-R2<span style="color:#f92672">=</span>R1<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(t2<span style="color:#f92672">-</span>t1))
-CmaxAdjust<span style="color:#f92672">=</span>R2<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>F2<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>Tmax<span style="color:#f92672">-</span>t2)
-
-AA<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>FB)<span style="color:#f92672">*</span>CmaxAdjust
-BB<span style="color:#f92672">=</span>FB<span style="color:#f92672">*</span>CmaxAdjust
-
-E<span style="color:#f92672">=</span>tt<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>R0<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>t1<span style="color:#f92672">?</span>R0<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>tt)<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>t2<span style="color:#f92672">?</span>R1<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>t1))<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>R2<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>F2<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>t2))<span style="color:#f92672">:</span>AA<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax)) <span style="color:#f92672">+</span> BB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
-
-    \<span style="color:#75715e">#observe(Eobs(tt)=log(E)+CEps)</span>
-
-<span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">Eobs</span>(tt)<span style="color:#f92672">=</span>E<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(CEps))
-
-<span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.56</span>)
-
-<span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
-<span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
-<span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
-<span style="color:#a6e22e">stparm</span>(alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
-<span style="color:#a6e22e">stparm</span>(beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
-<span style="color:#a6e22e">stparm</span>(FB<span style="color:#f92672">=</span>tvF_b<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nF_b))
-<span style="color:#a6e22e">stparm</span>(Ftoci<span style="color:#f92672">=</span>tvFtoci)
-<span style="color:#a6e22e">stparm</span>(Fster<span style="color:#f92672">=</span>tvFster)
-
-<span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
-<span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
-<span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
-<span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
-<span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
-<span style="color:#a6e22e">fixef</span>(tvF_b<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
-<span style="color:#a6e22e">fixef</span>(tvFtoci<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1.2</span>,))
-<span style="color:#a6e22e">fixef</span>(tvFster<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1</span>,))
-
-<span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.38</span>,<span style="color:#ae81ff">0.65</span>,<span style="color:#ae81ff">2.4</span>,<span style="color:#ae81ff">0.91</span>,<span style="color:#ae81ff">0.86</span>,<span style="color:#ae81ff">0.8</span>))
-}
-</code></pre></div><h2 id="注意事项-2">注意事项</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">covariate</span>(tt)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(TOCI1T)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fcovariate</span>(STERSTT)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t1_TOC_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(TOCI1T,Tmax)
+</span></span><span style="display:flex;"><span>t1_STE_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(STERSTT,Tmax)
+</span></span><span style="display:flex;"><span>t2_TOC_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(TOCI1T,Tmax)
+</span></span><span style="display:flex;"><span>t2_STE_OR_Tmax<span style="color:#f92672">=</span><span style="color:#a6e22e">min</span>(STERSTT,Tmax)
+</span></span><span style="display:flex;"><span>t1<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>t1_TOC_OR_Tmax<span style="color:#f92672">:</span>t1_STE_OR_Tmax
+</span></span><span style="display:flex;"><span>t2<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>t2_STE_OR_Tmax<span style="color:#f92672">:</span>t2_TOC_OR_Tmax
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>F1<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>Ftoci<span style="color:#f92672">:</span>Fster
+</span></span><span style="display:flex;"><span>F2<span style="color:#f92672">=</span>TOCI1T<span style="color:#f92672">&lt;=</span>STERSTT<span style="color:#f92672">?</span>Fster<span style="color:#f92672">:</span>Ftoci
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rho<span style="color:#f92672">=</span><span style="color:#a6e22e">log</span>(fold_x)<span style="color:#f92672">/</span>Tmax
+</span></span><span style="display:flex;"><span>R0<span style="color:#f92672">=</span>Cmax<span style="color:#f92672">/</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>Tmax)
+</span></span><span style="display:flex;"><span>R1<span style="color:#f92672">=</span>R0<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>t1)
+</span></span><span style="display:flex;"><span>R2<span style="color:#f92672">=</span>R1<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(t2<span style="color:#f92672">-</span>t1))
+</span></span><span style="display:flex;"><span>CmaxAdjust<span style="color:#f92672">=</span>R2<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>F2<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>Tmax<span style="color:#f92672">-</span>t2)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AA<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>FB)<span style="color:#f92672">*</span>CmaxAdjust
+</span></span><span style="display:flex;"><span>BB<span style="color:#f92672">=</span>FB<span style="color:#f92672">*</span>CmaxAdjust
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>E<span style="color:#f92672">=</span>tt<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>R0<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>t1<span style="color:#f92672">?</span>R0<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(rho<span style="color:#f92672">*</span>tt)<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>t2<span style="color:#f92672">?</span>R1<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>t1))<span style="color:#f92672">:</span>tt<span style="color:#f92672">&lt;</span>Tmax<span style="color:#f92672">?</span>R2<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(F1<span style="color:#f92672">*</span>F2<span style="color:#f92672">*</span>rho<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>t2))<span style="color:#f92672">:</span>AA<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>alpha<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax)) <span style="color:#f92672">+</span> BB<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(<span style="color:#f92672">-</span>beta<span style="color:#f92672">*</span>(tt<span style="color:#f92672">-</span>Tmax))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    \<span style="color:#75715e">#observe(Eobs(tt)=log(E)+CEps)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">Eobs</span>(tt)<span style="color:#f92672">=</span>E<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(CEps))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error</span>(CEps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.56</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Tmax<span style="color:#f92672">=</span>tvTmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nTmax))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Cmax<span style="color:#f92672">=</span>tvCmax<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nCmax))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(fold_x<span style="color:#f92672">=</span>tvfold_x<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nfold_x))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(alpha<span style="color:#f92672">=</span>tvAlpha<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nAlpha))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(beta<span style="color:#f92672">=</span>tvBeta<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nBeta))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(FB<span style="color:#f92672">=</span>tvF_b<span style="color:#f92672">*</span><span style="color:#a6e22e">exp</span>(nF_b))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Ftoci<span style="color:#f92672">=</span>tvFtoci)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stparm</span>(Fster<span style="color:#f92672">=</span>tvFster)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvTmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">9.3</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvCmax<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">24000</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvfold_x<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">3900</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvAlpha<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.16</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvBeta<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0032</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvF_b<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">0.0079</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvFtoci<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1.2</span>,))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fixef</span>(tvFster<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(,<span style="color:#ae81ff">1</span>,))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ranef</span>(<span style="color:#a6e22e">diag</span>(nTmax,nCmax,nfold_x,nAlpha,nBeta,nF_b)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.38</span>,<span style="color:#ae81ff">0.65</span>,<span style="color:#ae81ff">2.4</span>,<span style="color:#ae81ff">0.91</span>,<span style="color:#ae81ff">0.86</span>,<span style="color:#ae81ff">0.8</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="注意事项-2">注意事项</h2>
 <p>对文献报告参数之中个体间变异的假定</p>
 <h2 id="vpc图">VPC图</h2>
 <p>对文献所附带的一组示例数据集绘制VPC的结果</p>
@@ -741,28 +789,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
-<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 
   
 
@@ -785,23 +811,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

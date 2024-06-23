@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>摘录一段夸Phoenix软件的段落 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="摘录一段夸Phoenix软件的段落 - Yongchao Fu | 付永超">
@@ -62,9 +39,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -136,7 +110,6 @@ code.has-jax {
       </header>
 
 
-
 <p>出处《Pharmacokinetic-Pharmacodynamic-Modeling-and-Simulation》第二版，第7章，第288页，软件一节，</p>
 <p>原文：</p>
 <blockquote>
@@ -144,7 +117,7 @@ code.has-jax {
 </blockquote>
 <p>翻译：</p>
 <blockquote>
-<p><em>Smith</em>*（**2003**）进行了一次概述，概述了非线性混合效应模型软件包。 专为药代动力学**-**药效学非线性混合效应模型设计的程序有两个，包括**Pharsight**的**Phoenix**平台（结合其**NLME7**引擎）和**NONMEM**（**ICON**开发的解决方案）。* *Phoenix-NLME**的优势在于它是针对**Microsoft Windows**环境构建的，具有**WinNonlin**的所有内置模型，并且具有用于用户构建的模型的图形用户界面（**GUI**）。 当**NLME**引擎与**Phoenix**耦合时，用户将具有用于数据处理，数据分析，图形的单一平台，并且由于其设计方式，每个模型都具有用于验证目的的完整逻辑追踪记录。*</p>
+<p><em>Smith</em>*（<strong>2003</strong>）进行了一次概述，概述了非线性混合效应模型软件包。 专为药代动力学**-<strong>药效学非线性混合效应模型设计的程序有两个，包括</strong>Pharsight<strong>的</strong>Phoenix<strong>平台（结合其</strong>NLME7<strong>引擎）和</strong>NONMEM**（<strong>ICON</strong>开发的解决方案）。* <em>Phoenix-NLME<strong>的优势在于它是针对</strong>Microsoft Windows<strong>环境构建的，具有</strong>WinNonlin<strong>的所有内置模型，并且具有用于用户构建的模型的图形用户界面（<strong>GUI</strong>）。 当</strong>NLME<strong>引擎与</strong>Phoenix**耦合时，用户将具有用于数据处理，数据分析，图形的单一平台，并且由于其设计方式，每个模型都具有用于验证目的的完整逻辑追踪记录。</em></p>
 </blockquote>
 <p>这是2011年出版的一本书，Phoenix平台在2009年推出~。</p>
 <p>正如文中所说，Phoenix是一个专为定量药理学所设计的一款专门的软件，提供了一个完整的解决方案，使用户可以在一个软件之内局完成分析所需的一些列操作，如数据准备、探索性分析（图表绘制、描述性统计）、基于非线性混合效应模型的分析（NLME7计算引擎），并且内置了丰富的模型库，且提供了基于图形的模型编辑工具，便于用户直观的理解和开发模型。</p>
@@ -191,48 +164,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

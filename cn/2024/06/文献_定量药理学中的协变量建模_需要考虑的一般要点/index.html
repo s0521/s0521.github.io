@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>文献_定量药理学中的协变量建模_需要考虑的一般要点 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="文献_定量药理学中的协变量建模_需要考虑的一般要点 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -134,12 +108,75 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="文献定量药理学中的协变量建模需要考虑的一般要点">文献：定量药理学中的协变量建模：需要考虑的一般要点</h1>
 <p><strong>原文链接</strong>：https://ascpt.onlinelibrary.wiley.com/doi/10.1002/psp4.13115</p>
 <p><strong>原文作者</strong>：Kinjal Sanghavi, Jakob Ribbing, James A. Rogers, Mariam A. Ahmed, Mats O. Karlsson, Nick Holford, Estelle Chasseloup, Malidi Ahamadi, Kenneth G. Kowalski, Susan Cole, Essam Kerwash, Janet R. Wade, Chao Liu, Yaning Wang, Mirjam N. Trame, Hao Zhu, Justin J. Wilkins, for the ISoP Standards &amp; Best Practices Committee</p>
 <p><strong>原文协议</strong>：CC BY-NC 4.0</p>
 <p><strong>译者注</strong>：主要由Edge浏览器自带的网页翻译功能翻译，译者额外校对了部分词汇的中文翻译比如“pharmacodynamics”在本文应翻译为“药效动力学”，而不是“药效学”。</p>
+<p><nav id="TableOfContents">
+  <ul>
+    <li><a href="#文献定量药理学中的协变量建模需要考虑的一般要点">文献：定量药理学中的协变量建模：需要考虑的一般要点</a></li>
+    <li><a href="#抽象">抽象</a></li>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#目标">目标</a></li>
+    <li><a href="#对协变量分析进行计划">对协变量分析进行计划</a>
+      <ul>
+        <li><a href="#研究设计">研究设计</a></li>
+        <li><a href="#协变量范围">协变量范围</a></li>
+        <li><a href="#协变量之间的相关性">协变量之间的相关性</a></li>
+        <li><a href="#协变量缺失数据">协变量缺失数据</a></li>
+        <li><a href="#协变量-参数关系的函数形式">协变量-参数关系的函数形式</a></li>
+      </ul>
+    </li>
+    <li><a href="#协变量建模">协变量建模</a>
+      <ul>
+        <li><a href="#连续协变量的一般考虑">连续协变量的一般考虑</a></li>
+        <li><a href="#分类协变量的一般考虑">分类协变量的一般考虑</a></li>
+        <li><a href="#对一个参数的多个协变量效应的组合进行建模">对一个参数的多个协变量效应的组合进行建模</a>
+          <ul>
+            <li><a href="#乘法形式">乘法形式</a></li>
+            <li><a href="#加法形式">加法形式</a></li>
+          </ul>
+        </li>
+        <li><a href="#时变协变量的一般考虑">时变协变量的一般考虑</a></li>
+      </ul>
+    </li>
+    <li><a href="#协变量模型构建方法">协变量模型构建方法</a>
+      <ul>
+        <li><a href="#筛选法">筛选法</a>
+          <ul>
+            <li><a href="#逐步广义加和建模stepwise-generalized-additive-modeling">逐步广义加和建模(Stepwise generalized additive modeling)</a></li>
+            <li><a href="#瓦尔德近似法wam-wald-approximation-method">瓦尔德近似法(WAM, Wald approximation method)</a></li>
+            <li><a href="#逐步协变量模型的建立与进展stepwise-covariate-model-building-and-advances">逐步协变量模型的建立与进展(Stepwise covariate model building and advances)</a></li>
+            <li><a href="#最小绝对收缩和选择算法the-least-absolute-shrinkage-and-selection-operator">最小绝对收缩和选择算法(The least absolute shrinkage and selection operator)</a></li>
+          </ul>
+        </li>
+        <li><a href="#预先指定法">预先指定法</a>
+          <ul>
+            <li><a href="#全固定效应模型">全固定效应模型</a></li>
+            <li><a href="#全随机效应模型">全随机效应模型</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#协变量效应的模型诊断">协变量效应的模型诊断</a></li>
+    <li><a href="#协变量效应总结和报告">协变量效应总结和报告</a>
+      <ul>
+        <li><a href="#报告的一般原则">报告的一般原则</a></li>
+        <li><a href="#模型开发和推理中的统计显著性">模型开发和推理中的统计显著性</a></li>
+        <li><a href="#统计学意义和临床相关性">统计学意义和临床相关性</a></li>
+        <li><a href="#预测性摘要">预测性摘要</a></li>
+      </ul>
+    </li>
+    <li><a href="#协变量模型的使用监管和患者视角">协变量模型的使用：监管和患者视角</a></li>
+    <li><a href="#总结和建议">总结和建议</a></li>
+    <li><a href="#论文资助资金声明">论文资助资金声明</a></li>
+    <li><a href="#利益冲突声明">利益冲突声明</a></li>
+    <li><a href="#披露声明">披露声明</a></li>
+    <li><a href="#参考文献中文翻译">参考文献(中文翻译)</a></li>
+    <li><a href="#参考文献英文原文">参考文献(英文原文)</a></li>
+  </ul>
+</nav></p>
 <h1 id="抽象">抽象</h1>
 <p>对协变量和药理学模型参数之间的关系进行建模是药理学分析的核心特征。从协变量建模中获得的信息可用于剂量选择、剂量个体化或不同人群亚组的临床研究计划。药理计量学文献已经积累了与协变量建模相关的多种多样、复杂且不断发展的方法和解释指南。随着技术数量和复杂性的增加，对最新技术进行概述的需求已经出现。在本文中，国际药理计量学会（ISoP）标准和最佳实践委员会介绍了有关规划、执行、报告和解释协变量分析的最佳实践的观点，以指导学术、行业和监管环境中的药理计量学决策。</p>
 <h1 id="背景">背景</h1>
@@ -266,13 +303,13 @@ code.has-jax {
 </tr>
 <tr>
 <td>普通线性</td>
-<td>$ CovEff_{Pcov,i}=\left{\begin{array}{l}1 &amp;&amp;{当协变量值为参考值时;} \ 1+θ_{Pcov1} &amp;&amp;{当协变量为水平1时; }\1+θ_{Pcov2} &amp;&amp;{当协变量为水平2时; }\1+θ_{Pcov3} &amp;&amp;{当协变量为水平3时; }\&hellip;\end{array} \right.$</td>
+<td>$ CovEff_{Pcov,i}=\left\{\begin{array}{l}1 &&{当协变量值为参考值时;} \\ 1+θ_{Pcov1} &&{当协变量为水平1时; }\\1+θ_{Pcov2} &&{当协变量为水平2时; }\\1+θ_{Pcov3} &&{当协变量为水平3时; }\\...\end{array} \right.$</td>
 <td>协变量$cov_i$的取值为非参考值的其他水平N处时，会引起$CovEff_{Pcov,i}$的大小相对变化$θ_{Pcov}$。</td>
 <td>用于具有二分或更多分类水平的名义分类协变量</td>
 </tr>
 <tr>
-<td>线性为有序</td>
-<td>\(CovEff_{Pcov,i}=\left{\begin{array}{l}1 &amp;&amp;{当协变量值为参考值时;} \ 1+θ_{Pcov1} &amp;&amp;{当协变量为水平1时; }\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2}) &amp;&amp;{当协变量为水平2时; }\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2})\cdot(1+θ_{Pcov3}) &amp;&amp;{当协变量为水平3时; }\&hellip;\end{array} \right.\)</td>
+<td>有序的线性</td>
+<td>$CovEff_{Pcov,i}=\left\{\begin{array}{l}1 &&{当协变量值为参考值时;} \\ 1+θ_{Pcov1} &&{当协变量为水平1时; }\\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2}) &&{当协变量为水平2时; }\\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2})\cdot(1+θ_{Pcov3}) &&{当协变量为水平3时; }\\...\end{array} \right.$</td>
 <td>协变量$cov_i$的取值为非参考值的其他水平N处时，会引起$CovEff_{Pcov,i}$的大小相对变化$θ_{Pcov}$(相对于水平N-1时)。</td>
 <td>当需要保持有序关系时使用(例如，对于有序的分类变量)   有序分类协变量关系可能被限制为严格递增或严格递减，视情况而定</td>
 </tr>
@@ -286,10 +323,10 @@ code.has-jax {
 <h2 id="对一个参数的多个协变量效应的组合进行建模">对一个参数的多个协变量效应的组合进行建模</h2>
 <p>多个协变量对某一特定参数的影响通常用乘法形式或加法形式组合起来，分别如式1和式2所示</p>
 <h3 id="乘法形式">乘法形式</h3>
-<p>$$\begin{equation}TVP_i=\theta_{Ppop}\cdot\prod_{cov=1}^{Ncov}CovEff_{Pcov,i} \tag {1}\end{equation}$$</p>
-<p>其中$CovEff_{Pcov,i}$为个体i中协变量(cov)导致的参数P的相乘变化。\(θ_{Ppop}\)为群体中参数P的群体参考值。$TVP_i$是包含所有协变量效应的个体i的参数的典型值。</p>
+$$\begin{equation}TVP_i=\theta_{Ppop}\cdot\prod_{cov=1}^{Ncov}CovEff_{Pcov,i} \tag {1}\end{equation}$$
+<p>其中$CovEff_{Pcov,i}$为个体i中协变量(cov)导致的参数P的相乘变化。$θ_{Ppop}$为群体中参数P的群体参考值。$TVP_i$是包含所有协变量效应的个体i的参数的典型值。</p>
 <h3 id="加法形式">加法形式</h3>
-<p>$$\begin{equation}TVP_i=\theta_{Ppop}\cdot\sum_{cov=1}^{Ncov}CovEff_{Pcov,i}\tag {2}\end{equation}$$</p>
+$$\begin{equation}TVP_i=\theta_{Ppop}\cdot\sum_{cov=1}^{Ncov}CovEff_{Pcov,i}\tag {2}\end{equation}$$
 <p>如果(结构)参数被限制为正值，乘法形式可能比加法形式更实用(有时也更合理和/或更机制)。另一方面，如果参数可能取正值或负值，例如logit概率、log-hazard或差值参数(例如血压的平均直立性变化)，则乘法公式可能存在解释问题，因此可能首选加法形式参数化。在补充材料S2中，给出了一个由单个协变量效应相乘组合的协变量模型的例子。在补充材料S1第3.4节的说明性示例中，演示了不同函数形式的拟合方程和演示。</p>
 <h2 id="时变协变量的一般考虑">时变协变量的一般考虑</h2>
 <p>上述协变量可能随时间而变化，如新生儿和婴儿的体重、伴随药物的使用和器官成熟。时变协变量带来了一些挑战和复杂性:例如，协变量可能受到治疗的影响，如肾脏消除的抗生素(如万古霉素)引起的肾功能变化，或患者体能状态随时间的变化(如癌症或器官移植)。考虑协变量效应中与时间相关的变化，对于确保适当的剂量和暴露以及无偏倚地评估PD效应通常很重要。通常会使用协变量的基线值，但通常这种方法可能不能充分解释受试者内的变异性。例如，在一些患者中观察到“伊匹木单抗（ipilimumab）”的清除率随着时间的推移而降低，这被认为是临床状况改善的标志。评估白蛋白、体重和乳酸脱氢酶等随时间变化的标志物对癌症相关恶病质的影响，有助于进一步阐明时变CL的可能机制。Wälbhy等人描述了将时变协变量模型扩展到协变量模型的模型，其中协变量效应分为基线和基线差，和/或在协变量效应中估计个体间变异性参数时变协变量的复杂性值得我们在本文中进行更广泛的讨论，但重要的是不要忽视它。</p>
@@ -639,50 +676,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
-<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

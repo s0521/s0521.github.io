@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>我的第一个正式发布的软件作品guiplot - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="我的第一个正式发布的软件作品guiplot - Yongchao Fu | 付永超">
@@ -64,9 +41,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
 
@@ -143,27 +117,50 @@ code.has-jax {
       </header>
 
 
-
 <h1 id="开心">开心~！</h1>
 <p>我的第一个正式发布的软件作品诞生了~！</p>
 <p>昨天邮箱收到了CRAN审核员的邮件，我提交的“guiplot”包在通往CRAN的路上了，将被CRAN收录。</p>
 <p>我今天看到该邮件后，来到电脑前测试了一下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;guiplot&#34;</span>)`
-
-Installing package into ‘C<span style="color:#f92672">:/</span>Users<span style="color:#f92672">/***********/</span>Documents<span style="color:#f92672">/</span>R<span style="color:#f92672">/</span>win<span style="color:#f92672">-</span>library<span style="color:#f92672">/</span><span style="color:#ae81ff">3.6</span>’
-(as ‘lib’ is unspecified)
-installing the source package ‘guiplot’
-
-试开URL’https<span style="color:#f92672">://</span>cran.rstudio.com<span style="color:#f92672">/</span>src<span style="color:#f92672">/</span>contrib<span style="color:#f92672">/</span>guiplot_0.1.0.tar.gz<span style="color:#e6db74">&#39;
-</span><span style="color:#e6db74">Content type &#39;</span>application<span style="color:#f92672">/</span>x<span style="color:#f92672">-</span>gzip<span style="color:#e6db74">&#39;</span><span style="color:#960050;background-color:#1e0010"> length 14361 bytes (14 KB)</span>
-downloaded <span style="color:#ae81ff">14</span> KB
-</code></pre></div><p>已经被正式收录了~</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;guiplot&#34;</span>)`
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Installing package into ‘C<span style="color:#f92672">:/</span>Users<span style="color:#f92672">/***********/</span>Documents<span style="color:#f92672">/</span>R<span style="color:#f92672">/</span>win<span style="color:#f92672">-</span>library<span style="color:#f92672">/</span><span style="color:#ae81ff">3.6</span>’
+</span></span><span style="display:flex;"><span>(as ‘lib’ is unspecified)
+</span></span><span style="display:flex;"><span>installing the source package ‘guiplot’
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>试开URL’https<span style="color:#f92672">://</span>cran.rstudio.com<span style="color:#f92672">/</span>src<span style="color:#f92672">/</span>contrib<span style="color:#f92672">/</span>guiplot_0.1.0.tar.gz<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Content type &#39;</span>application<span style="color:#f92672">/</span>x<span style="color:#f92672">-</span>gzip<span style="color:#e6db74">&#39;</span><span style="color:#960050;background-color:#1e0010"> length 14361 bytes (14 KB)</span>
+</span></span><span style="display:flex;"><span>downloaded <span style="color:#ae81ff">14</span> KB
+</span></span></code></pre></div><p>已经被正式收录了~</p>
 <p>开心~开心~开心~！</p>
 <p>我为guiplot包的写的介绍页面在<a href="/guiplot/about/">这里</a>，各位看官可以前往了解该包。</p>
 <p>​</p>
 <p><strong>这里概述下该包的作用和使用方式：</strong></p>
 <h1 id="guiplot包简介">guiplot包简介：</h1>
-<!-- raw HTML omitted -->
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#开心">开心~！</a></li>
+    <li><a href="#guiplot包简介">guiplot包简介：</a></li>
+    <li><a href="#灵感">灵感：</a>
+      <ul>
+        <li><a href="#用户操作逻辑">用户操作逻辑</a></li>
+        <li><a href="#包的实现逻辑">包的实现逻辑</a></li>
+        <li><a href="#未来的规划">未来的规划：</a></li>
+      </ul>
+    </li>
+    <li><a href="#guiplot包用法">guiplot包用法</a>
+      <ul>
+        <li><a href="#该函数典型的用法有四种">该函数典型的用法有四种：</a>
+          <ul>
+            <li><a href="#1guiplot">1.guiplot()</a></li>
+            <li><a href="#2guiplotout_dirgetwd">2.guiplot(out_dir=getwd)</a></li>
+            <li><a href="#3guiplotpkpkpk">3.guiplot(PK,PK,PK)</a></li>
+            <li><a href="#4guiplotpkpkpkout_dirany_directory_you_want_to_export">4.guiplot(PK,PK,PK,out_dir=Any_directory_you_want_to_export)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 <h1 id="灵感">灵感：</h1>
 <p>该软件包是由Phoenix的XYplot操作对象、ggplot2包以及esquisse包所启发，撰写出来的，其主要作用是用于绘制图形。</p>
 <h2 id="用户操作逻辑">用户操作逻辑</h2>
@@ -194,10 +191,10 @@ downloaded <span style="color:#ae81ff">14</span> KB
 <h3 id="2guiplotout_dirgetwd">2.guiplot(out_dir=getwd)</h3>
 <p>今填写&quot;out_dir&quot;参数的情况下使用该包，并将该参数的值设定为当前的工作目录，此时该函数将读入当前R语言内容环境中的所有数据，并使用其中的数据框和矩阵类型的数据做为输入数据，然后将产生的结果输出值当前的R工作目录。</p>
 <p>此场景适合是完全为Phoenix所打造的，用户只需在Phoenix中的R对象总共写入一下两行代码，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">library</span>(guiplot)
-
-<span style="color:#a6e22e">guiplot</span>(out_dir<span style="color:#f92672">=</span>getwd)
-</code></pre></div><p>即可以愉快的使用该包了，（当然你好需要在Phoenix的R对象中通过“选择数据源()”按钮额外的为此R对象添加数据源以便加载到R的内存中，但这是属于Phoenix的操作，与R无关~），这极大的降低了使用该包的难度，并且非常方便的扩展了Phoenix用户使用R语言绘图的功能，并提供了以他们所熟悉的方式进行设置的体验~~</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(guiplot)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">guiplot</span>(out_dir<span style="color:#f92672">=</span>getwd)
+</span></span></code></pre></div><p>即可以愉快的使用该包了，（当然你好需要在Phoenix的R对象中通过“选择数据源()”按钮额外的为此R对象添加数据源以便加载到R的内存中，但这是属于Phoenix的操作，与R无关~），这极大的降低了使用该包的难度，并且非常方便的扩展了Phoenix用户使用R语言绘图的功能，并提供了以他们所熟悉的方式进行设置的体验~~</p>
 <p>其实我在设计该包时，连“out_dir=getwd”这点代码都不想添加，但CRAN政策不允许未经用户明确同意的情况下，将数据写入非临时目录中，所以只能添加了out_dir参数，用于满足政策要求。</p>
 <h3 id="3guiplotpkpkpk">3.guiplot(PK,PK,PK)</h3>
 <p>此时仅输入语言中可以调用的数据作为参数，同一数据可以填写多次，且可同时输入多个数据，数据输入是可以输入指代该数据的变量名，也可将入指代该数据的变量名作为文本输入，这种输入的好处是可以精确的控制输入的数据有哪些。</p>
@@ -247,26 +244,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
@@ -289,23 +266,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

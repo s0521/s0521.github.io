@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>改良单纯形法的VBA实现 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="改良单纯形法的VBA实现 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
 
@@ -139,243 +113,242 @@ code.has-jax {
       </header>
 
 
-
 <p>今年年初，我是使用VBA实现改良的单纯形法，该算法是参考《最优化计算方法》，“第八章无约束优化方法，8.3可变单纯形法的实现”章节实现的，该书的作者是蒋金山。
 这本书步骤非常详细的说明了计算方法和步骤，非常适合学习与练习使用。</p>
 <p>实现的目的当然不是为了重新造一个轮子，主要是为了让自己对该算法有进一步的认识。
 通过自己动手编程的练习，让自己了解了“单纯形”是什么怎么进行反射，怎么算质心，怎么迭代？等等。
 由此让自己真正的了解了该算法。</p>
 <p>代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vbnet" data-lang="vbnet"><span style="color:#66d9ef">Option</span> Explicit
-
-<span style="color:#66d9ef">Dim</span> xa, xb, xr, xe, zongi <span style="color:#75715e">&#39;反射系数，压缩系数，扩展系数，允许误差，迭代总次数
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">Dim</span> fg <span style="color:#f92672">As</span> Range, fl <span style="color:#f92672">As</span> Range, fh <span style="color:#f92672">As</span> Range <span style="color:#75715e">&#39;三组参数中的最大、中间、最小
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">Dim</span> ps1 <span style="color:#f92672">As</span> Range, ps2 <span style="color:#f92672">As</span> Range, ps3 <span style="color:#f92672">As</span> Range <span style="color:#75715e">&#39;三组参数中的第一列、第二列、第三列
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> nx <span style="color:#f92672">As</span> Range, n3x <span style="color:#f92672">As</span> Range, n4x <span style="color:#f92672">As</span> Range <span style="color:#75715e">&#39;储存中间结果的下一步，下下一步的参数值
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">rukou</span>()
-<span style="color:#75715e">&#39;入口程序，声明一些关键的变量，并串联起来求解过程
-</span><span style="color:#75715e">&#39;该算法是参考《最优化计算方法》，蒋金山，第八章无约束优化方法，8.3可变单纯形法的实现
-</span><span style="color:#75715e">&#39;可变单纯形法是一种直接搜索方法，1962年被提出，1964年给改进
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> pp
-<span style="color:#66d9ef">Dim</span> a, b, c
-<span style="color:#66d9ef">Dim</span> rowi, ls1
-zongi <span style="color:#f92672">=</span> 0 <span style="color:#75715e">&#39;迭代总次数
-</span><span style="color:#75715e"></span>xa <span style="color:#f92672">=</span> 1 <span style="color:#75715e">&#39;反射系数
-</span><span style="color:#75715e"></span>xb <span style="color:#f92672">=</span> 0.5 <span style="color:#75715e">&#39;压缩系数
-</span><span style="color:#75715e"></span>xr <span style="color:#f92672">=</span> 2 <span style="color:#75715e">&#39;扩展系数
-</span><span style="color:#75715e"></span>xe <span style="color:#f92672">=</span> 0.0000000002 <span style="color:#75715e">&#39;允许误差
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">&#39;清除上一次的迭代结果
-</span><span style="color:#75715e"></span>ls1 <span style="color:#f92672">=</span> ActiveSheet.Cells(9999, 16).End(xlUp).Row <span style="color:#f92672">+</span> 1
-ActiveSheet.Range(ActiveSheet.Cells(2, 15), ActiveSheet.Cells(ls1, 20)).Clear
-
-
-<span style="color:#66d9ef">Do</span>
-    <span style="color:#66d9ef">Call</span> duquhuanjing2 <span style="color:#75715e">&#39;读取表格中给如入的3组初始的参数值，存入ps1，ps2，ps3变量中去
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Call</span> d1_px(ps1, ps2, ps3) <span style="color:#75715e">&#39;为3组初始参数进行排序fh,fg,gl，以便接下来的计算，直接使用其中的最大值与最小值
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Call</span> d2_mean(fh, fg, fl) <span style="color:#75715e">&#39;应用3组参数，计算新的更好的点替代fh
-</span><span style="color:#75715e"></span>    pp <span style="color:#f92672">=</span> panju(fh, fg, fl) <span style="color:#75715e">&#39;第8步，收敛标准值的计算
-</span><span style="color:#75715e"></span>    
-    zongi <span style="color:#f92672">=</span> zongi <span style="color:#f92672">+</span> 1 <span style="color:#75715e">&#39;迭代总次数
-</span><span style="color:#75715e"></span>    a <span style="color:#f92672">=</span> fh(1) <span style="color:#75715e">&#39;当前fh的目标函数值
-</span><span style="color:#75715e"></span>    b <span style="color:#f92672">=</span> fg(1) <span style="color:#75715e">&#39;当前fg的目标函数值
-</span><span style="color:#75715e"></span>    c <span style="color:#f92672">=</span> fl(1) <span style="color:#75715e">&#39;当前fl的目标函数值
-</span><span style="color:#75715e"></span>    rowi <span style="color:#f92672">=</span> ActiveSheet.Cells(9999, 16).End(xlUp).Row <span style="color:#f92672">+</span> 1 <span style="color:#75715e">&#39;获取迭代结果显示的最后一行之后的一行行号
-</span><span style="color:#75715e"></span>    ActiveSheet.Cells(rowi, 20) <span style="color:#f92672">=</span> pp <span style="color:#75715e">&#39;收敛标准的值
-</span><span style="color:#75715e"></span>    Debug.Print zongi<span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#e6db74">&#34;::fh, fg, fl=&#34;</span><span style="color:#960050;background-color:#1e0010">;</span> a<span style="color:#960050;background-color:#1e0010">;</span> b<span style="color:#960050;background-color:#1e0010">;</span> c
-    <span style="color:#75715e">&#39;将迭代结果输出到Excel表格中
-</span><span style="color:#75715e"></span>    ActiveSheet.Cells(rowi, 16) <span style="color:#f92672">=</span> zongi
-    ActiveSheet.Cells(rowi, 17) <span style="color:#f92672">=</span> fl(0)
-    ActiveSheet.Cells(rowi, 18) <span style="color:#f92672">=</span> fg(0)
-    ActiveSheet.Cells(rowi, 19) <span style="color:#f92672">=</span> fh(0)
-   
-    <span style="color:#75715e">&#39;清空操作对象的内容，便于重新开始迭代
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> ps1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> ps2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> ps3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> nx <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> n3x <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#66d9ef">Set</span> n4x <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
-    <span style="color:#75715e">&#39;如果达到最大迭代次数，则退出迭代
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">If</span> zongi <span style="color:#f92672">&gt;</span> 300 <span style="color:#66d9ef">Then</span> <span style="color:#66d9ef">Exit</span> <span style="color:#66d9ef">Do</span>
-    
-<span style="color:#66d9ef">Loop</span> Until pp <span style="color:#f92672">&lt;</span> xe <span style="color:#75715e">&#39;如果收敛标准的值小于允许误差，则退出迭代
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
-<span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">duquhuanjing2</span>()
-<span style="color:#75715e">&#39;读取环境中的参数
-</span><span style="color:#75715e">&#39;读取表格中给如入的3组初始的参数值，存入ps1，ps2，ps3变量中去
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> p, i, ri
-<span style="color:#75715e">&#39;p参数的个数
-</span><span style="color:#75715e"></span>p <span style="color:#f92672">=</span> ActiveSheet.Cells(1000, 9).End(xlUp).Row <span style="color:#f92672">-</span> 1
-ri <span style="color:#f92672">=</span> p <span style="color:#f92672">-</span> 1
-<span style="color:#75715e">&#39;遍历表格，索取所有的参数，这里虽然是遍历，但固定死了为3个
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 1 <span style="color:#66d9ef">To</span> 5
-    <span style="color:#66d9ef">Select</span> <span style="color:#66d9ef">Case</span> i
-    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 1
-        <span style="color:#66d9ef">Set</span> ps1 <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
-    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 2
-        <span style="color:#66d9ef">Set</span> ps2 <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
-    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 3
-        <span style="color:#66d9ef">Set</span> ps3 <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
-    <span style="color:#75715e">&#39;下面两个，nx和n4x是中间结果，被安放在这里指定他俩的存储位置
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 4
-        <span style="color:#66d9ef">Set</span> nx <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
-    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 5
-        <span style="color:#66d9ef">Set</span> n3x <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
-        <span style="color:#66d9ef">Set</span> n4x <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
-    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Select</span>
-<span style="color:#66d9ef">Next</span>
-<span style="color:#75715e">&#39;p0 = 目标函数 ，p1=参数1 ，p2=参数2
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
-
-<span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">d1_px</span>(ps1, ps2, ps3)
-<span style="color:#75715e">&#39;为3组初始参数进行排序，以便接下来的计算，直接使用其中的最大值与最小值
-</span><span style="color:#75715e">&#39;fh最大的哪一组,
-</span><span style="color:#75715e">&#39;fg中间的那一组,
-</span><span style="color:#75715e">&#39;fl最小的那一组
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">&#39;第一步，排序
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">If</span> ps1(1) <span style="color:#f92672">&gt;</span> ps2(1) <span style="color:#66d9ef">Then</span>
-    <span style="color:#66d9ef">If</span> ps1(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
-    <span style="color:#75715e">&#39;ps1最大
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps1
-        <span style="color:#66d9ef">If</span> ps2(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span> <span style="color:#75715e">&#39;判断ps2和ps3
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps2
-            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps3
-        <span style="color:#66d9ef">Else</span>
-            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps2
-            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps3
-        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-        
-    <span style="color:#66d9ef">Else</span>
-        <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps1 <span style="color:#75715e">&#39;ps1是中间的
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">If</span> ps2(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
-            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps2
-            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps3
-        <span style="color:#66d9ef">Else</span>
-            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps2
-            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps3
-        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-                
-    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-<span style="color:#66d9ef">Else</span>
-    <span style="color:#66d9ef">If</span> ps1(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
-    <span style="color:#75715e">&#39;ps1是中间的
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps1
-        <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps2
-        <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps3
-    <span style="color:#66d9ef">Else</span>
-    <span style="color:#75715e">&#39;ps1是最小的
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps1
-        <span style="color:#66d9ef">If</span> ps2(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
-            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps2
-            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps3
-        <span style="color:#66d9ef">Else</span>
-            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps2
-            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps3
-        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-     
-<span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-
-<span style="color:#75715e">&#39;这是无用的步骤用于debug
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> a, b, c
-a <span style="color:#f92672">=</span> zongi
-a <span style="color:#f92672">=</span> fl(0)
-b <span style="color:#f92672">=</span> fg(0)
-c <span style="color:#f92672">=</span> fh(0)
-
-<span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
-
-<span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">d2_mean</span>(fh, fg, fl)
-<span style="color:#75715e">&#39;计算出fh之外，剩余机组参数中，每个参数的中心点
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> mx(3), i
-<span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-    mx(i) <span style="color:#f92672">=</span> (fg(i) <span style="color:#f92672">+</span> fl(i)) <span style="color:#f92672">/</span> 2
-<span style="color:#66d9ef">Next</span>
-
-<span style="color:#75715e">&#39;利用fh和和剩余点的质心，求算反射点
-</span><span style="color:#75715e">&#39;Dim nx As Range
-</span><span style="color:#75715e">&#39;Set nx = ActiveSheet.Range(ActiveSheet.Cells(2, 13), ActiveSheet.Cells(4, 13))
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-    nx(i) <span style="color:#f92672">=</span> mx(i) <span style="color:#f92672">+</span> xa <span style="color:#f92672">*</span> (mx(i) <span style="color:#f92672">-</span> fh(i))
-<span style="color:#66d9ef">Next</span>
-
-<span style="color:#75715e">&#39;对反射点的大小进行判断，依据不同的情况，求算出新的点或使用质心，作为fh的替代参数
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">If</span> nx(1) <span style="color:#f92672">&lt;</span> fl(1) <span style="color:#66d9ef">Then</span>
-<span style="color:#75715e">&#39;第5.1步
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">&#39;Dim n3x As Range
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">&#39;Set n3x = ActiveSheet.Range(ActiveSheet.Cells(2, 14), ActiveSheet.Cells(4, 14))
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-        n3x(i) <span style="color:#f92672">=</span> mx(i) <span style="color:#f92672">+</span> xr <span style="color:#f92672">*</span> (nx(i) <span style="color:#f92672">-</span> fg(i)) <span style="color:#75715e">&#39;扩展
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Next</span>
-    
-    <span style="color:#75715e">&#39;第6步
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">If</span> n3x(1) <span style="color:#f92672">&lt;</span> nx(1) <span style="color:#66d9ef">Then</span>
-        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-            fh(i) <span style="color:#f92672">=</span> n3x(i) <span style="color:#75715e">&#39;直通第8步
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Next</span>
-    <span style="color:#66d9ef">Else</span>
-        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-            fh(i) <span style="color:#f92672">=</span> nx(i) <span style="color:#75715e">&#39;直通第8步
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Next</span>
-    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-    
-<span style="color:#66d9ef">Else</span>
-    <span style="color:#66d9ef">If</span> nx(1) <span style="color:#f92672">&gt;</span> fg(1) <span style="color:#66d9ef">Then</span>
-    <span style="color:#75715e">&#39;第5.3步
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">If</span> nx(1) <span style="color:#f92672">&lt;</span> fh(1) <span style="color:#66d9ef">Then</span>
-            <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-                fh(i) <span style="color:#f92672">=</span> nx(i)
-            <span style="color:#66d9ef">Next</span>
-        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-        <span style="color:#75715e">&#39;Dim n4x As Range
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">&#39;Set n4x = ActiveSheet.Range(ActiveSheet.Cells(2, 14), ActiveSheet.Cells(4, 14))
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-            n4x(i) <span style="color:#f92672">=</span> mx(i) <span style="color:#f92672">+</span> xb <span style="color:#f92672">*</span> (fh(i) <span style="color:#f92672">-</span> mx(i))
-        <span style="color:#66d9ef">Next</span>
-        <span style="color:#75715e">&#39;第7步
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">If</span> n4x(1) <span style="color:#f92672">&lt;</span> fh(1) <span style="color:#66d9ef">Then</span>
-            <span style="color:#75715e">&#39;Set fh = n4x &#39;直通第8步，第8步是检验是否满足收敛标准
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-                fh(i) <span style="color:#f92672">=</span> n4x(i) <span style="color:#75715e">&#39;直通第8步
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">Next</span>
-        <span style="color:#66d9ef">Else</span>
-            <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-                fh(i) <span style="color:#f92672">=</span> fh(i) <span style="color:#f92672">+</span> 0.5 <span style="color:#f92672">*</span> (fl(i) <span style="color:#f92672">-</span> fh(i)) <span style="color:#75715e">&#39;直通第8步
-</span><span style="color:#75715e"></span>                fg(i) <span style="color:#f92672">=</span> fg(i) <span style="color:#f92672">+</span> 0.5 <span style="color:#f92672">*</span> (fl(i) <span style="color:#f92672">-</span> fg(i)) <span style="color:#75715e">&#39;直通第8步
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">Next</span>
-        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-    <span style="color:#66d9ef">Else</span>
-    <span style="color:#75715e">&#39;第5.2步
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">&#39;Set fh = nx &#39;直通第8步
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-            fh(i) <span style="color:#f92672">=</span> nx(i) <span style="color:#75715e">&#39;直通第8步
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Next</span>
-    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-<span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
-
-<span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
-
-<span style="color:#66d9ef">Function</span> <span style="color:#a6e22e">panju</span>(fh, fg, fl)
-<span style="color:#75715e">&#39;第8步，收敛标准值得计算
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> i, mx(3)
-<span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
-    mx(i) <span style="color:#f92672">=</span> (fg(i) <span style="color:#f92672">+</span> fl(i)) <span style="color:#f92672">/</span> 2
-<span style="color:#66d9ef">Next</span>
-panju <span style="color:#f92672">=</span> (( _
-(fh(1) <span style="color:#f92672">-</span> mx(1)) <span style="color:#f92672">^</span> 2 <span style="color:#f92672">+</span> _
-(fg(1) <span style="color:#f92672">-</span> mx(1)) <span style="color:#f92672">^</span> 2 <span style="color:#f92672">+</span> _
-(fl(1) <span style="color:#f92672">-</span> mx(1)) <span style="color:#f92672">^</span> 2 _
-) <span style="color:#f92672">/</span> 4) <span style="color:#f92672">^</span> 0.5
-<span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Function</span>
-</code></pre></div><p>对于方差的计算步骤，我把他放在了Excel表格里来实现，没有通过代码去实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vbnet" data-lang="vbnet"><span style="display:flex;"><span><span style="color:#66d9ef">Option</span> Explicit
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Dim</span> xa, xb, xr, xe, zongi <span style="color:#75715e">&#39;反射系数，压缩系数，扩展系数，允许误差，迭代总次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Dim</span> fg <span style="color:#f92672">As</span> Range, fl <span style="color:#f92672">As</span> Range, fh <span style="color:#f92672">As</span> Range <span style="color:#75715e">&#39;三组参数中的最大、中间、最小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Dim</span> ps1 <span style="color:#f92672">As</span> Range, ps2 <span style="color:#f92672">As</span> Range, ps3 <span style="color:#f92672">As</span> Range <span style="color:#75715e">&#39;三组参数中的第一列、第二列、第三列
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> nx <span style="color:#f92672">As</span> Range, n3x <span style="color:#f92672">As</span> Range, n4x <span style="color:#f92672">As</span> Range <span style="color:#75715e">&#39;储存中间结果的下一步，下下一步的参数值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">rukou</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;入口程序，声明一些关键的变量，并串联起来求解过程
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;该算法是参考《最优化计算方法》，蒋金山，第八章无约束优化方法，8.3可变单纯形法的实现
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;可变单纯形法是一种直接搜索方法，1962年被提出，1964年给改进
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> pp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Dim</span> a, b, c
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Dim</span> rowi, ls1
+</span></span><span style="display:flex;"><span>zongi <span style="color:#f92672">=</span> 0 <span style="color:#75715e">&#39;迭代总次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>xa <span style="color:#f92672">=</span> 1 <span style="color:#75715e">&#39;反射系数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>xb <span style="color:#f92672">=</span> 0.5 <span style="color:#75715e">&#39;压缩系数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>xr <span style="color:#f92672">=</span> 2 <span style="color:#75715e">&#39;扩展系数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>xe <span style="color:#f92672">=</span> 0.0000000002 <span style="color:#75715e">&#39;允许误差
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;清除上一次的迭代结果
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ls1 <span style="color:#f92672">=</span> ActiveSheet.Cells(9999, 16).End(xlUp).Row <span style="color:#f92672">+</span> 1
+</span></span><span style="display:flex;"><span>ActiveSheet.Range(ActiveSheet.Cells(2, 15), ActiveSheet.Cells(ls1, 20)).Clear
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Call</span> duquhuanjing2 <span style="color:#75715e">&#39;读取表格中给如入的3组初始的参数值，存入ps1，ps2，ps3变量中去
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Call</span> d1_px(ps1, ps2, ps3) <span style="color:#75715e">&#39;为3组初始参数进行排序fh,fg,gl，以便接下来的计算，直接使用其中的最大值与最小值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Call</span> d2_mean(fh, fg, fl) <span style="color:#75715e">&#39;应用3组参数，计算新的更好的点替代fh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    pp <span style="color:#f92672">=</span> panju(fh, fg, fl) <span style="color:#75715e">&#39;第8步，收敛标准值的计算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    zongi <span style="color:#f92672">=</span> zongi <span style="color:#f92672">+</span> 1 <span style="color:#75715e">&#39;迭代总次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    a <span style="color:#f92672">=</span> fh(1) <span style="color:#75715e">&#39;当前fh的目标函数值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    b <span style="color:#f92672">=</span> fg(1) <span style="color:#75715e">&#39;当前fg的目标函数值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    c <span style="color:#f92672">=</span> fl(1) <span style="color:#75715e">&#39;当前fl的目标函数值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    rowi <span style="color:#f92672">=</span> ActiveSheet.Cells(9999, 16).End(xlUp).Row <span style="color:#f92672">+</span> 1 <span style="color:#75715e">&#39;获取迭代结果显示的最后一行之后的一行行号
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ActiveSheet.Cells(rowi, 20) <span style="color:#f92672">=</span> pp <span style="color:#75715e">&#39;收敛标准的值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Debug.Print zongi<span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#e6db74">&#34;::fh, fg, fl=&#34;</span><span style="color:#960050;background-color:#1e0010">;</span> a<span style="color:#960050;background-color:#1e0010">;</span> b<span style="color:#960050;background-color:#1e0010">;</span> c
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;将迭代结果输出到Excel表格中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ActiveSheet.Cells(rowi, 16) <span style="color:#f92672">=</span> zongi
+</span></span><span style="display:flex;"><span>    ActiveSheet.Cells(rowi, 17) <span style="color:#f92672">=</span> fl(0)
+</span></span><span style="display:flex;"><span>    ActiveSheet.Cells(rowi, 18) <span style="color:#f92672">=</span> fg(0)
+</span></span><span style="display:flex;"><span>    ActiveSheet.Cells(rowi, 19) <span style="color:#f92672">=</span> fh(0)
+</span></span><span style="display:flex;"><span>   
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;清空操作对象的内容，便于重新开始迭代
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> ps1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> ps2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> ps3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> nx <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> n3x <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Set</span> n4x <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nothing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;如果达到最大迭代次数，则退出迭代
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">If</span> zongi <span style="color:#f92672">&gt;</span> 300 <span style="color:#66d9ef">Then</span> <span style="color:#66d9ef">Exit</span> <span style="color:#66d9ef">Do</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Loop</span> Until pp <span style="color:#f92672">&lt;</span> xe <span style="color:#75715e">&#39;如果收敛标准的值小于允许误差，则退出迭代
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">duquhuanjing2</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;读取环境中的参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;读取表格中给如入的3组初始的参数值，存入ps1，ps2，ps3变量中去
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> p, i, ri
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;p参数的个数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>p <span style="color:#f92672">=</span> ActiveSheet.Cells(1000, 9).End(xlUp).Row <span style="color:#f92672">-</span> 1
+</span></span><span style="display:flex;"><span>ri <span style="color:#f92672">=</span> p <span style="color:#f92672">-</span> 1
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;遍历表格，索取所有的参数，这里虽然是遍历，但固定死了为3个
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 1 <span style="color:#66d9ef">To</span> 5
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Select</span> <span style="color:#66d9ef">Case</span> i
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 1
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> ps1 <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 2
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> ps2 <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> ps3 <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;下面两个，nx和n4x是中间结果，被安放在这里指定他俩的存储位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 4
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> nx <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Case</span> <span style="color:#f92672">Is</span> <span style="color:#f92672">=</span> 5
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> n3x <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> n4x <span style="color:#f92672">=</span> ActiveSheet.Range(ActiveSheet.Cells(2, 9 <span style="color:#f92672">+</span> i), ActiveSheet.Cells(2 <span style="color:#f92672">+</span> ri, 9 <span style="color:#f92672">+</span> i))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Select</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;p0 = 目标函数 ，p1=参数1 ，p2=参数2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">d1_px</span>(ps1, ps2, ps3)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;为3组初始参数进行排序，以便接下来的计算，直接使用其中的最大值与最小值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;fh最大的哪一组,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;fg中间的那一组,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;fl最小的那一组
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;第一步，排序
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">If</span> ps1(1) <span style="color:#f92672">&gt;</span> ps2(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">If</span> ps1(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;ps1最大
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps1
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">If</span> ps2(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span> <span style="color:#75715e">&#39;判断ps2和ps3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps1 <span style="color:#75715e">&#39;ps1是中间的
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">If</span> ps2(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">If</span> ps1(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;ps1是中间的
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps1
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;ps1是最小的
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Set</span> fl <span style="color:#f92672">=</span> ps1
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">If</span> ps2(1) <span style="color:#f92672">&gt;</span> ps3(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fg <span style="color:#f92672">=</span> ps2
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Set</span> fh <span style="color:#f92672">=</span> ps3
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>     
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;这是无用的步骤用于debug
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> a, b, c
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> zongi
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> fl(0)
+</span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> fg(0)
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> fh(0)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Sub</span> <span style="color:#a6e22e">d2_mean</span>(fh, fg, fl)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;计算出fh之外，剩余机组参数中，每个参数的中心点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> mx(3), i
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>    mx(i) <span style="color:#f92672">=</span> (fg(i) <span style="color:#f92672">+</span> fl(i)) <span style="color:#f92672">/</span> 2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;利用fh和和剩余点的质心，求算反射点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;Dim nx As Range
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;Set nx = ActiveSheet.Range(ActiveSheet.Cells(2, 13), ActiveSheet.Cells(4, 13))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>    nx(i) <span style="color:#f92672">=</span> mx(i) <span style="color:#f92672">+</span> xa <span style="color:#f92672">*</span> (mx(i) <span style="color:#f92672">-</span> fh(i))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;对反射点的大小进行判断，依据不同的情况，求算出新的点或使用质心，作为fh的替代参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">If</span> nx(1) <span style="color:#f92672">&lt;</span> fl(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;第5.1步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">&#39;Dim n3x As Range
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">&#39;Set n3x = ActiveSheet.Range(ActiveSheet.Cells(2, 14), ActiveSheet.Cells(4, 14))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>        n3x(i) <span style="color:#f92672">=</span> mx(i) <span style="color:#f92672">+</span> xr <span style="color:#f92672">*</span> (nx(i) <span style="color:#f92672">-</span> fg(i)) <span style="color:#75715e">&#39;扩展
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;第6步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">If</span> n3x(1) <span style="color:#f92672">&lt;</span> nx(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>            fh(i) <span style="color:#f92672">=</span> n3x(i) <span style="color:#75715e">&#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>            fh(i) <span style="color:#f92672">=</span> nx(i) <span style="color:#75715e">&#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">If</span> nx(1) <span style="color:#f92672">&gt;</span> fg(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;第5.3步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">If</span> nx(1) <span style="color:#f92672">&lt;</span> fh(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>                fh(i) <span style="color:#f92672">=</span> nx(i)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&#39;Dim n4x As Range
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">&#39;Set n4x = ActiveSheet.Range(ActiveSheet.Cells(2, 14), ActiveSheet.Cells(4, 14))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>            n4x(i) <span style="color:#f92672">=</span> mx(i) <span style="color:#f92672">+</span> xb <span style="color:#f92672">*</span> (fh(i) <span style="color:#f92672">-</span> mx(i))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&#39;第7步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">If</span> n4x(1) <span style="color:#f92672">&lt;</span> fh(1) <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&#39;Set fh = n4x &#39;直通第8步，第8步是检验是否满足收敛标准
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>                fh(i) <span style="color:#f92672">=</span> n4x(i) <span style="color:#75715e">&#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>                fh(i) <span style="color:#f92672">=</span> fh(i) <span style="color:#f92672">+</span> 0.5 <span style="color:#f92672">*</span> (fl(i) <span style="color:#f92672">-</span> fh(i)) <span style="color:#75715e">&#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                fg(i) <span style="color:#f92672">=</span> fg(i) <span style="color:#f92672">+</span> 0.5 <span style="color:#f92672">*</span> (fl(i) <span style="color:#f92672">-</span> fg(i)) <span style="color:#75715e">&#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39;第5.2步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">&#39;Set fh = nx &#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>            fh(i) <span style="color:#f92672">=</span> nx(i) <span style="color:#75715e">&#39;直通第8步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Sub</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Function</span> <span style="color:#a6e22e">panju</span>(fh, fg, fl)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&#39;第8步，收敛标准值得计算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Dim</span> i, mx(3)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">For</span> i <span style="color:#f92672">=</span> 2 <span style="color:#66d9ef">To</span> 3
+</span></span><span style="display:flex;"><span>    mx(i) <span style="color:#f92672">=</span> (fg(i) <span style="color:#f92672">+</span> fl(i)) <span style="color:#f92672">/</span> 2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Next</span>
+</span></span><span style="display:flex;"><span>panju <span style="color:#f92672">=</span> (( _
+</span></span><span style="display:flex;"><span>(fh(1) <span style="color:#f92672">-</span> mx(1)) <span style="color:#f92672">^</span> 2 <span style="color:#f92672">+</span> _
+</span></span><span style="display:flex;"><span>(fg(1) <span style="color:#f92672">-</span> mx(1)) <span style="color:#f92672">^</span> 2 <span style="color:#f92672">+</span> _
+</span></span><span style="display:flex;"><span>(fl(1) <span style="color:#f92672">-</span> mx(1)) <span style="color:#f92672">^</span> 2 _
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">/</span> 4) <span style="color:#f92672">^</span> 0.5
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Function</span>
+</span></span></code></pre></div><p>对于方差的计算步骤，我把他放在了Excel表格里来实现，没有通过代码去实现。</p>
 <p>Excel表格结构如下图：
 <img src="/images/VBA%E6%94%B9%E8%89%AF%E7%9A%84%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95.png" alt="VBA"></p>
 <p>自己本地测试通过，可以分非常好的进行回归计。</p>
@@ -422,26 +395,6 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
 
   
 
@@ -464,23 +417,17 @@ document.addEventListener('keyup', function(e) {
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>

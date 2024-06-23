@@ -3,41 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]'],['\[\[','\]\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-
-MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
     }
-});
+  };
 </script>
-
-<style>
-code.has-jax {
-    font: inherit;
-    font-size: 100%;
-    background: inherit;
-    border: inherit;
-    color: #515151;
-}
-</style>
+	
+	
     
     <title>最小化目标函数算法之直接矩阵求解最小二乘 - Yongchao Fu | 付永超</title>
     <meta property="og:title" content="最小化目标函数算法之直接矩阵求解最小二乘 - Yongchao Fu | 付永超">
@@ -60,9 +37,6 @@ code.has-jax {
     
     
 
-    
-
-    
     
 
     <link rel="stylesheet" href="/css/style.css" />
@@ -134,13 +108,9 @@ code.has-jax {
       </header>
 
 
-
 <p>我准备开一个新坑介绍一系列最小化目标函数的计算方法，这是本系列的第一篇。</p>
-
 <p>本文介绍一个通过矩阵直接求解最小二乘问题的一个案例，这种计算方法其实不应该被归类到“最小化目标函数”这种方法中，因为这种方根本无需计算目标函数，是通过求解析解的方法解决最小二乘问题，后续的方法都是求数值解的方法，但是该方法确实是一种非常关键且基础的求解最小而成问题的方法，所以首先介绍与实施，该案例使用的数据也会在后续案例中持续使用。</p>
-
 <h1 id="1使用的数据">1.使用的数据：</h1>
-
 <table>
 <thead>
 <tr>
@@ -149,74 +119,62 @@ code.has-jax {
 <th>conc</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
 <td>0.5</td>
 <td>5.95432</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1</td>
 <td>5.35306</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>1.5</td>
 <td>5.03</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>2</td>
 <td>4.78</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>2.5</td>
 <td>4.39</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>3</td>
 <td>3.68</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>4</td>
 <td>3.2</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>5</td>
 <td>2.55</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>6</td>
 <td>2.03</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>8</td>
 <td>1.28</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>12</td>
 <td>0.552</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>14</td>
@@ -224,81 +182,56 @@ code.has-jax {
 </tr>
 </tbody>
 </table>
-
 <h2 id="11数据所对应的散点图">1.1数据所对应的散点图：</h2>
-
-<p><figure><img src="/images/20190622/01.png" alt="1"></figure></p>
-
-<p><figure><img src="/images/20190622/02.png" alt="2"></figure></p>
-
+<p><img src="/images/20190622/01.png" alt="1"></p>
+<p><img src="/images/20190622/02.png" alt="2"></p>
 <h1 id="2案例演示所使用的软件">2.案例演示所使用的软件：</h1>
-
 <p>Excel2010</p>
-
 <h1 id="3理论基础">3.理论基础：</h1>
-
 <p>线性模型可以写为下列形式：</p>
-
-<p><span  class="math">\[
+$$
 C_{i} = \theta_{0} + \theta_{1} X_{i} + e_{i}
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 C = \theta + \theta X + e_{i}
-\]</span></p>
-
+$$
 <p>更一般的可以写为下列形式：</p>
-
-<p><span  class="math">\[
+$$
 C = X\theta + e
-\]</span></p>
-
+$$
 <p>其中：</p>
-
 <p>C是n*1的观测向量（因变量）</p>
-
 <p>X是n*p的自变量矩阵，又叫设计矩阵</p>
-
 <p>θ是p*1的未知的参数向量</p>
-
 <p>e是n*1的随机误差向量，假设e~N(0,σ^2)</p>
-
 <p>n是观测值得个数</p>
-
 <p>p是未知参数的个数</p>
-
 <p>观测向量（因变量）:</p>
-
-<p><span  class="math">\[
+$$
 C = \begin{pmatrix}
 C_{1} \\
 C_{2} \\
  \vdots \\
 C_{n} \\
 \end{pmatrix}
-\]</span></p>
-
+$$
 <p>自变量矩阵:</p>
-
-<p><span  class="math">\[
+$$
 X = \begin{pmatrix}
 1 & x_{1} \\
 1 & x_{2} \\
  \vdots & \vdots \\
 1 & x_{n} \\
 \end{pmatrix}
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 \theta = \begin{pmatrix}
 \theta_{0} \\
 \theta_{1} \\
 \end{pmatrix}
-\]</span></p>
-
+$$
 <p>函数关系：</p>
-
-<p><span  class="math">\[
+$$
 \begin{pmatrix}
 C_{1} \\
 C_{2} \\
@@ -318,155 +251,94 @@ C_{n} \\
  \vdots \\
 \theta_{0} + \theta_{1} \bullet x_{n} \\
 \end{pmatrix}
-\]</span></p>
-
+$$
 <p>求解参数θ估计值的最基本方法是最小二乘法，其思想是在θ的真值处应使观测值与预测值差值的平方和最小：</p>
-
-<p><span  class="math">\[
+$$
 \sum_{}^{}e_{i}^{2} = \left( C - \text{Xθ} \right)^{2}
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 {= C^{2} - 2\theta^{'}X^{'}C + \left( \text{Xθ} \right)^{2}}
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 {= C^{'}C - 2\theta^{'}X^{'}C + \theta^{'}X^{'}\text{Xθ}}
-\]</span></p>
-
-<p>因为<span  class="math">\(\sum_{}^{}e_{i}^{2} = C^{'}C - 2\theta^{'}X^{'}C +
-\theta^{'}X^{'}\text{Xθ}\)</span>函数在最小值处，其相对与θ的导数为零，</p>
-
+$$
+<p>因为</p>
+$$\sum_{}^{}e_{i}^{2} = C^{'}C - 2\theta^{'}X^{'}C +
+\theta^{'}X^{'}\text{Xθ}$$
+<p>函数在最小值处，其相对与θ的导数为零，</p>
 <p>所以</p>
-
-<p><span  class="math">\[
+$$
 \frac{\partial\sum_{}^{}e_{i}^{2}}{\partial\theta} = 0
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 -2X^{'}C + 2X^{'}\text{Xθ} = 0
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 X^{'}C = X^{'}\text{Xθ}
-\]</span></p>
-
-<p><span  class="math">\[
+$$
+$$
 \theta{= \left( X^{'}X \right)}^{- 1}X^{'}C
-\]</span></p>
-
+$$
 <p>方差与协方差矩阵可以被顺便求解出来：</p>
-
-<p><span  class="math">\[
+$$
 {\hat{\sigma}}^{2} = \frac{\text{WRSS}}{\left( N - P \right)} = \frac{\sum_{}^{}{W_{i}\left( C_{i} - {\hat{C}}_{i} \right)}^{2}}{\left( N - P \right)}
-\]</span></p>
-
-<p>其中<span  class="math">\({\hat{C}}_{i} = f\left( X,\hat{\theta} \right)\)</span>，Wi是权重</p>
-
-<p><span  class="math">\[
+$$
+<p>其中</p>
+$${\hat{C}}_{i} = f\left( X,\hat{\theta} \right)$$
+<p>，Wi是权重</p>
+$$
 \text{Var}\left( \hat{C} \right) = \left( X^{'}X \right)^{- 1}{\hat{\sigma}}^{2}
-\]</span></p>
-
+$$
 <h1 id="4实例计算">4.实例计算：</h1>
-
 <h2 id="41使用的模型">4.1使用的模型：</h2>
-
 <p>此处直接对原始数据求解线性模型，而使用血管内给药的1房室1级速率消除模型求解它，即使用此模型：C=θ0+θ1*time+e</p>
-
 <p>也可写为：C=θ*X+e</p>
-
-<p><figure><img src="/images/20190622/03.png" alt="3"></figure></p>
-
+<p><img src="/images/20190622/03.png" alt="3"></p>
 <p>将数据如图所示的写入Excel工作，这样就可以得到设计矩阵（自变量矩阵，下同）与观测向量</p>
-
 <h2 id="42设计矩阵xa2b13">4.2设计矩阵X=A2:B13，</h2>
-
 <h2 id="43观测向量cd2d13">4.3观测向量C=D2:D13,</h2>
-
 <h2 id="44计算参数向量θ">4.4计算参数向量θ：</h2>
-
 <h3 id="441构造设计矩阵x的转置x">4.4.1构造设计矩阵X的转置X'</h3>
-
 <p>复制A2:B13单元格，鼠标右键单击B15单元格，选择“选择性粘贴”子菜单，勾选其中的“转置(E)”选项，然后确定，这样就得到了设计矩阵X的转置矩阵X'</p>
-
-<p><figure><img src="/images/20190622/04.png" alt="4"></figure></p>
-
-<p>设计矩阵的转置X'=B15:M16</p>
-
-<h3 id="442计算xx">4.4.2计算X'X</h3>
-
+<p><img src="/images/20190622/04.png" alt="4"></p>
+<p>设计矩阵的转置X&rsquo;=B15:M16</p>
+<h3 id="442计算xx">4.4.2计算X&rsquo;X</h3>
 <p>选中B18:C19这四个单元格，然后在输入=MMULT(B15:M16,A2:B13)，之后在键盘上同时按下“Ctrl”键和“Shift”键不放，再按下“回车”键完成数组构建。</p>
-
 <p>（小提示：</p>
-
 <p>1.MMULT()是Excel中的矩阵乘法公式，</p>
-
 <p>2.矩阵的乘法有先后顺序之分，右侧的矩阵依次乘左边的矩阵，所以顺序部分反</p>
-
-<p>3.同时按下“Ctrl”键+“Shift”键+“回车”键是Excel中数组公式的输入方式，这种方式输入公式后，选中其中的单元格可以看到公式外自动添加了大括号，</p>
-
+<p>3.同时按下“Ctrl”键+“Shift”键+“回车”键是Excel中数组公式的输入方式，这种方式输入公式后，选中其中的单元格可以看到公式外自动添加了大括号{}，</p>
 <p>3.要对包含同一个数组公式的单元格进行修改，必须选中所有的包含同一个数组公式的单元进行修改，无法单独的更改其中1个单元格）</p>
-
-<p><figure><img src="/images/20190622/05.png" alt="5"></figure></p>
-
-<p>X'X=B18:C19</p>
-
-<h3 id="443计算xx的逆矩阵xx1">4.4.3计算X'X的逆矩阵(X'X)-1</h3>
-
+<p><img src="/images/20190622/05.png" alt="5"></p>
+<p>X&rsquo;X=B18:C19</p>
+<h3 id="443计算xx的逆矩阵xx-1">4.4.3计算X&rsquo;X的逆矩阵(X&rsquo;X)-1</h3>
 <p>选中B21:C22这四个单元格，然后在输入=MINVERSE(B18:C19)，之后同时按下“Ctrl”键+“Shift”键+“回车”键完成数组构建。</p>
-
 <p>（小提示：MINVERSE()是Excel中的求逆矩阵的公式）</p>
-
-<p><figure><img src="/images/20190622/06.png" alt="6"></figure></p>
-
-<p>X'X的逆矩阵(X'X)-1=B21:C22</p>
-
-<h3 id="444计算xx1x">4.4.4计算(X'X)-1*X'</h3>
-
+<p><img src="/images/20190622/06.png" alt="6"></p>
+<p>X&rsquo;X的逆矩阵(X&rsquo;X)-1=B21:C22</p>
+<h3 id="444计算xx-1x">4.4.4计算(X&rsquo;X)-1*X'</h3>
 <p>选中B24:M25这24个单元格，然后在输入=MMULT(B21:C22,B15:M16)，之后同时按下“Ctrl”键+“Shift”键+“回车”键完成数组构建。</p>
-
-<p><figure><img src="/images/20190622/07.png" alt="7"></figure></p>
-
-<p>(X'X)-1*X'=B24:M25</p>
-
-<h3 id="445计算xx1xc">4.4.5计算(X'X)-1*X'*C</h3>
-
+<p><img src="/images/20190622/07.png" alt="7"></p>
+<p>(X&rsquo;X)-1*X&rsquo;=B24:M25</p>
+<h3 id="445计算xx-1xc">4.4.5计算(X&rsquo;X)-1*X&rsquo;*C</h3>
 <p>选中B27:C28这2个单元格，然后在输入=MMULT(B24:M25,D2:D13)，之后同时按下“Ctrl”键+“Shift”键+“回车”键完成数组构建。</p>
-
-<p><figure><img src="/images/20190622/08.png" alt="8"></figure></p>
-
-<p>(X'X)-1*X'*C=B27:C28</p>
-
+<p><img src="/images/20190622/08.png" alt="8"></p>
+<p>(X&rsquo;X)-1*X&rsquo;*C=B27:C28</p>
 <h2 id="45结果解读">4.5结果解读</h2>
-
 <p>这样便求算出了参数矩阵θ=B27:C28，其中截距=B27=5.337，斜率=C28=-0.419</p>
-
 <h2 id="46计算rss">4.6计算RSS</h2>
-
 <p>在得到截距与斜率这两个参数后，求可以计算出因变量C的预测值Pre，观测与预测的残差Res，残差平方和RSS</p>
-
 <p>Pre：在E2单元格输入=$B$27+$B$28*B2，然后下拉填充至E13单元格</p>
-
 <p>Res：在F2单元格输入=D2-E2，然后下拉填充至F13单元格</p>
-
 <p>RSS：在G2单元格输入=SUMSQ(F2:F13)</p>
-
-<p><figure><img src="/images/20190622/09.png" alt="9"></figure></p>
-
+<p><img src="/images/20190622/09.png" alt="9"></p>
 <p>RSS=G2</p>
-
 <h2 id="47计算协方差矩阵varc">4.7计算协方差矩阵Var(C)</h2>
-
 <p>选中F21这1个单元格，然后在输入=B21*$G$2，之后通过拖拽填充的方式填充F22，G21，G22单元格。</p>
-
 <p>（小提示：这里因为是常数（RSS）与矩阵相乘所以不需要使用矩阵乘法公式）</p>
-
-<p><figure><img src="/images/20190622/11.png" alt="11"></figure></p>
-
+<p><img src="/images/20190622/11.png" alt="11"></p>
 <p>Var(C)=F21:G22</p>
-
 <h1 id="5小结">5.小结：</h1>
-
 <p>以上就是一个完整的使用Excel逐步手工通过矩阵求解线性模型最小二乘问题的完整步骤，理解上述步骤对之后掌握其他方法的基础！</p>
 
 
@@ -511,50 +383,22 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
-<script async src="/js/fix-toc.js"></script>
-
-<script async src="/js/center-img.js"></script>
-
-<script async src="/js/right-quote.js"></script>
-
-<script async src="/js/no-highlight.js"></script>
-
-<script async src="/js/fix-footnote.js"></script>
-
-<script async src="/js/math-code.js"></script>
-
-<script async src="/js/external-link.js"></script>
-
-<script async src="/js/alt-title.js"></script>
-
-<script async src="/js/header-link.js"></script>
-
-
-
-<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 
   
 
   
   <hr>
-  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2023</div>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
   
   </footer>
   </article>
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-138584476-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
+    
+      
+    
+  
+
 
   </body>
 </html>
