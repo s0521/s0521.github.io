@@ -279,19 +279,19 @@
 </tr>
 <tr>
 <td>线性</td>
-<td>$CovEff_{Pcov,i}=1+θ_{Pcov}·(cov_i-cov_{reference})$</td>
+<td>$\small{ CovEff_{Pcov,i}=1+θ_{Pcov}·(cov_i-cov_{reference})}$</td>
 <td>线性形式很容易解释。协变量covi每单位变化会引起$CovEff_{Pcov,i}$的大小相对变化$θ_{Pcov}$。与本表中列出的其他连续函数一样，这种关系的形状描述了依赖于$θ_{Pcov}$估计的单调增加或减少。</td>
 <td>可能需要对协变量系数的参数空间进行适当的限定，以避免出现生理上不合理的参数值(如负值)。【译者注：协变量效应与协变量线性线相关，特点是协变量值域与协变量效应的值域都为(-∞,+∞)】</td>
 </tr>
 <tr>
 <td>指数</td>
-<td>$CovEff_{Pcov,i}=exp(θ_{Pcov}·(cov_i-cov_{reference})))$</td>
+<td>$\small{ CovEff_{Pcov,i}=exp(θ_{Pcov}·(cov_i-cov_{reference})))}$</td>
 <td>协变量$cov_i$每单位变化会引起log($CovEff_{Pcov,i}$)的大小相对变化$θ_{Pcov}$。这种关系的形状描述了依赖于$θ_{Pcov}$估计的单调增加或减少。</td>
 <td>当参数和协变量之间的关系是非线性时适宜使用。适用于那些当取值为负值时是难以置信的那些生物参数。然而，与线性模型类似，生物反应通常是容量有限的，可能不会随着参数的变化而无限增加或减少，因此在估计时可能需要为协变量系数设置估计值的上限。【译者注：协变量效应对数变换后与协变量线性线相关，特点是协变量值域为(-∞,+∞)，协变量效应的值域为(0,+∞)】</td>
 </tr>
 <tr>
 <td>幂</td>
-<td>$CovEff_{Pcov,i}=(cov_i/cov_{reference}))^{θPcov}$</td>
+<td>$\small{  CovEff_{Pcov,i}=(cov_i/cov_{reference}))^{θPcov}}$</td>
 <td>协变量$cov_i$每单位变化会引起log($CovEff_{Pcov,i}$)的大小相对变化$θ_{Pcov}$。【译者注：这里的描述显然是错误的因为这完全与“指数”形式一致，正确的应为“协变量log($cov_i$)每单位变化会引起log($CovEff_{Pcov,i}$)的大小相对变化$θ_{Pcov}$。”】</td>
 <td>当参数和协变量之间的关系是非线性时使用。在同时存在负和正协变量值的情况下不允许。协变量值为零将强制参数为零。【译者注：协变量效应对数变换后与对数变换后的协变量线性线相关，特点是协变量值域与协变量效应的值域都为(0,+∞),(特殊情况下协变量值域为(-∞,+∞)，但基本可以忽略)】</td>
 </tr>
@@ -303,13 +303,13 @@
 </tr>
 <tr>
 <td>普通线性</td>
-<td>$ CovEff_{Pcov,i}=\left\{\begin{array}{l}1 &&{当协变量值为参考值时;} \\ 1+θ_{Pcov1} &&{当协变量为水平1时; }\\1+θ_{Pcov2} &&{当协变量为水平2时; }\\1+θ_{Pcov3} &&{当协变量为水平3时; }\\...\end{array} \right.$</td>
+<td>$\scriptsize{ CovEff_{Pcov,i}=\left\{\begin{array}{l}1 &&{当协变量值为参考值时;} \\ 1+θ_{Pcov1} &&{当协变量为水平1时; }\\1+θ_{Pcov2} &&{当协变量为水平2时; }\\1+θ_{Pcov3} &&{当协变量为水平3时; }\\...\end{array} \right.}$</td>
 <td>协变量$cov_i$的取值为非参考值的其他水平N处时，会引起$CovEff_{Pcov,i}$的大小相对变化$θ_{Pcov}$。</td>
 <td>用于具有二分或更多分类水平的名义分类协变量</td>
 </tr>
 <tr>
 <td>有序的线性</td>
-<td>$CovEff_{Pcov,i}=\left\{\begin{array}{l}1 &&{当协变量值为参考值时;} \\ 1+θ_{Pcov1} &&{当协变量为水平1时; }\\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2}) &&{当协变量为水平2时; }\\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2})\cdot(1+θ_{Pcov3}) &&{当协变量为水平3时; }\\...\end{array} \right.$</td>
+<td>${\scriptsize{ CovEff_{Pcov,i}=\left\{\begin{array}{l}1 &&{当协变量值为参考值时;} \\ 1+θ_{Pcov1} &&{当协变量为水平1时; }\\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2}) &&{当协变量为水平2时; }\\(1+θ_{Pcov1})\cdot(1+θ_{Pcov2})\cdot(1+θ_{Pcov3}) &&{当协变量为水平3时; }\\...\end{array} \right.}} $</td>
 <td>协变量$cov_i$的取值为非参考值的其他水平N处时，会引起$CovEff_{Pcov,i}$的大小相对变化$θ_{Pcov}$(相对于水平N-1时)。</td>
 <td>当需要保持有序关系时使用(例如，对于有序的分类变量)   有序分类协变量关系可能被限制为严格递增或严格递减，视情况而定</td>
 </tr>
@@ -803,7 +803,7 @@ $$\begin{equation}TVP_i=\theta_{Ppop}\cdot\sum_{cov=1}^{Ncov}CovEff_{Pcov,i}\tag
   
 <nav class="post-nav">
   <span class="nav-prev">&larr; <a href="/cn/2023/08/fda2022%E6%8C%87%E5%8D%97%E7%BF%BB%E8%AF%91%E5%9F%BA%E4%BA%8E%E8%8D%AF%E4%BB%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E8%8E%B7%E6%89%B9pd-1%E6%88%96pd-1%E6%96%B0%E7%BB%99%E8%8D%AF%E6%96%B9%E6%A1%88%E7%9A%84%E8%A1%8C%E4%B8%9A%E6%8C%87%E5%8D%97/">FDA：2022：指南翻译：基于药代动力学获批PD 1或PD- 1新给药方案的行业指南</a></span>
-  <span class="nav-next"></span>
+  <span class="nav-next"><a href="/cn/2024/06/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/">文献_定量药理学中的协变量建模_附件1和附件2</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -814,6 +814,8 @@ document.addEventListener('keyup', function(e) {
     url = '\/cn\/2023\/08\/fda2022%E6%8C%87%E5%8D%97%E7%BF%BB%E8%AF%91%E5%9F%BA%E4%BA%8E%E8%8D%AF%E4%BB%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E8%8E%B7%E6%89%B9pd-1%E6%88%96pd-1%E6%96%B0%E7%BB%99%E8%8D%AF%E6%96%B9%E6%A1%88%E7%9A%84%E8%A1%8C%E4%B8%9A%E6%8C%87%E5%8D%97\/';
     
   } else if (e.which == 39) {  
+    
+    url = '\/cn\/2024\/06\/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62\/';
     
   }
   if (url) window.location = url;
