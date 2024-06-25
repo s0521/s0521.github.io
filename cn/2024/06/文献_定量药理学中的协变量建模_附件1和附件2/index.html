@@ -116,7 +116,7 @@
 <p><strong>原文链接</strong>：https://ascpt.onlinelibrary.wiley.com/doi/10.1002/psp4.13115</p>
 <p><strong>原文作者</strong>：Kinjal Sanghavi, Jakob Ribbing, James A. Rogers, Mariam A. Ahmed, Mats O. Karlsson, Nick Holford, Estelle Chasseloup, Malidi Ahamadi, Kenneth G. Kowalski, Susan Cole, Essam Kerwash, Janet R. Wade, Chao Liu, Yaning Wang, Mirjam N. Trame, Hao Zhu, Justin J. Wilkins, for the ISoP Standards &amp; Best Practices Committee</p>
 <p><strong>原文协议</strong>：CC BY-NC 4.0</p>
-<p><strong>译者注</strong>：主要由Edge浏览器自带的网页翻译功能翻译，译者额外校对了部分词汇的中文翻译比如“pharmacodynamics”在本文应翻译为“药效动力学”，而不是“药效学”。</p>
+<p><strong>译者注</strong>：主要由Edge浏览器自带的网页翻译功能翻译，译者额外校对了部分词汇的中文翻译比如“pharmacodynamics”在本文应翻译为“药效动力学”，而不是“药效动力学”。</p>
 <p>目录</p>
 <p><nav id="TableOfContents">
   <ul>
@@ -136,7 +136,7 @@
     <li><a href="#3模型">3模型</a>
       <ul>
         <li><a href="#31出版物中的模型">3.1出版物中的模型</a></li>
-        <li><a href="#32---不带协变量的基本模型">3.2   不带协变量的基本模型</a></li>
+        <li><a href="#32---不带协变量的基础模型">3.2   不带协变量的基础模型</a></li>
         <li><a href="#33-全固定效应模型ffem">3.3 全固定效应模型(FFEM)</a></li>
         <li><a href="#34-用于协变量模型的函数形式">3.4 用于协变量模型的函数形式</a></li>
       </ul>
@@ -196,11 +196,10 @@
   </ul>
 </nav></p>
 <h1 id="附件一">附件一：</h1>
-<p><strong>定量药理学中协变量分析的ISOP的最佳实践图示</strong></p>
-<p><strong>使用茶碱数据的案例研究</strong></p>
+<p><strong>图示ISOP的最佳实践：定量药理学中的协变量分析——使用茶碱数据案例研究</strong></p>
 <h1 id="1-引言">1 引言</h1>
-<p>本文档在一定程度上说明了本文中介绍的不同协变量选择方法。使用真实的纵向药效学数据：在给予药物茶碱的临床试验期间收集的“呼气峰值流速（PEFR, peak expiratory flow rate）”测量值。该文档分为介绍数据（第2节）、模型（第3节）、不同协变量选择方法的结果（第4节）、诊断协变量效应的一些示例（第5节）以及如何呈现协变量模型的示例（第6节）的部分。模型部分仅详细介绍了已发布的带有协变量的模型，该模型用作这项工作的起点[1]，没有协变量的衍生基础模型用作大多数协变量选择方法的起点，以及完整的固定效应模型（FFEM）。但是，所有代码都在文档的附录中报告：附录A中的NONMEM模型代码，附录B中的R代码。</p>
-<p>协变量模型的默认参数化可能因选择方法的可用实现而异。</p>
+<p>本文档在一定程度上说明了本文中介绍的不同协变量选择方法。使用真实的纵向药效动力学数据：在给予药物茶碱的临床试验期间收集的“呼气峰值流速（PEFR, peak expiratory flow rate）”测量值。该文档分为介绍数据（第2节）、模型（第3节）、不同协变量选择方法的结果（第4节）、诊断协变量效应的一些示例（第5节）以及如何呈现协变量模型的示例（第6节）。模型部分仅详细介绍了已发布的带有协变量的模型，该模型用作这项工作的起点[1]，没有协变量的衍生基础模型用作大多数协变量选择方法的起点，以及完整的固定效应模型（FFEM）。但是，所有代码都在文档的附录中报告：附录A中的NONMEM模型代码，附录B中的R代码。</p>
+<p>协变量模型的默认参数化方式会因所选方法中的可用实现而不同。</p>
 <h1 id="2-茶碱数据">2 茶碱数据</h1>
 <h2 id="21-数据说明">2.1 数据说明</h2>
 <p>茶碱数据由NickHolford提供[1,2]。细节和实验设计详见其他地方报道[2]，摘要如下。用于准备分析数据的R代码可在附录B.1中找到。从数据集中删除了缺失信息的行，缺失信息的范围在初始出版物中提供[1]。本说明练习仅保留了四个协变量（两个分类和两个连续）。</p>
@@ -281,7 +280,7 @@
 <p>* 连续变量的中位数（四分位距）;n（%） 表示分类变量。</p>
 <h2 id="22--图形探索">2.2  图形探索</h2>
 <h3 id="221-因变量意大利面条图">2.2.1 因变量：意大利面条图</h3>
-<p>观察到的药效学数据（即PEFR）与时间的关系图如图S1所示，与浓度的关系图如图S2所示。用于图S2的R代码可在附录B.4中找到。</p>
+<p>观察到的药效动力学数据（即PEFR）与时间的关系图如图S1所示，与浓度的关系图如图S2所示。用于图S2的R代码可在附录B.4中找到。</p>
 <p><img src="/images/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/clip_image002.png" alt="img">
 图S1：观察到的“呼气峰值流速（PEFR, peak expiratory flow rate）”与时间的关系。点代表观测值，每个人的观测值都由一条线连接。红线是平滑的。数据使用正常比例显示，在前100小时（中面板）上缩放，在前25小时（右面板）上缩放。PEFR：峰值呼气流速。</p>
 <p><img src="/images/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/clip_image004.png" alt="img">
@@ -291,10 +290,10 @@
 <p><img src="/images/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/clip_image006.png" alt="img">
 图S3：对每对可用协变量之间关系的可视化探索。对角线图表示每个协变量的分布。</p>
 <h1 id="3模型">3模型</h1>
-<p>“呼气峰值流速（PEFR, peak expiratory flow rate）”的药效学模型是根据先前的出版物[1]开发的，没有（run11）或协变量（run20）。从无协变量的模型出发，根据不同的协变量选择方法构建了不同的协变量模型，以提供说明性算例。获得的不同模型以及最终参数数列在表S4中。</p>
+<p>“呼气峰值流速（PEFR, peak expiratory flow rate）”的药效动力学模型是根据先前的出版物[1]开发的，没有（run11）或协变量（run20）。从无协变量的模型出发，根据不同的协变量选择方法构建了不同的协变量模型，以提供说明性算例。获得的不同模型以及最终参数数列在表S4中。</p>
 <h2 id="31出版物中的模型">3.1出版物中的模型</h2>
 <p>先前在已发表的论文中的参数模型被复制为表S4中的run20。参数值如表S2所示，NONMEM代码见附录A.1。此处显示的run20与已发布的模型不同，因为通过删除缺少数据的行来减小数据集。</p>
-<p>如已发表的论文所述，支气管狭窄因子（BCF，broncho-constriction factor）通过一阶过程消除，其特征是半衰期T50和基线BCF0值（方程（1））。根据方程（2）中描述的抑制性药效学模型，PEFR（t）是由于BCF引起的支气管收缩，与BCF浓度有关，其中Normal是BCF为零时的PEFR，C50BCF是使PEFR从正常降低50%的浓度。假设Base是t=0时的PEFR，方程（3）给出了此时BCF的浓度（BCF0）。茶碱对PEFR的影响仅限于低于正常的PEFR，并根据方程（4）表示，其中C50_Theo是茶碱浓度C产生50%的潜在可回收PEFR时的值，Hill是控制曲线陡峭度的指数。BCF和茶碱对PEFR的综合影响可以通过时间和茶碱浓度的函数来预测，如式（5），其中ε_theo描述了茶碱相对于BCF介导的时间效应的疗效。</p>
+<p>如已发表的论文所述，支气管狭窄因子（BCF，broncho-constriction factor）通过一阶过程消除，其特征是半衰期T50和基线BCF0值（方程（1））。根据方程（2）中描述的抑制性药效动力学模型，PEFR（t）是由于BCF引起的支气管收缩，与BCF浓度有关，其中Normal是BCF为零时的PEFR，C50BCF是使PEFR从正常降低50%的浓度。假设Base是t=0时的PEFR，方程（3）给出了此时BCF的浓度（BCF0）。茶碱对PEFR的影响仅限于低于正常的PEFR，并根据方程（4）表示，其中C50_Theo是茶碱浓度C产生50%的潜在可回收PEFR时的值，Hill是控制曲线陡峭度的指数。BCF和茶碱对PEFR的综合影响可以通过时间和茶碱浓度的函数来预测，如式（5），其中ε_theo描述了茶碱相对于BCF介导的时间效应的疗效。</p>
 <p>所有协变量均线性添加到Normal典型值。分类诊断协变量作为连续协变量包含在已发布的模型中，使用分配给每个类别的数值。在本文档中提供的示例中，只要有可能，它就被作为分类协变量包含在内。</p>
 $$
 BCF (t) = BCF0 \cdot e^{(-ln(2)/(T50 \cdot))} \tag{1}
@@ -443,9 +442,9 @@ IIV和RUV的RSE，以近似标准差标度报告（标准误差/方差估计值�
 PEFR：呼气峰值流速，BCF：支气管狭窄因子，RUV：残余的不明变异性，IIV：个体间变异，RSE：相对标准误差。SIR:抽样密集重采样。
 *使用SIR获得的RSE
 † 典型个体:男性，40公斤，患有哮喘。</p>
-<h2 id="32---不带协变量的基本模型">3.2   不带协变量的基本模型</h2>
+<h2 id="32---不带协变量的基础模型">3.2   不带协变量的基础模型</h2>
 <p>从已发表的模型（run20）中删除了协变量效应，从而产生了一个没有协变量的基础模型，该模型将用作大多数协变量选择方法的起点（表S4中的run11）。参数值如表S3所示，图S4中提供了图形说明，附录A.2中提供了NONMEM代码。RSE值来自方差协方差矩阵。</p>
-<p>表格 S3: 无协变量的 PEFR 药效学模型的 arameters 表 （run11）。</p>
+<p>表格 S3: 无协变量的 PEFR 药效动力学模型的 arameters 表 （run11）。</p>
 <table>
 <thead>
 <tr>
@@ -565,7 +564,7 @@ PEFR：呼气峰值流速，BCF：支气管狭窄因子，RUV：残余的不明�
 </thead>
 <tbody>
 <tr>
-<td>不带协变量的基本模型    (Base model without covariate)</td>
+<td>不带协变量的基础模型    (Base model without covariate)</td>
 <td></td>
 <td>11</td>
 </tr>
@@ -883,7 +882,7 @@ PEFR：呼气峰值流速，BCF：支气管狭窄因子，RUV：残余的不明�
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">## Only first value of covariate considered
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">## for each individual: TRUE
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">## Covariates normalized to median: TRUE
-</span></span></span></code></pre></div><p>图S8提供了逐步搜索的图示，其中所有尝试的残差模型都根据其赤池信息判据（AIC）进行排序。图S9中提供了所选协变量与筛选参数的基本模型（run11）残差之间的相关性图示。</p>
+</span></span></span></code></pre></div><p>图S8提供了逐步搜索的图示，其中所有尝试的残差模型都根据其赤池信息判据（AIC）进行排序。图S9中提供了所选协变量与筛选参数的基础模型（run11）残差之间的相关性图示。</p>
 <p>数字对应于受试者唯一标识符，并允许发现异常值。用于生成这两个图的R代码可在附录B.9中找到。</p>
 <p><img src="/images/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/clip_image028.png" alt="img">
 图S8：在Normal上逐步搜索基础模型（run11）的每个模型的赤池信息判据值。名为1的模型是不带协变量的模型。</p>
@@ -1002,7 +1001,7 @@ PEFR：呼气峰值流速，BCF：支气管狭窄因子，RUV：残余的不明�
 <p>SCM（逐步协变量模型）方法包括对模型的协变量效应的前向选择和向后消除。简而言之，每个相关参数-协变量关系的一个模型以单变量方式进行检验。在第一步中，根据某些条件提供最佳数据拟合的模型将被保留并推进到下一步。在以下步骤中，将测试所有剩余的参数协变量组合，直到没有更多的协变量满足包含在模型中的标准。“前向选择”（Forward Selection）之后可以进行“后向消除”（Backward Elimination），后者将作为前向选择进行，但反过来，使用更严格的模型改进标准。PsN[9,10]中的函数scm中提供了一个实现。下面给出了一个使用PsN实现的应用示例。</p>
 <p>由于运行 SCM 有许多选项，因此在命令行上指定所有选项是不切实际的，因此 PsN 要求用户编写一个以 .scm 扩展名保存的专用配置文件。然后，可以使用以下命令运行 SCM 配置：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>scm -config_file=theophylline.scm
-</span></span></code></pre></div><p>下面提供了“茶碱（theophylline）”数据配置文件的示例，称为theophylline.scm，使用不带协变量的基本模型（表S4中的run11）作为起点，以在所有固定效应参数上筛选所有可用协变量。有关详细信息，请参阅PsN文档（https://uupharmacometrics.github.io/PsN/docs.html）。</p>
+</span></span></code></pre></div><p>下面提供了“茶碱（theophylline）”数据配置文件的示例，称为theophylline.scm，使用不带协变量的基础模型（表S4中的run11）作为起点，以在所有固定效应参数上筛选所有可用协变量。有关详细信息，请参阅PsN文档（https://uupharmacometrics.github.io/PsN/docs.html）。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fortran" data-lang="fortran"><span style="display:flex;"><span><span style="color:#75715e">## model=run11.mod
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">## search_direction=both
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">## p_forward=0.05
@@ -1056,7 +1055,7 @@ PEFR：呼气峰值流速，BCF：支气管狭窄因子，RUV：残余的不明�
 </span></span></code></pre></div><p><img src="/images/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/clip_image034.png" alt="img">
 图S11：森林图，表示协变量对基于已发布模型（run20）的Normal参数的影响，相对于数据集中的典型参与者（患有哮喘的40岁男性），由垂直虚线表示。条形符号表示适用子群体类别的Normal值中位数，胡须表示基于SIR不精确估计值的中值的95%置信区间。相应的具体数值显示在右侧。</p>
 <h2 id="45-最小绝对收缩和选择算法lasso-the-least-absolute-shrinkage-and-selection-operator">4.5 最小绝对收缩和选择算法（LASSO, The Least absolute shrinkage and selection operator）</h2>
-<p>群体药代动力学和药效学的协变量模型通常采用逐步协变量建模程序构建。在分析小型数据集时，这种方法可能会产生一个协变量模型，该模型存在选择偏差和较差的预测性能。LASSO工具[11]是解决这些问题的方法。它也可能比SCM工具更快，并提供协变量模型的验证。</p>
+<p>群体药代动力学和药效动力学的协变量模型通常采用逐步协变量建模程序构建。在分析小型数据集时，这种方法可能会产生一个协变量模型，该模型存在选择偏差和较差的预测性能。LASSO工具[11]是解决这些问题的方法。它也可能比SCM工具更快，并提供协变量模型的验证。</p>
 <p>在LASSO工具中，所有协变量必须标准化为均值为零，标准差为1。随后，包含所有潜在协变量-参数关系的模型具有一个限制：绝对协变量系数的总和必须小于值t。该限制将迫使某些系数趋于零，而其他系数则通过收缩来估计。在实践中，这意味着在拟合模型时，在估计包含关系的同时测试协变量关系是否包含。对于给定的SCM分析，模型大小取决于选择所需的p值。在LASSO工具中，模型大小取决于t的值，该值可以使用交叉验证进行估计。LASSO方法在PsN中实现[9,10]，包括估计t值所需的交叉验证步骤。下面给出了一个使用PsN实现的应用示例。图S12说明了如何根据交叉验证结果选择最佳t值。</p>
 <p><img src="/images/%E6%96%87%E7%8C%AE_%E5%AE%9A%E9%87%8F%E8%8D%AF%E7%90%86%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E9%87%8F%E5%BB%BA%E6%A8%A1_%E9%99%84%E4%BB%B61%E5%92%8C%E9%99%84%E4%BB%B62/clip_image036.png" alt="img">
 图S12：五个交叉验证组中每个组的预测OFV和五个组的总和。</p>
@@ -1369,8 +1368,8 @@ PEFR：呼气峰值流速，BCF：支气管狭窄因子，RUV：残余的不明�
 <li>Holford, N.; Black, P.; Couch, R.; Kennedy, J.; Briant, R.严重气道阻塞中的茶碱目标浓度 - 10 或 20 mg/l？Clinical pharmacokinetics 1993, 25, 495–505.</li>
 <li>Savic, R.M.; Karlsson, M.O.收缩在诊断经验贝叶斯估计中的重要性：问题和解决方案。The AAPS journal 2009, 11, 558–569.</li>
 <li>Lavielle, M.; Ribba, B.诊断定量药理学模型的增强方法：从条件分布中随机抽样。Pharmaceutical research 2016, 33, 2979–2988.</li>
-<li>Mandema, J.W.; Verotta, D.; Sheiner, L.B.建立群体药代动力学药效学模型。I. Models for Covariate Effects. Journal of pharmacokinetics and biopharmaceutics 1992, 20, 511–528.</li>
-<li>Jonsson, E.N.; Karlsson, M.O.Xpose–一种基于 s-PLUS 的 NONMEM 群体药代动力学/药效学模型构建辅助工具。Computer Methods and Programs in Biomedicine 1999, 58, 51–64, doi:10.1016/s0169-2607(98)00067-4.</li>
+<li>Mandema, J.W.; Verotta, D.; Sheiner, L.B.建立群体药代动力学药效动力学模型。I. Models for Covariate Effects. Journal of pharmacokinetics and biopharmaceutics 1992, 20, 511–528.</li>
+<li>Jonsson, E.N.; Karlsson, M.O.Xpose–一种基于 s-PLUS 的 NONMEM 群体药代动力学/药效动力学模型构建辅助工具。Computer Methods and Programs in Biomedicine 1999, 58, 51–64, doi:10.1016/s0169-2607(98)00067-4.</li>
 <li>Keizer, R.J.; Karlsson, M.O.; Hooker, A.C.NONMEM 建模和仿真工作台：关于 Pirana、PsN 和 Xpose 的教程。CPT: Pharmacometrics &amp; Systems Pharmacology 2013, 2, doi:10.1038/psp.2013.24.</li>
 <li>Kowalski, K.G.; Hutmacher, M.M.使用 Wald 似然比检验对群体模型中的协变量进行有效筛选。Journal of pharmacokinetics and pharmacodynamics 2001, 28, 253–275.</li>
 <li>Lindbom, L.; Ribbing, J.; Jonsson, E.N.Perl-speaks-NONMEM （PsN） — 用于 NONMEM 相关编程的 Perl 模块。Computer methods and programs in biomedicine 2004, 75, 85–94.</li>
