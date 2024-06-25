@@ -116,19 +116,25 @@
 <p>已知药物的剂量与Cmax浓度求Kd</p>
 <p>基于首次假说，存在以下公式</p>
 $$
-C*R/RC=Kd \\\\
+C*R/RC=Kd
 $$
 $$
-Rt=R+RC \\\\
-Ct=C+RC \\\\
+\begin{align}
+Rt&=R+RC \\
+Ct&=C+RC \\
+\end{align}
 $$
 $$
-RO=RC/Rt\\\\
-RO=C/(C+Kd)\\\\
+\begin{align}
+RO&=RC/Rt\\
+RO&=C/(C+Kd)
+\end{align}
 $$
 $$
-CO=RC/Ct\\\\
-CO=R/(R+Kd)
+\begin{align}
+CO&=RC/Ct\\
+CO&=R/(R+Kd)
+\end{align}
 $$
 <h1 id="一仅通过血药浓度c与剂量估算受体-药物结合复合物rc的浓度">一、仅通过血药浓度(C)与剂量，估算受体-药物结合复合物（RC）的浓度</h1>
 <h2 id="ct的估计">Ct的估计</h2>
@@ -151,23 +157,42 @@ $$
 <p>
 <strong>可知</strong></p>
 $$
-RO1/RO2=(RC1/Rt)/(RC2/Rt)\\\\
-RO1/RO2=RC1/RC2
+\begin{align}
+RO1/RO2 &=(RC1/Rt)/(RC2/Rt) \\
+RO1/RO2&=RC1/RC2
+\end{align}
 $$
 <p>即</p>
 <p><strong>RO</strong>的比值与RC的比值<strong>在数值上是</strong>一致的。</p>
 <p>此处令<strong>X为RO的比值，即</strong></p>
-<p>$X=RO1/RO2$  ①</p>
-<p>$X=RO1/RO2=RC1/RC2$</p>
+$$
+X=RO1/RO2 \tag{1}
+$$
+$$
+X=RO1/RO2=RC1/RC2
+$$
 <p>又已知</p>
-<p>$RO=C/(C+Kd)$ ②</p>
-<p>即</p>
-<p>$RO1/RO2=( C1/(C1+Kd) )/( C2/(C2+Kd) )$③</p>
+$$
+RO=C/(C+Kd) \tag{2}
+$$
+<p>
+即
+</p>
+$$
+RO1/RO2= \frac{C1/(C1+Kd)}{C2/(C2+Kd) }\tag{3}
+$$
 <p>则将③带入①可得</p>
 $$
-X=( C1/(C1+Kd) )/( C2/(C2+Kd) )
+\begin{align}
+X &=\frac{C1/(C1+Kd)}{C2/(C2+Kd)}\\
+C1/( C1+Kd ) &= X*C2 / ( C2+Kd ) \\
+C1*C2 + C1*Kd& = X*C1*C2 + X*C2*Kd \\
+C1*Kd - X*C2*Kd &= X*C1*C2 - C1*C2 \\
+Kd*( C1 - X*C2 ) &= C1*C2( X-1 ) \\
+Kd &= C1*C2*( X-1 ) / ( C1 - X*C2 )  
+\end{align} \tag{4}
 $$
-<p><code>$$\begin{align} C1/( C1+Kd ) &amp;= X*C2 / ( C2+Kd ) \\ C1*C2 + C1*Kd&amp; = X*C1*C2 + X*C2*Kd \\ C1*Kd - X*C2*Kd &amp;= X*C1*C2 - C1*C2 \\ Kd*( C1 - X*C2 ) &amp;= C1*C2( X-1 ) \\ Kd &amp;= C1*C2*( X-1 ) / ( C1 - X*C2 )  ④ \end{align}$$</code>
+<p>
 由此就可以基于已有得观测数据计算Kd了</p>
 <p>因为$X=RC1/RC2$，可以由$Rt-R$计算出</p>
 <p>计算出后只需带入临近几个剂量组检测得到得观测浓度C即可计算出Kd，举例</p>
@@ -452,19 +477,23 @@ $$
 <h1 id="三基于受体总数rt与kd值以及所需的co推算所需得剂量ct以及药物血浆结合百分比的极限">三、基于受体总数Rt与KD值以及所需的CO，推算所需得剂量Ct，以及药物血浆结合百分比的极限</h1>
 <h2 id="已知rtkd并指定不同co来预测对应的ct和c">已知Rt、Kd并指定不同CO来预测对应的Ct和C</h2>
 <p>得到上述结论后，我就很兴奋的又推算了下，在已知Rt、Kd时，不同的CO百分比对应的Ct和C的数值，最终也推断得到了，推断过程如下：</p>
-<p>由</p>
-<p><code>$$ Ctot*Rtot-(Ctot+Rtot)*RC +RC^2 =RC*KD $$</code></p>
-<p>得</p>
-<p>$Ctot = RC*( Rtot+KD-RC )/( Rtot-RC )$ ①</p>
-<p>又有</p>
+<p>由$Ctot*Rtot-(Ctot+Rtot)*RC +RC^2 =RC*KD$得</p>
 $$
-RC = Rtot - KD*( 1/[ (1-CO) / CO] ) -RC )
+Ctot = RC*( Rtot+KD-RC )/( Rtot-RC ) \tag{1}
 $$
-<p>
-令$Y = 1/[ (1-CO)/CO ]$ ②，</p>
-<p>则</p>
-<p>$RC = Rtot - KD*Y$ ③</p>
-<p>将③带入①得</p>
+<p>又有$RC = Rtot - KD*( 1/[ (1-CO) / CO] ) -RC )$
+令
+</p>
+$$
+Y = 1/[ (1-CO)/CO ]  \tag{2}
+$$
+<p>则
+</p>
+$$
+RC = Rtot - KD*Y \tag{3}
+$$
+<p>将③带入①得
+</p>
 $$
 Ctot = Rt*( 1+1/Y) - KD*( 1+Y)
 $$
@@ -635,7 +664,7 @@ $$
 <p>仔细检查与推导后，发现，这是合理得，因为CO不可能达到0.99，它存在极限。</p>
 <p>因为RO只可能接近于1，而不能是以，所以RC只能无限接近Rt。</p>
 <p>具体推到极限值是可以推导得，我没有推到，取以下作为近似</p>
-<p>$CO极限≈1-Kd/Ct$</p>
+<p>$CO_{极限}≈1-Kd/Ct$</p>
 <p>即当前得表格中得CO极限约为，$1-1/14≈93.2 \%$</p>
 <p>由此也就想到了传统得小分子药物经常检测得游离分数，或称之为血浆蛋白结合率。</p>
 <h1 id="四讨论">四、讨论</h1>
