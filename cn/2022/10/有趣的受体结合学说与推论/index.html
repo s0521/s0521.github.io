@@ -143,63 +143,112 @@
 <p>这与化学中的离子解离结合、酸碱电离假说等非常类似。</p>
 <h1 id="在达到动态平衡时的推论">在达到动态平衡时的推论：</h1>
 <h2 id="1在动态平衡下有">1.在动态平衡下有：</h2>
-<p>C∗R∗kon=RC∗koff
-C*R/RC=koff/kon</p>
+$$
+\begin{align}
+C∗R∗kon&=RC∗koff \\ \\
+C*R/RC&=koff/kon \\
+\end{align}
+$$
 <h2 id="2定义亲和力常数kd">2.定义亲和力常数KD</h2>
-<p>令KD=koff/kon</p>
+<p>令$KD=koff/kon$</p>
 <p>则，有
-<strong>KD=koff/kon</strong>=C*R/RC</p>
+</p>
+$$
+KD=koff/kon=C*R/RC
+$$
 <h2 id="3rc的计算公式基于c与rtot">3.RC的计算公式(基于C与Rtot)</h2>
-<p>KD=C<em>R/RC
-KD</em>RC=C*R</p>
-<p>将R=Rtot-RC带入，得
-KD<em>RC=C</em>(Rtot-RC)
-KD<em>RC=C</em>Rtot-C*RC
-(KD+C)<em>RC=C</em>Rtot</p>
-<p><strong>RC=C*Rtot/(KD+C)</strong></p>
+$$
+\begin{align}
+KD&=C*R/RC \\
+KD*RC&=C*R \\
+\end{align}
+$$
+<p>将$R=Rtot-RC$带入，得
+</p>
+$$
+KD*RC&=C*(Rtot-RC) \\
+KD*RC&=C*Rtot-C*RC \\
+(KD+C)*RC&=C*Rtot \\
+RC&=C*Rtot/(KD+C) \\
+$$
 <p>一般认为药物与受体结合后的复合物产生药效，即RC为药效E，则Rtot为最大药效Emax，由此上述方程可改写为：</p>
-<p><strong>E=Emax*C/(KD+C)</strong></p>
+$$
+E=Emax*C/(KD+C)
+$$
 <p>由此，我们得到了经典的Emax模型的方程！</p>
 <h2 id="4受体结合率">4.受体结合率：</h2>
-<p>定义RO=R/Rtot</p>
+<p>定义$RO=R/Rtot$</p>
 <p>则有：
-RO=RC/Rtot</p>
-<p>将RC=C<em>Rtot/(KD+C)带入，得
-RO=C</em>Rtot/(KD+C)/Rtot
-<strong>RO=C/(KD+C)</strong></p>
+</p>
+$$
+RO=RC/Rtot
+$$
+<p>将$RC=C*Rtot/(KD+C)$带入，得
+</p>
+$$
+\begin{align}
+RO&=C*Rtot/(KD+C)/Rtot \\
+RO&=C/(KD+C) \\
+\end{align}
+$$
 <h3 id="推论">推论：</h3>
 <ol>
 <li>由上述公式可知，<strong>受体的占有率仅取决于游离的药物浓度C</strong>，和亲和力常数KD，而与R或者Rtot的浓度无关。</li>
 <li>除了受体占有率使用上述公式，可以发现，其实，药物被受体占有的占有率也使用该公式，即CO=R/(KD+R)，即<strong>药物的占有率仅取决于游离的受体浓度R</strong>，和亲和力常数KD，而<strong>与C或者Ctot的浓度无关</strong>。</li>
 <li>当受体占有率为50%时，有
-RO=RO50=0.5
-0.5=C/(KD+C)
-0.5<em>KD+0.5</em>C=C
-0.5<em>KD=0.5</em>C
-C=KD
-即，<strong>受体占有率为50%时，C=KD</strong>；
-类似的这也使用与药物，即药物占有率为50%时，R=KD；</li>
+$$
+\begin{align}
+RO=RO50&=0.5 \\
+0.5&=C/(KD+C) \\
+0.5*KD+0.5*C&=C \\
+0.5*KD&=0.5*C \\
+C&=KD \\
+\end{align}
+$$</li>
+</ol>
+<p>即，<strong>受体占有率为50%时，C=KD</strong>；
+类似的这也使用与药物，即药物占有率为50%时，R=KD；</p>
+<ol start="4">
 <li>基于受体占率时计算C，有
-RO=C/(KD+C)
-RO×(KD+C)=C
-RO×KD+RO×C=C
-RO×KD=C-RO×C
-RO×KD=(1-RO)×C
-<strong>C=RO×KD/(1-RO)</strong>
+$$
+\begin{align}
+RO&=C/(KD+C) \\
+RO×(KD+C)&=C \\
+RO×KD+RO×C&=C \\
+RO×KD&=C-RO×C \\
+RO×KD&=(1-RO)×C \\
+C&=RO×KD/(1-RO) \\
+\end{align}
+$$
 比如，受体占有率RO=20%时，C=0.2×KD/(1-0.2)=4×KD</li>
 </ol>
 <h2 id="5rc的计算公式基于ctotrtot">5.RC的计算公式(基于Ctot，Rtot)</h2>
-<p>C∗R∗kon=RC∗koff</p>
-<p>将Ctot=C+RC，Rtot=R+RC带入，有
-(Ctot-RC) <em>(Rtot-RC) <em>Kon=RC <em>koff
-(Ctot</em>Rtot -Ctot</em>RC -RC</em>Rtot +RC^2) <em>kon =RC</em>koff
-Ctot<em>Rtot -(Ctot+Rtot)<em>RC +RC^2=RC</em>koff/kon
-Ctot</em>Rtot -(Ctot+Rtot)<em>RC +RC^2 =RC</em>KD
-Ctot*Rtot-(Ctot+Rtot-KD)*RC +RC^2 =0</p>
+$$
+C∗R∗kon=RC∗koff
+$$
+<p>
+将$Ctot=C+RC$，$Rtot=R+RC$带入，有
+</p>
+$$
+\begin{align}
+(Ctot-RC) *(Rtot-RC) *Kon &=RC *koff \\
+(Ctot*Rtot -Ctot*RC -RC*Rtot +RC^2) *kon &=RC*koff \\
+Ctot*Rtot -(Ctot+Rtot)*RC +RC^2 &=RC*koff/kon \\
+Ctot*Rtot -(Ctot+Rtot)*RC +RC^2 &=RC*KD \\
+Ctot*Rtot-(Ctot+Rtot-KD)*RC +RC^2 &=0 \\
+\end{align}
+$$
 <p>利用一元二次方程求解公式，直接计算出RC的解为：
-<strong>RC=((Ctot+Rtot+KD)±√((Ctot+Rtot+KD)^2−4∗Rtot∗Ctot))/2</strong></p>
+</p>
+$$
+RC=\frac{((Ctot+Rtot+KD)±√((Ctot+Rtot+KD)^2−4∗Rtot∗Ctot)) }{2}
+$$
 <p>由此，我们就可以根据我们的给药量和受体的总量计算出药物-受体复合物的量了。</p>
 <p>(刚开是想到此公式时，觉得有些兴奋似乎发现了些什么，然，一看文章，此公式已经被文章中被使用了。)</p>
+<h2 id="6-2024年12月4日后记">6. 2024年12月4日，后记##</h2>
+<p>今日偶然尝试询问了下gpt同样的问题，它竟然成功的理解了该问题，并给出了正确的推导和正确的答案！</p>
+<p>震惊！</p>
+<p>![RC Questions ](/images/有趣的受体结合学说与推论/RC Questions.png)</p>
 
 
   <footer>
