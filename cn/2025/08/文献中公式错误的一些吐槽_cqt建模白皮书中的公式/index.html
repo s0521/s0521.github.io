@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
+    }
+  };
+</script>
+	
+	
+    
+    <title>文献中公式错误的一些吐槽_CQT建模白皮书中的公式 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="文献中公式错误的一些吐槽_CQT建模白皮书中的公式 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="[TOC]
+[&amp;hellip;] 原来TRT项和浓度项间缺少加号“&#43;”，订正后加上了加号“&#43;”。
+[&amp;hellip;] •ΔQTcijk表示受试者i在干预措施j下的时间k时相对基线变化的QTc。
+•θ0表示截距项无干预效应时的总体平均截距。
+•η0,i表示截距项θ0相关的随机效应。
+•θ1表示干预措施TRTj(j=0:安慰剂， j=0:活性药物)相关的固定效应。
+•θ2表示浓度与ΔQTcijk间假 &amp;hellip;">
+      <meta property="og:description" content="[TOC]
+[&amp;hellip;] 原来TRT项和浓度项间缺少加号“&#43;”，订正后加上了加号“&#43;”。
+[&amp;hellip;] •ΔQTcijk表示受试者i在干预措施j下的时间k时相对基线变化的QTc。
+•θ0表示截距项无干预效应时的总体平均截距。
+•η0,i表示截距项θ0相关的随机效应。
+•θ1表示干预措施TRTj(j=0:安慰剂， j=0:活性药物)相关的固定效应。
+•θ2表示浓度与ΔQTcijk间假 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2025/08/%e6%96%87%e7%8c%ae%e4%b8%ad%e5%85%ac%e5%bc%8f%e9%94%99%e8%af%af%e7%9a%84%e4%b8%80%e4%ba%9b%e5%90%90%e6%a7%bd_CQT%e5%bb%ba%e6%a8%a1%e7%99%bd%e7%9a%ae%e4%b9%a6%e4%b8%ad%e7%9a%84%e5%85%ac%e5%bc%8f.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>文献中公式错误的一些吐槽_CQT建模白皮书中的公式</h1>
+
+
+<h3>付永超 / 
+2025-08-27</h3>
+
+<hr>
+
+
+      </header>
+
+
+<p><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1白皮书httpsdoiorg101007s10928-017-9558-5中的模型">1.<a href="https://doi.org/10.1007/s10928-017-9558-5">白皮书</a>中的模型</a>
+      <ul>
+        <li><a href="#2017年原始论文中的公式"><strong>2017年原始论文中的公式</strong></a></li>
+        <li><a href="#发表后2018年杂志httpslinkspringercomarticle101007s10928-017-9565-6刊登的错误订正后的公式"><strong>发表后<a href="https://link.springer.com/article/10.1007/s10928-017-9565-6">2018年杂志</a>刊登的错误订正后的公式</strong></a></li>
+        <li><a href="#差异"><strong>差异：</strong></a></li>
+        <li><a href="#公式中各项的释义"><strong>公式中各项的释义：</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#2我对白皮书中公式的评论">2.我对白皮书中公式的评论</a>
+      <ul>
+        <li><a href="#公式中各个项的含义"><strong>公式中各个项的含义：</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3正确的白皮书中公式应该为">3.正确的白皮书中公式应该为</a>
+      <ul>
+        <li><a href="#公式中各项的释义-1"><strong>公式中各项的释义：</strong></a></li>
+        <li><a href="#英文版各项含义修订后"><strong>英文版各项含义修订后：</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#其他">其他：</a></li>
+    <li><a href="#参考文献">参考文献：</a></li>
+  </ul>
+</nav></p>
+<h1 id="1白皮书httpsdoiorg101007s10928-017-9558-5中的模型">1.<a href="https://doi.org/10.1007/s10928-017-9558-5">白皮书</a>中的模型</h1>
+<h2 id="2017年原始论文中的公式"><strong>2017年原始论文中的公式</strong></h2>
+$$
+\Delta QTc_{ijk} = \left( {\theta_{0} + \eta_{0,i} } \right) + \theta_{1} TRT_{j}  \left( {\theta_{2} + \eta_{2,i} } \right)C_{ijk} + \theta_{3} TIME_{j} + \theta_{4} \left( {QTc_{i,j = 0} - \overline{{QTc_{0} }} } \right)
+$$
+<h2 id="发表后2018年杂志httpslinkspringercomarticle101007s10928-017-9565-6刊登的错误订正后的公式"><strong>发表后<a href="https://link.springer.com/article/10.1007/s10928-017-9565-6">2018年杂志</a>刊登的错误订正后的公式</strong></h2>
+$$
+\Delta QTc_{ijk} = \left( {\theta_{0} + \eta_{0,i} } \right) + \theta_{1} TRT_{j} + \left( {\theta_{2} + \eta_{2,i} } \right)C_{ijk} + \theta_{3} TIME_{j} + \theta_{4} \left( {QTc_{i,j = 0} - \overline{{QTc_{0} }} } \right)
+$$
+<h2 id="差异"><strong>差异：</strong></h2>
+<p>原来TRT项和浓度项间缺少加号“+”，订正后加上了加号“+”。</p>
+<h2 id="公式中各项的释义"><strong>公式中各项的释义：</strong></h2>
+<p>•ΔQTc<sub>ijk</sub>表示<strong>受试者i</strong>在<strong>干预措施j</strong>下的<strong>时间k</strong>时相对基线变化的QTc。</p>
+<p>•θ<sub>0</sub>表示截距项无干预效应时的总体平均截距。</p>
+<p>•η<sub>0,i</sub>表示截距项θ<sub>0</sub>相关的随机效应。</p>
+<p>•θ<sub>1</sub>表示干预措施TRT<sub>j</sub>(j=0:安慰剂， j=0:活性药物)相关的固定效应。</p>
+<p>•θ<sub>2</sub>表示浓度与ΔQTc<sub>ijk</sub>间假设存在的线性关系时的总体平均斜率。</p>
+<p>•η<sub>2,i</sub>表示斜率项θ<sub>2</sub>相关的随机效应。</p>
+<p>•C<sub>ijk</sub>表示受试者i在干预措施j下的时间点k时浓度。</p>
+<p>•θ<sub>3</sub>表示时间相关的固定效应。</p>
+<p>•θ<sub>4</sub>表示基线QTc<sub>i,j=0</sub>相关的固定效应。</p>
+<p>•$\overline{{QTc_{0} }}$表示QTc<sub>ij0</sub>的总体平均值，即基线时(=time 0)时QTc值的平均值。</p>
+<h1 id="2我对白皮书中公式的评论">2.我对白皮书中公式的评论</h1>
+<p>虽然2018年更新后，公式的错误得到了一些改善，但仍然存在一些错误，我将我的的评论直接在公式各个项的含义中进行评论，评论放置在大括号{}中呈现。</p>
+<h2 id="公式中各个项的含义"><strong>公式中各个项的含义：</strong></h2>
+<p>•ΔQTc<sub>ijk</sub>表示<strong>受试者i</strong>在<strong>干预措施j</strong>下的<strong>时间k</strong>时相对基线变化的QTc。</p>
+<p>•θ<sub>0</sub>表示截距项无干预效应时的总体平均截距。</p>
+<p>•η<sub>0,i</sub>表示截距项θ<sub>0</sub>相关的随机效应。</p>
+<p>•θ<sub>1</sub>表示干预措施TRT<sub>j</sub>(j=0:安慰剂， j=0:活性药物)相关的固定效应。</p>
+<p>•θ<sub>2</sub>表示浓度与ΔQTc<sub>ijk</sub>间假设存在的线性关系时的总体平均斜率。</p>
+<p>•η<sub>2,i</sub>表示斜率项θ<sub>2</sub>相关的随机效应。</p>
+<p>•C<sub>ijk</sub>表示受试者i在干预措施j下的时间点k时浓度。</p>
+<p>•θ<sub>3</sub>表示时间相关的固定效应。<em>{公式中时间被描述为“TIME<sub>j</sub>” ，但结合上下文k表示具体时间点，以及干预措施被描述为“TRT<sub>j</sub>”，所以此处“TIME**<sub>j</sub><strong>”是错误的，正确的表述应该为“TIME</strong><sub>k</sub>**”}</em></p>
+<p>•θ<sub>4</sub>表示基线QTc<sub>i,j=0</sub>相关的固定效应。<em>{公式中各个受试者的基线QTc被描述为“QTc<sub>i,j=0</sub>” ，但结合上下文k表示具体时间点，以及以及下文中该概念被表述为QTc<sub>ij0</sub> ，所以此处“<strong>QTc<sub>i,j=0</sub></strong>”是错误的，正确的表述应该为“<strong>QTc<sub>i,k=0</sub></strong>”或者是“QTc<sub>ij0</sub>”}</em></p>
+<p>•$\overline{{QTc_{0} }}$表示QTc<sub>ij0</sub>的总体平均值，即基线时(=time 0)时QTc值的平均值。</p>
+<p>公式改了一遍还是错误只能感慨做些写作时匆忙与粗糙。</p>
+<h1 id="3正确的白皮书中公式应该为">3.正确的白皮书中公式应该为</h1>
+$$
+\Delta QTc_{ijk} = \left( {\theta_{0} + \eta_{0,i} } \right) + \theta_{1} TRT_{j} + \left( {\theta_{2} + \eta_{2,i} } \right)C_{ijk} + \theta_{3} TIME_{k} + \theta_{4} \left( {QTc_{i,k = 0} - \overline{{QTc_{0} }} } \right)
+$$
+<h2 id="公式中各项的释义-1"><strong>公式中各项的释义：</strong></h2>
+<p>•ΔQTc<sub>ijk</sub>表示<strong>受试者i</strong>在<strong>干预措施j</strong>下的<strong>时间k</strong>时相对基线变化的QTc。</p>
+<p>•θ<sub>0</sub>表示截距项无干预效应时的总体平均截距。</p>
+<p>•η<sub>0,i</sub>表示截距项θ<sub>0</sub>相关的随机效应。</p>
+<p>•θ<sub>1</sub>表示干预措施TRT<sub>j</sub>(j=0:安慰剂， j=0:活性药物)相关的固定效应。</p>
+<p>•θ<sub>2</sub>表示浓度与ΔQTc<sub>ijk</sub>间假设存在的线性关系时的总体平均斜率。</p>
+<p>•η<sub>2,i</sub>表示斜率项θ<sub>2</sub>相关的随机效应。</p>
+<p>•C<sub>ijk</sub>表示受试者i在干预措施j下的时间点k时浓度。</p>
+<p>•θ<sub>3</sub>表示时间相关的固定效应。</p>
+<p>•θ<sub>4</sub>表示基线QTc<sub>i,k=0</sub>相关的固定效应。</p>
+<p>•$\overline{{QTc_{0} }}$表示QTc<sub>ij0</sub>的总体平均值，即基线时(=time 0)时QTc值的平均值。</p>
+<p><strong>关于随机效应的一些假设：</strong></p>
+<p>•假设随机效应符合均值为[0,0]的正态分布。</p>
+<p>•随机效应矩阵G为无结构的协方差矩阵。</p>
+<p>•残差矩阵R符合均值为0的正态分布。</p>
+<h2 id="英文版各项含义修订后"><strong>英文版各项含义修订后：</strong></h2>
+<ul>
+<li>ΔQTc<sub>ijk</sub> is the change from baseline in QTc for subject i in treatment j at time k;</li>
+<li>θ<sub>0</sub> is the population mean intercept in the absence of a treatment effect;</li>
+<li>η<sub>0,i</sub>  is the random effect associated with the intercept term θ<sub>0</sub>;</li>
+<li>θ<sub>1</sub> is the fixed effect associated with treatment TRT<sub>j</sub> (0 = placebo, 1 = active drug);</li>
+<li>θ<sub>2</sub> is the population mean slope of the assumed linear association between concentration and ΔQTc<sub>ijk</sub>;</li>
+<li>η<sub>2,i</sub> is the random effect associated with the slope θ<sub>2</sub>;</li>
+<li>C<sub>ijk</sub> is the concentration for subject i in treatment j and time k;</li>
+<li>θ<sub>3</sub> is the fixed effect associated with time;</li>
+<li>θ<sub>4</sub> is the fixed effect associated with baseline QTc<sub>i,k=0</sub>;</li>
+<li>$\overline{{QTc_{0} }}$ is overall mean of QTc<sub>ij0</sub>, i.e., the mean of all the baseline (= time 0) QTc values.</li>
+</ul>
+<p>It is assumed</p>
+<ul>
+<li>the random effects are normally distributed with mean [0,0]</li>
+<li>and an unstructured covariance matrix G,</li>
+<li>whereas the residuals are normally distributed with mean 0 and variance R.</li>
+</ul>
+<h1 id="其他">其他：</h1>
+<p>本篇先吐槽至此。</p>
+<h1 id="参考文献">参考文献：</h1>
+<p><a href="https://link.springer.com/article/10.1007/s10928-017-9558-5">2017:Scientific white paper on concentration-QTc modeling</a></p>
+<p><a href="https://link.springer.com/article/10.1007/s10928-017-9565-6">2018:Correction to: Scientific white paper on concentration-QTc modeling</a></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2025/05/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADqt%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%8A%E7%AF%87/">药物浓度与心电图中QT间期间相关性分析学习笔记-上篇</a></span>
+  <span class="nav-next"><a href="/cn/2025/08/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADqt%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%AD%E7%AF%87/">药物浓度与心电图中QT间期间相关性分析学习笔记_中篇</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2025\/05\/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADqt%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%8A%E7%AF%87\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/2025\/08\/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADqt%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%AD%E7%AF%87\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="s0521/s0521.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzUwMDEyNjU="
+        data-category="General"
+        data-category-id="DIC_kwDOCm5Osc4CUqXV"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
+  
+  </footer>
+  </article>
+  
+  
+    
+      
+    
+  
+
+
+  </body>
+</html>
