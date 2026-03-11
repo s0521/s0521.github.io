@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]        
+    }
+  };
+</script>
+	
+	
+    
+    <title>药物浓度与心电图中QT间期间相关性分析学习笔记_下篇 - Yongchao Fu | 付永超</title>
+    <meta property="og:title" content="药物浓度与心电图中QT间期间相关性分析学习笔记_下篇 - Yongchao Fu | 付永超">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="前文已经对C-QT分析的基本概念、白皮书中的模型进行了介绍，本文将关注具体的数据的分析的实例，尝试从C-QT数据一步一步计算与操作获得C-QT的分析结果。
+本文将采用R语言作为分析工具对数据分析，将介绍：C-QT分析使用的数据，分析的步骤、分析的代码、以及作者开发的一个覆盖上述流程的用于CQT分析的一个在线的shiny程序。
+[TOC]
+[&amp;hellip;] 沿着心电图数据的采集、评估、处理、分析 &amp;hellip;">
+      <meta property="og:description" content="前文已经对C-QT分析的基本概念、白皮书中的模型进行了介绍，本文将关注具体的数据的分析的实例，尝试从C-QT数据一步一步计算与操作获得C-QT的分析结果。
+本文将采用R语言作为分析工具对数据分析，将介绍：C-QT分析使用的数据，分析的步骤、分析的代码、以及作者开发的一个覆盖上述流程的用于CQT分析的一个在线的shiny程序。
+[TOC]
+[&amp;hellip;] 沿着心电图数据的采集、评估、处理、分析 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/images/logo.png" alt="Yongchao Fu" /></a></h1>
+
+
+
+      <nav class="menu">
+  <ul>
+  
+  
+  <li><a href="/">主页</a></li>
+  
+  <li><a href="/cn/about/">关于</a></li>
+  
+  <li><a href="/cn/">博客</a></li>
+  
+  <li><a href="/cn/vitae/">简历</a></li>
+  
+  <li><a href="/en/">English</a></li>
+  
+  <li><a href="/cn/gift/">捐助</a></li>
+  
+  
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/s0521/Phoenix/edit/master/content/cn/2026/03/%e8%8d%af%e7%89%a9%e6%b5%93%e5%ba%a6%e4%b8%8e%e5%bf%83%e7%94%b5%e5%9b%be%e4%b8%adQT%e9%97%b4%e6%9c%9f%e9%97%b4%e7%9b%b8%e5%85%b3%e6%80%a7%e5%88%86%e6%9e%90%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0_%e4%b8%8b%e7%af%87.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>药物浓度与心电图中QT间期间相关性分析学习笔记_下篇</h1>
+
+
+<h3>付永超 / 
+2026-03-11</h3>
+
+<hr>
+
+
+      </header>
+
+
+<h2 id="前言">前言：</h2>
+<p>前文已经对C-QT分析的基本概念、白皮书中的模型进行了介绍，本文将关注具体的数据的分析的实例，尝试从C-QT数据一步一步计算与操作获得C-QT的分析结果。</p>
+<p>本文将采用R语言作为分析工具对数据分析，将介绍：C-QT分析使用的数据，分析的步骤、分析的代码、以及作者开发的一个覆盖上述流程的用于CQT分析的一个<a href="https://s0521.shinyapps.io/cqt_eda/">在线的shiny程序</a>。</p>
+<p><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#前言">前言：</a></li>
+        <li><a href="#一完整的从ecg采集到c-qt分析结果报告的流程以及本文覆盖的范围">一、完整的从ECG采集到C-QT分析结果报告的流程以及本文覆盖的范围</a>
+          <ul>
+            <li><a href="#完整的流程">完整的流程：</a></li>
+            <li><a href="#各个主要流程">各个主要流程：</a></li>
+            <li><a href="#本文覆盖的范围">本文覆盖的范围</a></li>
+          </ul>
+        </li>
+        <li><a href="#二数据">二、数据：</a>
+          <ul>
+            <li><a href="#c-qt分析所需要的数据">C-QT分析所需要的数据</a></li>
+            <li><a href="#本实例所使用的数据">本实例所使用的数据</a></li>
+            <li><a href="#修改后作为数据的基本情况如下">修改后作为数据的基本情况如下：</a></li>
+            <li><a href="#数据集的导入">数据集的导入</a></li>
+            <li><a href="#21访问下述网址打开cqt探索性数据分析工具">2.1.访问下述网址打开CQT探索性数据分析工具</a></li>
+            <li><a href="#22鼠标左键单击页面左侧的2qtc计算标签页">2.2.鼠标左键单击页面左侧的”2.QTc计算”标签页</a></li>
+            <li><a href="#23选择数据源">2.3.选择数据源</a></li>
+          </ul>
+        </li>
+        <li><a href="#三qtc的计算">三、QTc的计算</a>
+          <ul>
+            <li><a href="#31选择qtc计算方法">3.1选择QTc计算方法</a></li>
+            <li><a href="#32单击执行qtc计算按钮">3.2单击“执行：QTc计算”按钮。</a></li>
+            <li><a href="#33结果查看">3.3结果查看</a></li>
+          </ul>
+        </li>
+        <li><a href="#四数据衍生">四、数据衍生</a>
+          <ul>
+            <li><a href="#41鼠标左键单击页面左侧的3数据衍生标签页">4.1.鼠标左键单击页面左侧的”3.数据衍生”标签页</a></li>
+            <li><a href="#42选择数据源">4.2.选择数据源</a></li>
+            <li><a href="#43执行">4.3执行</a></li>
+            <li><a href="#44结果查看">4.4结果查看</a></li>
+          </ul>
+        </li>
+        <li><a href="#五探索性分析">五、探索性分析</a>
+          <ul>
+            <li><a href="#51鼠标左键单击页面左侧的4数据探索性分析标签页">5.1.鼠标左键单击页面左侧的”4.数据探索性分析”标签页</a></li>
+            <li><a href="#52选择数据源">5.2.选择数据源</a></li>
+            <li><a href="#53执行">5.3执行</a></li>
+            <li><a href="#54结果查看">5.4结果查看</a></li>
+            <li><a href="#55几个假设的检验的部分图形">5.5几个假设的检验的部分图形</a></li>
+            <li><a href="#药物对心率有无影响下图为δδhr对时间图">药物对心率有无影响？（下图为ΔΔHR对时间图）</a></li>
+            <li><a href="#不给药和或安慰剂组的qtc-是否独立于hr">不给药和/或安慰剂组的QTc 是否独立于HR？</a></li>
+            <li><a href="#评估pkpd间是否存在滞后">评估PK/PD间是否存在滞后？</a></li>
+            <li><a href="#评估δqtc与暴露量间的关系是否是线性">评估ΔQTc与暴露量间的关系是否是线性？</a></li>
+          </ul>
+        </li>
+        <li><a href="#六建模分析">六、建模分析</a>
+          <ul>
+            <li><a href="#61鼠标左键单击页面左侧的5白皮书建议的线性模型线性随机截距随机斜率个体间变异协方差矩阵无结构标签页">6.1.鼠标左键单击页面左侧的”5.白皮书建议的线性模型：线性+随机截距+随机斜率(个体间变异协方差矩阵：无结构)”标签页</a></li>
+            <li><a href="#62选择数据源">6.2.选择数据源</a></li>
+            <li><a href="#63执行">6.3执行</a></li>
+            <li><a href="#64结果查看">6.4结果查看</a></li>
+            <li><a href="#65关键的建模结果">6.5关键的建模结果</a></li>
+            <li><a href="#66结论">6.6结论</a></li>
+          </ul>
+        </li>
+        <li><a href="#七小结">七、小结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></p>
+<h2 id="一完整的从ecg采集到c-qt分析结果报告的流程以及本文覆盖的范围">一、完整的从ECG采集到C-QT分析结果报告的流程以及本文覆盖的范围</h2>
+<h3 id="完整的流程">完整的流程：</h3>
+<p>沿着心电图数据的采集、评估、处理、分析的视角看，整个流程如下方示意图所示：</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214415233.png" alt="image-20260311214415233"></p>
+<h3 id="各个主要流程">各个主要流程：</h3>
+<ul>
+<li>原始心电图数据：医生/技师通过操作心电图机采集与导出原始心电图电子数据。</li>
+<li>准确的QT、RR等心电图衍生的参数：心电图阅片中心采用适当的盲法、阅片方法、阅片标准，基于原始心电图电子数据评估获得每个心电图的高质量的心电图衍生的参数。</li>
+<li>最终的单个时间点的心电图参数数据与浓度数据：数据准备人员基于收到的心电图数据、浓度数据等信息，通过合并数据集以及计算每个时间点3份心电图参数的平均值生成最终可用于C-QT分析的数据集。</li>
+<li>C-QT分析：1.分析人员基于接收到的数据，进行CQT分析，分析时的QTc可以根据需要，采用合适的校正方法衍生出新的QTc，或者也可以直接使用数据中已有的QTc用于分析；2.衍生分析中所需要用到的其他数据；3.进行探索性分析，并进行假设检验，以确定是否可以使用白皮书中所指定的线性混合效应模型用于分析；4.选择合适的方法进项建模分析；5.报告分析结果。</li>
+</ul>
+<h3 id="本文覆盖的范围">本文覆盖的范围</h3>
+<p>上述整个流程涉及到较多的环节，本文数据的分析的实例将仅覆盖上述流程图中的“计算QTc”、“数据衍生:ΔQTc等”、“探索性分析”、“建模分析”步骤，其他内容不在本实例的介绍范围。</p>
+<h2 id="二数据">二、数据：</h2>
+<h3 id="c-qt分析所需要的数据">C-QT分析所需要的数据</h3>
+<p>在进行C-QT分析时至少需要有下述数据：</p>
+<p>受试者编号(USUBJID)、干预(TRT)、剂量组(DOSE)、计划采集时间(NTIME)、浓度(Conc)、RR间期和/或心率(RR和/或HR)、QT间期(QT)。</p>
+<p>QTc并不是必须的，但如果有已经计算好的QTc比如QTcF、QTcB等也可以的。</p>
+<h3 id="本实例所使用的数据">本实例所使用的数据</h3>
+<p>本文使用了<a href="https://github.com/cran/QT/blob/master/data/qtpk.csv">Christoffe提供的数据</a>的修改版本。</p>
+<p>修改后用于本案例演示使用的数据集共有80例受试者，其中40例接受药物（TRT=1）治疗,另外40例接受安慰剂（TRT=1）治疗，每个受试者都在给药后的24小时内采集的药物浓度与ECG数据，ECG数据已经读图获取了HR、RR、QT、QTcF数据。</p>
+<p>（假设：实际在收集ECG数据集时，应该是每个时间点都收集了3份ECG数据，之后计算3份数据的平均值作为该时间点的ECG数据用于CQT分析，当前的数据集中每个时间点仅有一个ECG数据点，因此假设这3份ECG是已经平均后的数据）。</p>
+<h3 id="修改后作为数据的基本情况如下">修改后作为数据的基本情况如下：</h3>
+<ul>
+<li>行数：1028（1行列明+1027行数据）</li>
+<li>列数：9</li>
+</ul>
+<p>各列的含义：</p>
+<ul>
+<li>USUBJID:受试者编号，数据类型：因子，因子水平数量：80</li>
+<li>TRT:干预措施，数据类型：因子，因子水平数量：2</li>
+<li>DOSE:剂量，数据类型：因子，因子水平数量：2</li>
+<li>NTIME:计划采样时间，数据类型：因子，因子水平数量：13</li>
+<li>QT:QT间期，单位：毫秒，数据类型：数值，数值范围：301-495</li>
+<li>HR:心率，单位：次每分钟，数据类型：数值，数值范围：40-120</li>
+<li>RR:RR间期，单位：毫秒，数据类型：数值，数值范围：493-1445</li>
+<li>CONC:浓度，数据类型：数值，数值范围：0-3595.537614</li>
+<li>QTcF:采用 Fridericia(弗里德里西亚) 的方法计算的校正后的</li>
+<li>QT间期，单位：毫秒，数据类型：数值，数值范围：343-459</li>
+</ul>
+<p>数据集文件的格式：csv格式，使用UTF-8-BOM编码。</p>
+<h3 id="数据集的导入">数据集的导入</h3>
+<h3 id="21访问下述网址打开cqt探索性数据分析工具">2.1.访问下述网址打开CQT探索性数据分析工具</h3>
+<p><a href="https://s0521.shinyapps.io/cqt_eda/">https://s0521.shinyapps.io/cqt_eda/</a></p>
+<p>（首次打开需要等待约10秒时间）</p>
+<h3 id="22鼠标左键单击页面左侧的2qtc计算标签页">2.2.鼠标左键单击页面左侧的”2.QTc计算”标签页</h3>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214438867.png" alt="image-20260311214438867"></p>
+<h3 id="23选择数据源">2.3.选择数据源</h3>
+<p>在”2.QTc计算”标签页右侧区域，在“使用的数据”区域鼠标左键单击的单击“加载内置示例数据”按钮，直接加载本示例数据集。（或者也可单击“上传数据”按钮，上传需要用到的数据集）</p>
+<h2 id="三qtc的计算">三、QTc的计算</h2>
+<p>采用Fridericia方法校正计算得到的QTcF：</p>
+<p>QTcF &lt;- QT / (RR/1000)^(1/3)</p>
+<p>【保留2位小数】</p>
+<h3 id="31选择qtc计算方法">3.1选择QTc计算方法</h3>
+<p>在“2.QTc计算”标签页右侧的“QTc的计算方法选择”区域的单选列表中选中“Fridericia(弗里德里西亚)提出的计算公式”选项。</p>
+<h3 id="32单击执行qtc计算按钮">3.2单击“执行：QTc计算”按钮。</h3>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214536589.png" alt="image-20260311214536589"></p>
+<h3 id="33结果查看">3.3结果查看</h3>
+<p>通过鼠标左键滚动页面至下方，可在“结果数据预览”区域查看计算的结果。</p>
+<p>可在结果表格中通过QTc列看到计算得到的QTc，以及通过QTc_use列了解QTc是使用的什么方法计算的，以及也可以直接查看QTcF列看到QTcF的数值。</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214542378.png" alt="image-20260311214542378"></p>
+<h2 id="四数据衍生">四、数据衍生</h2>
+<p>衍生获得HR、RR、QT、QTc的基线列（BL）、较基线变化列（Δ）、基线QTc的总体平均值以及个体基线相对于总体基线的差值、衍生相对基线变化的值相对于安慰剂组变化的值列（ΔΔ）。</p>
+<p><strong>数据假设：</strong></p>
+<ul>
+<li>TRT=0的干预措施为安慰剂</li>
+<li>NTIME=0的为基线</li>
+</ul>
+<p><strong>数据衍生过程：</strong></p>
+<ul>
+<li>基线的QTc：<strong>QTc_BL</strong>=QTc_(NTIME=0)</li>
+<li>ΔQTc：<strong>dQTc</strong>=QTc-QTc_BL</li>
+<li>基线的QTc的均值：<strong>Mean_QTc_BL</strong>=Mean(QTc_BL)</li>
+<li>【个体基线的QTc】较的【基线的QTc的均值】的差值：<strong>Diff_QTc_BL</strong>=QTc_BL-Mean_QTc_BL</li>
+<li>ΔΔQTc(观测值)：<strong>ddQTc</strong>=dQTc_(TRT=1, NTIME=i) -dQTc_(TRT=0, NTIME=i)</li>
+</ul>
+<p>【衍生过程中保留两位小数】</p>
+<h3 id="41鼠标左键单击页面左侧的3数据衍生标签页">4.1.鼠标左键单击页面左侧的”3.数据衍生”标签页</h3>
+<h3 id="42选择数据源">4.2.选择数据源</h3>
+<p>在”3.数据衍生”标签页右侧区域，在“使用的数据”区域鼠标左键单击的”使用步骤2的结果数据”按钮，以便将之前在步骤2中计算获得的包含有QTc的数据集作为本步骤的源数据用于进一步的数据衍生。</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214554365.png" alt="image-20260311214554365"></p>
+<h3 id="43执行">4.3执行</h3>
+<p>单击“执行：数据衍生”按钮。（执行约耗时2秒）</p>
+<h3 id="44结果查看">4.4结果查看</h3>
+<p>通过鼠标左键滚动页面至下方，可在“结果数据预览”区域查看计算的结果。</p>
+<p>通过QTc_BL列看到计算得到的每个个体基线的QTc的值，通过dQTc列看到计算得到的ΔQTc的值，也可进一步查看其他列了解更多结果。</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214604644.png" alt="image-20260311214604644"></p>
+<h2 id="五探索性分析">五、探索性分析</h2>
+<p>生成用于假设检验相关的图与表。</p>
+<h3 id="51鼠标左键单击页面左侧的4数据探索性分析标签页">5.1.鼠标左键单击页面左侧的”4.数据探索性分析”标签页</h3>
+<h3 id="52选择数据源">5.2.选择数据源</h3>
+<p>在”4.数据探索性分析”标签页右侧区域，在“使用的数据”区域鼠标左键单击的”使用步骤3的结果数据”按钮，以便将之前在步骤3中计算获得的包含有QTc_BL、dQTc等列的数据集作为本步骤的源数据用于进一步的数据衍生。</p>
+<h3 id="53执行">5.3执行</h3>
+<p>单击“执行：图与表生成”按钮。（执行约耗时20秒）</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214617690.png" alt="image-20260311214617690"></p>
+<h3 id="54结果查看">5.4结果查看</h3>
+<p>通过鼠标左键滚动页面至下方，可在“执行后生成的诊断图形和表格”区域查看计算的结果。</p>
+<p>页面上会多个图与表格，如果感兴趣某幅图或者某个表是如何制作的，可以单击相关图表右上方的”show”按钮，单击后会显示出制作该图表的具体的R代码。</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214628884.png" alt="image-20260311214628884"></p>
+<h3 id="55几个假设的检验的部分图形">5.5几个假设的检验的部分图形</h3>
+<h3 id="药物对心率有无影响下图为δδhr对时间图">药物对心率有无影响？（下图为ΔΔHR对时间图）</h3>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214638229.png" alt="image-20260311214638229"></p>
+<h3 id="不给药和或安慰剂组的qtc-是否独立于hr">不给药和/或安慰剂组的QTc 是否独立于HR？</h3>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214648416.png" alt="image-20260311214648416"></p>
+<h3 id="评估pkpd间是否存在滞后">评估PK/PD间是否存在滞后？</h3>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214701678.png" alt="image-20260311214701678"></p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214704011.png" alt="image-20260311214704011"></p>
+<h3 id="评估δqtc与暴露量间的关系是否是线性">评估ΔQTc与暴露量间的关系是否是线性？</h3>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214708870.png" alt="image-20260311214708870"></p>
+<h2 id="六建模分析">六、建模分析</h2>
+<p>基于预先定义的模型进行建模分析。</p>
+<h3 id="61鼠标左键单击页面左侧的5白皮书建议的线性模型线性随机截距随机斜率个体间变异协方差矩阵无结构标签页">6.1.鼠标左键单击页面左侧的”5.白皮书建议的线性模型：线性+随机截距+随机斜率(个体间变异协方差矩阵：无结构)”标签页</h3>
+<h3 id="62选择数据源">6.2.选择数据源</h3>
+<p>在标签页右侧区域，在“使用的数据”区域鼠标左键单击的”使用步骤4的源数据”按钮，以便与步骤4使用一样的数据用于分析。</p>
+<h3 id="63执行">6.3执行</h3>
+<p>单击“执行：图与表生成”按钮。（执行约耗时10秒）</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214727857.png" alt="image-20260311214727857"></p>
+<h3 id="64结果查看">6.4结果查看</h3>
+<p>通过鼠标左键滚动页面至下方，可在“执行后生成的诊断图形和表格”区域查看计算的结果。</p>
+<p>页面上会多个图与表格，如果感兴趣某幅图或者某个表是如何制作的，可以单击相关图表右上方的”show”按钮，单击后会显示出制作该图表的具体的R代码。</p>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214733021.png" alt="image-20260311214733021"></p>
+<h3 id="65关键的建模结果">6.5关键的建模结果</h3>
+<h4 id="参数估计值">参数估计值</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Value</th>
+<th>Std.Error</th>
+<th>DF</th>
+<th>t-value</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+<td>0.075775979</td>
+<td>1.456875094</td>
+<td>934</td>
+<td>0.05201268</td>
+<td>9.59E-01</td>
+</tr>
+<tr>
+<td>CONC</td>
+<td>0.004515276</td>
+<td>0.000810241</td>
+<td>934</td>
+<td>5.57275791</td>
+<td>3.28E-08</td>
+</tr>
+<tr>
+<td>TRT1</td>
+<td>-0.15191312</td>
+<td>1.701641711</td>
+<td>77</td>
+<td>-0.08927445</td>
+<td>9.29E-01</td>
+</tr>
+<tr>
+<td>Diff_QTc_BL</td>
+<td>-0.16051678</td>
+<td>0.044061664</td>
+<td>77</td>
+<td>-3.64300312</td>
+<td>4.87E-04</td>
+</tr>
+<tr>
+<td>NTIME0.5</td>
+<td>-0.45513941</td>
+<td>1.525367385</td>
+<td>934</td>
+<td>-0.29838019</td>
+<td>7.65E-01</td>
+</tr>
+<tr>
+<td>NTIME1</td>
+<td>2.750932948</td>
+<td>1.599379071</td>
+<td>934</td>
+<td>1.72000059</td>
+<td>8.58E-02</td>
+</tr>
+<tr>
+<td>NTIME1.5</td>
+<td>3.884149583</td>
+<td>1.620821311</td>
+<td>934</td>
+<td>2.39640826</td>
+<td>1.68E-02</td>
+</tr>
+<tr>
+<td>NTIME2</td>
+<td>5.646425078</td>
+<td>1.617090321</td>
+<td>934</td>
+<td>3.49171905</td>
+<td>5.02E-04</td>
+</tr>
+<tr>
+<td>NTIME3</td>
+<td>5.555346979</td>
+<td>1.596908627</td>
+<td>934</td>
+<td>3.47881331</td>
+<td>5.27E-04</td>
+</tr>
+<tr>
+<td>NTIME4</td>
+<td>5.550873504</td>
+<td>1.558746049</td>
+<td>934</td>
+<td>3.56111472</td>
+<td>3.88E-04</td>
+</tr>
+<tr>
+<td>NTIME5</td>
+<td>5.695379136</td>
+<td>1.532642791</td>
+<td>934</td>
+<td>3.71605123</td>
+<td>2.14E-04</td>
+</tr>
+<tr>
+<td>NTIME8</td>
+<td>-0.70776368</td>
+<td>1.492392518</td>
+<td>934</td>
+<td>-0.47424767</td>
+<td>6.35E-01</td>
+</tr>
+<tr>
+<td>NTIME10</td>
+<td>-0.20714869</td>
+<td>1.465471256</td>
+<td>934</td>
+<td>-0.14135295</td>
+<td>8.88E-01</td>
+</tr>
+<tr>
+<td>NTIME12</td>
+<td>-1.09355516</td>
+<td>1.444457646</td>
+<td>934</td>
+<td>-0.75706973</td>
+<td>4.49E-01</td>
+</tr>
+<tr>
+<td>NTIME18</td>
+<td>7.52482236</td>
+<td>1.426925033</td>
+<td>934</td>
+<td>5.27345318</td>
+<td>1.66E-07</td>
+</tr>
+<tr>
+<td>NTIME24</td>
+<td>-1.38182736</td>
+<td>1.420405274</td>
+<td>934</td>
+<td>-0.97284021</td>
+<td>3.31E-01</td>
+</tr>
+</tbody>
+</table>
+<h4 id="剂量水平的cmax的几何均值及其对应的δδqtc点估计与置信区间估计值">剂量水平的Cmax的几何均值及其对应的ΔΔQTc点估计与置信区间估计值</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Contrast</th>
+<th>SE</th>
+<th>Lower</th>
+<th>Upper</th>
+<th>CONC</th>
+<th>TRT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200mg</td>
+<td>10.35444</td>
+<td>1.910605</td>
+<td>7.173505</td>
+<td>13.53538</td>
+<td>2326.847</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="δδqtc对浓度图">ΔΔQTc对浓度图</h4>
+<p><img src="/images/%E8%8D%AF%E7%89%A9%E6%B5%93%E5%BA%A6%E4%B8%8E%E5%BF%83%E7%94%B5%E5%9B%BE%E4%B8%ADQT%E9%97%B4%E6%9C%9F%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E4%B8%8B%E7%AF%87/image-20260311214749319.png" alt="image-20260311214749319"></p>
+<h3 id="66结论">6.6结论</h3>
+<p>本实例数据200mg剂量Cmax的几何均值对应的ΔΔQTc置信区间上限超过的10ms，结果阳性。</p>
+<h2 id="七小结">七、小结</h2>
+<p>本文介绍了一个具体的数据的分析的实例。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/cn/2026/02/%E6%96%87%E7%8C%AE%E8%B6%85%E8%B6%8A%E6%9C%80%E4%BD%8E%E9%A2%84%E6%9C%9F%E7%94%9F%E7%89%A9%E6%95%88%E5%BA%94%E6%B0%B4%E5%B9%B3mabel%E7%BE%8E%E5%9B%BD%E5%81%A5%E5%BA%B7%E4%B8%8E%E7%8E%AF%E5%A2%83%E7%A7%91%E5%AD%A6%E7%A0%94%E7%A9%B6%E6%89%80hesi%E5%85%8D%E7%96%AB%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%A7%94%E5%91%98%E4%BC%9Aitc%E5%AF%B9%E5%85%8D%E7%96%AB%E8%B0%83%E8%8A%82%E5%89%82%E9%A6%96%E6%AC%A1%E4%BA%BA%E4%BD%93fih%E5%89%82%E9%87%8F%E9%80%89%E6%8B%A9%E7%9A%84%E7%BB%BC%E5%90%88%E6%96%B9%E6%B3%95/">文献：超越最低预期生物效应水平(MABEL)：美国健康与环境科学研究所(HESI）免疫安全技术委员会(ITC）对免疫调节剂首次人体(FIH)剂量选择的综合方法</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/2026\/02\/%E6%96%87%E7%8C%AE%E8%B6%85%E8%B6%8A%E6%9C%80%E4%BD%8E%E9%A2%84%E6%9C%9F%E7%94%9F%E7%89%A9%E6%95%88%E5%BA%94%E6%B0%B4%E5%B9%B3mabel%E7%BE%8E%E5%9B%BD%E5%81%A5%E5%BA%B7%E4%B8%8E%E7%8E%AF%E5%A2%83%E7%A7%91%E5%AD%A6%E7%A0%94%E7%A9%B6%E6%89%80hesi%E5%85%8D%E7%96%AB%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%A7%94%E5%91%98%E4%BC%9Aitc%E5%AF%B9%E5%85%8D%E7%96%AB%E8%B0%83%E8%8A%82%E5%89%82%E9%A6%96%E6%AC%A1%E4%BA%BA%E4%BD%93fih%E5%89%82%E9%87%8F%E9%80%89%E6%8B%A9%E7%9A%84%E7%BB%BC%E5%90%88%E6%96%B9%E6%B3%95\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="s0521/s0521.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzUwMDEyNjU="
+        data-category="General"
+        data-category-id="DIC_kwDOCm5Osc4CUqXV"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://s0521.github.io/">Yongchao Fu</a> 2019 - 2024</div>
+  
+  </footer>
+  </article>
+  
+  
+    
+      
+    
+  
+
+
+  </body>
+</html>
